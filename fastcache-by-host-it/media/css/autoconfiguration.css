@@ -1,0 +1,262 @@
+:root {
+  --range-progress: calc(50% + 0px);
+}
+
+#fastcache_settings_rangeSlider,
+#rangelabels {
+	width: 100%;
+	cursor: pointer;
+}
+
+#fastcache_settings_rangeSlider {
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+#fastcache_settings_rangeSlider::-webkit-slider-runnable-track {
+   width: 100%;
+   height: 8px;
+   cursor: pointer;
+   background: linear-gradient(90deg, #5498F9 var(--range-progress), #E7F4FE var(--range-progress));
+   border-radius: 1rem;
+}
+
+#fastcache_settings_rangeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 5px solid #5498F9;
+    border-radius: 100%;
+    background: #fff;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin-top: -5px;
+}
+
+#fastcache_settings_rangeSlider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, #5498F9 var(--range-progress), #E7F4FE var(--range-progress));
+  border-radius: 1rem;
+}
+
+#fastcache_settings_rangeSlider::-moz-range-thumb {
+  border: 4px solid #5498F9;
+  border-radius: 100%;
+  background: #fff;
+  cursor: pointer;
+  height: 12px;
+  width: 11px;
+  position: relative;
+  z-index: 2;
+}
+
+#fastcache_settings_rangeSlider::-moz-focus-outer {
+  border: 0;
+}
+
+#rangecontainer {
+	width: 100%;
+    height: 80px;
+    padding-top: 5px;
+    margin-bottom: 20px;
+}
+
+#rangelabels {
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+    height: 22px;   /* Altezza fissa per evitare salti */
+}
+
+/* posizioni statiche sotto gli step */
+#rangelabels > span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+#rangelabels > span[data-container-label="0"] { left: 0%;    transform: translateX(0); }
+#rangelabels > span[data-container-label="1"] { left: 20.5%;   }
+#rangelabels > span[data-container-label="2"] { left: 40%;   }
+#rangelabels > span[data-container-label="3"] { left: 60%;   }
+#rangelabels > span[data-container-label="4"] { left: 79.5%;   }
+#rangelabels > span[data-container-label="5"] { left: 100%;  transform: translateX(-100%); }
+
+/* Base */
+.innerlabel {
+    padding: 0;
+    font-size: 0.9rem;
+    background: transparent;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: .15s;
+    color: #9b9b9b;
+    background: #FFF;
+}
+
+/* La label attiva: verrà riposizionata via JS */
+.innerlabel.activeselected {
+    color: #000;
+}
+
+@media(min-width: 783px) and (max-width: 1280px) {
+	#rangelabels > span[data-container-label="0"] {
+		transform: translateX(-50px);
+	}
+}
+
+div.jspeed-setting-row {
+	margin-left: 0;
+    margin-right: 0;
+    height: 30px;
+    margin-bottom: 0;
+    align-items: center;
+    box-sizing: content-box;
+    font-weight: 600;
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+
+div.jspeed-setting-row:last-child {
+	border-bottom: none !important;
+}
+
+#optimizationslist {
+	display: block;
+}
+
+#optimizationslist.populated {
+	min-height: 672px
+}
+
+#optimizationslist span.badge {
+	padding: 5px 8px;
+	font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#rangecontainer span.innerlabel.badge.bg-primary,
+#optimizationslist span.badge.bg-primary {
+    background-color: #0099ff !important;
+}
+
+
+
+
+#optimizationslist span.fas:before {
+	content: '' !important;
+    display: none !important;
+}
+
+#optimizationslist span.fas.fa-compress {
+	background-image: url('../icons/Configurazione_Automatica/Minimizza_Html.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+#optimizationslist span.fas.fa-object-group {
+	background-image: url('../icons/Configurazione_Automatica/Condivisione.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+
+#optimizationslist span.fas.fa-tachometer-alt {
+	background-image: url('../icons/Configurazione_Automatica/Caricamento.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+
+#optimizationslist span.fas.fa-download {
+	background-image: url('../icons/Configurazione_Automatica/Posiziona_file_Javascript.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+
+#optimizationslist span.fas.fa-images {
+	background-image: url('../icons/Configurazione_Automatica/Immagini.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+#optimizationslist span.fas.fa-ruler-combined {
+	background-image: url('../icons/Configurazione_Automatica/Dimensioni.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+#optimizationslist span.fas.fa-database {
+	background-image: url('../icons/Configurazione_Automatica/Abilita_Cache.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 15px;
+}
+
+#optimizationslist span.fas.fa-check {
+	background-image: url('../icons/Configurazione_Automatica_laterale/Enabled.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 5px;
+}
+
+#optimizationslist span.fas.fa-info-circle {
+	background-image: url('../icons/Configurazione_Automatica_laterale/Info.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 5px;
+}
+
+#optimizationslist span.fas.fa-times-circle {
+	background-image: url('../icons/Configurazione_Automatica_laterale/Disabled.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    position: relative;
+    margin-right: 5px;
+}

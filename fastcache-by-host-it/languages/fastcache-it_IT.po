@@ -1,0 +1,3691 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FastCache by host.it\n"
+"POT-Creation-Date: 2026-05-13 14:30+0100\n"
+"PO-Revision-Date: 2026-05-13 14:30+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: fastcache.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/Admin.php:30
+msgid "FastCache Settings"
+msgstr "Impostazioni di FastCache"
+
+#: src/Admin.php:97
+msgid "FAQ"
+msgstr "Domande frequenti"
+
+#: src/Admin.php:100
+msgid "PDF docs"
+msgstr "Documenti PDF"
+
+#: src/Admin.php:104
+msgid "On-site support"
+msgstr "Supporto sul posto"
+
+#: src/Admin.php:240
+msgid "<span class=\"ab-icon dashicons-admin-settings\"></span>FastCache settings"
+msgstr "<span class=\"ab-icon dashicons-admin-settings\"></span>Impostazioni di FastCache"
+
+#: src/Admin.php:250
+msgid "<span class=\"ab-icon dashicons-trash\"></span>FastCache local cache"
+msgstr "<span class=\"ab-icon dashicons-trash\"></span>Cache locale di FastCache"
+
+#: src/Admin.php:314
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: src/Admin/Controller/Utility.php:33 src/Admin/Controller/Utility.php:71
+#: src/Admin/Controller/Utility.php:93 src/Admin/Controller/Utility.php:107
+#: src/Admin/Controller/Utility.php:121
+msgid "Not authorized"
+msgstr ""
+
+#: src/Admin/Controller/Utility.php:40
+msgid "Failed trying to add browser caching codes to the .htaccess file"
+msgstr "Impossibile aggiungere i codici di caching del browser al file .htaccess"
+
+#: src/Admin/Controller/Utility.php:44
+msgid "No .htaccess file were found in the root of this site"
+msgstr "Nessun file .htaccess trovato nella radice di questo sito"
+
+#: src/Admin/Controller/Utility.php:48
+msgid "The .htaccess file was updated successfully"
+msgstr "Il file .htaccess è stato aggiornato con successo"
+
+#: src/Admin/Controller/Utility.php:52
+msgid "Failed to update the .htaccess file"
+msgstr "Aggiornamento del file .htaccess non riuscito"
+
+#: src/Admin/Controller/Utility.php:56
+msgid "Optimizations already added to the .htaccess"
+msgstr "Ottimizzazioni già aggiunte al file .htaccess"
+
+#: src/Admin/Controller/Utility.php:60
+msgid "Optimizations for the htaccess file have been successfully added, browser caching is now enabled for all assets"
+msgstr "Ottimizzazioni per il file htaccess aggiunte con successo, il caching del browser è ora abilitato per tutte le risorse"
+
+#: src/Admin/Controller/Utility.php:78
+msgid "Failed trying to restore the original .htaccess file"
+msgstr "Impossibile ripristinare il file .htaccess originale"
+
+#: src/Admin/Controller/Utility.php:82
+msgid "Optimizations for the htaccess file have been successfully removed, browser caching is now disabled for all assets"
+msgstr "Ottimizzazioni per il file htaccess rimosse con successo, il caching del browser è ora disabilitato per tutte le risorse"
+
+#: src/Admin/Controller/Utility.php:98
+msgid "Plugins ordered successfully"
+msgstr "Plugin ordinati con successo"
+
+#: src/Admin/Controller/Utility.php:112
+msgid "New cache key generated!"
+msgstr "Nuova chiave di cache generata!"
+
+#: src/Admin/Controller/Utility.php:126
+msgid "Cache deleted successfully!"
+msgstr "Cache eliminata con successo!"
+
+#: src/Admin/Controller/Utility.php:128
+msgid "The cache has been deleted and server cache has been successfully purged!"
+msgstr "La cache è stata eliminata e la cache del server è stata purgata con successo!"
+
+#: src/Admin/Controller/Utility.php:133
+msgid "Error cleaning cache!"
+msgstr "Errore durante la pulizia della cache!"
+
+#: src/Admin/Settings/Html.php:125
+msgid "No"
+msgstr "No"
+
+#: src/Admin/Settings/Html.php:126
+msgid "Yes"
+msgstr "Sì"
+
+#: src/Admin/Settings/Renderer/Section.php:30
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:74
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:52
+msgid "Auto configuration"
+msgstr "Configurazione automatica"
+
+#: src/Admin/Settings/Renderer/Section.php:41
+msgid "Include assets"
+msgstr "Includi risorse"
+
+#: src/Admin/Settings/Renderer/Section.php:42
+msgid "Choose assets to include in the optimization process."
+msgstr "Scegli le risorse da includere nel processo di ottimizzazione."
+
+#: src/Admin/Settings/Renderer/Section.php:52
+msgid "Exclude CSS"
+msgstr "Escludi CSS"
+
+#: src/Admin/Settings/Renderer/Section.php:53
+msgid "Exclude CSS files to preserve the original ones and solve conflicts. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Escludi i file CSS per preservare quelli originali e risolvere conflitti. È possibile selezionare un nome file dalla lista delle opzioni o specificare ulteriori file e premere 'Invio'."
+
+#: src/Admin/Settings/Renderer/Section.php:63
+msgid "Remove CSS Files"
+msgstr "Rimuovi file CSS"
+
+#: src/Admin/Settings/Renderer/Section.php:64
+msgid "You can remove and prevent CSS files from loading on the page if they're optional or not being used at all to speed up page load and rendering. Pay attention that removing required files could break your pages."
+msgstr "È possibile rimuovere e impedire ai file CSS di caricare sulla pagina se non sono necessari o non vengono utilizzati affatto per velocizzare il caricamento della pagina e il rendering. Presta attenzione che rimuovere i file necessari potrebbe rompere le tue pagine."
+
+#: src/Admin/Settings/Renderer/Section.php:72
+msgid "Keep Original Position"
+msgstr "Mantieni la posizione originale"
+
+#: src/Admin/Settings/Renderer/Section.php:73
+msgid "Keep the original position for Javascript files and scripts."
+msgstr "Mantieni la posizione originale per i file e gli script JavaScript."
+
+#: src/Admin/Settings/Renderer/Section.php:83
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:60
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:94
+msgid "Page Cache"
+msgstr "Cache di pagina"
+
+#: src/Admin/Settings/Renderer/Section.php:84
+msgid "The HTML source code of pages can be fully cached to significantly speed up the page load. Keep the page cache disabled or clear it while configuring the plugin or making changes to the site."
+msgstr "È possibile memorizzare nella cache di pagina locale il codice sorgente HTML completo delle pagine per velocizzare il caricamento. Mantieni la cache della pagina disabilitata o svuotala durante la configurazione del plugin o durante le modifiche al sito."
+
+#: src/Admin/Settings/Renderer/Section.php:94
+msgid "Combine settings"
+msgstr "Combina impostazioni"
+
+#: src/Admin/Settings/Renderer/Section.php:95
+msgid "Images loaded through CSS background styles can be combined into one single image."
+msgstr "Le immagini caricate tramite stili di sfondo CSS possono essere combinate in un'unica immagine."
+
+#: src/Admin/Settings/Renderer/Section.php:105
+msgid "Lazy-Load Images And Iframes"
+msgstr "Caricamento ritardato di immagini e iframe"
+
+#: src/Admin/Settings/Renderer/Section.php:106
+msgid "The lazy-load reduces the loading time of the page by displaying elements when the user scrolls down the page."
+msgstr "Il lazy load riduce il tempo di caricamento della pagina visualizzando gli elementi quando l'utente scorre verso il basso della pagina."
+
+#: src/Admin/Settings/Renderer/Section.php:116
+msgid "HTTP/2 Settings"
+msgstr "Impostazioni HTTP/2"
+
+#: src/Admin/Settings/Renderer/Section.php:117
+msgid "HTTP/2 Server Push allows an HTTP/2-compliant server to send resources to a HTTP/2-compliant client before the client requests them."
+msgstr "HTTP/2 Server Push consente a un server conforme a HTTP/2 di inviare risorse a un client conforme a HTTP/2 prima che il client le richieda."
+
+#: src/Admin/Settings/Renderer/Section.php:127
+msgid "Optimize Heavy Images"
+msgstr "Ottimizza immagini pesanti"
+
+#: src/Admin/Settings/Renderer/Section.php:128
+msgid "The images optimization allows to reduce the size of large images that can be converted, rescaled and resized on the fly."
+msgstr "L'ottimizzazione delle immagini consente di ridurre le dimensioni delle immagini grandi che possono essere convertite, ridimensionate e ridimensionate al volo."
+
+#: src/Admin/Settings/Renderer/Section.php:138
+msgid "Enable Fastcache"
+msgstr "Abilita FastCache CDN"
+
+#: src/Admin/Settings/Renderer/Section.php:139
+msgid "Enable the Fastcache CDN with your access token."
+msgstr "Abilita la CDN FastCache con il tuo token di accesso"
+
+#: src/Admin/Settings/Renderer/Section.php:150
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:151
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:129
+msgid "Diagnostic"
+msgstr "Diagnostica"
+
+#: src/Admin/Settings/Renderer/Section.php:151
+#: src/Admin/Settings/TabSettings.php:789
+msgid "This option detects if there are other caching or optimization plugins installed and active that could cause conflicts with FastCache. In such case, take care to disable them"
+msgstr "Questa opzione rileva se sono installati e attivi altri plugin di caching o ottimizzazione che potrebbero causare conflitti con FastCache. In tal caso, assicurarsi di disattivarli."
+
+#: src/Admin/Settings/Renderer/Section.php:162
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:144
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:136
+msgid "Speed Test"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Section.php:163
+msgid "Execute the page speed test for your website to evaluate your Google PageSpeed score"
+msgstr "Testa il tuo sito web per valutare il tuo punteggio Google PageSpeed"
+
+#: src/Admin/Settings/Renderer/Section.php:172
+msgid "TTL settings"
+msgstr "Impostazioni TTL"
+
+#: src/Admin/Settings/Renderer/Section.php:173
+msgid "Choose TTL settings."
+msgstr "Scegli le impostazioni TTL."
+
+#: src/Admin/Settings/Renderer/Section.php:182
+msgid "Exclusions"
+msgstr "Esclusioni"
+
+#: src/Admin/Settings/Renderer/Section.php:183
+msgid "Add exclusions for the CDN cache."
+msgstr "Aggiungi esclusioni per la cache CDN"
+
+#: src/Admin/Settings/Renderer/Section.php:192
+msgid "Debug"
+msgstr "Debug"
+
+#: src/Admin/Settings/Renderer/Section.php:193
+msgid "Enable Log Debug."
+msgstr "Abilita il debug del file di log."
+
+#: src/Admin/Settings/Renderer/Section.php:202
+#: src/Admin/Settings/TabSettings.php:761
+msgid "FAQs"
+msgstr "Domande frequenti"
+
+#: src/Admin/Settings/Renderer/Section.php:203
+msgid "FAQs section."
+msgstr "Sezione FAQ."
+
+#: src/Admin/Settings/Renderer/Section.php:212
+msgid "Assets CDN"
+msgstr "CDN delle risorse"
+
+#: src/Admin/Settings/Renderer/Section.php:213
+msgid "Enter CDN domains to have the plugin load all static files from these external domains."
+msgstr "Inserisci i domini CDN per far caricare al plugin tutti i file statici da questi domini esterni."
+
+#: src/Admin/Settings/Renderer/Section.php:223
+msgid "Extract Basic CSS Styles"
+msgstr "Estrai stili CSS di base"
+
+#: src/Admin/Settings/Renderer/Section.php:224
+msgid "Extract basic CSS styles required to format the page above the fold and put this in a &lt;style&gt; element inside the &lt;head&gt; section of the HTML to prevent 'render-blocking'."
+msgstr "Estrai gli stili CSS di base necessari per formattare la pagina sopra il fold e inseriscili in un elemento &lt;style&gt; all'interno della sezione &lt;head&gt; dell'HTML per prevenire il 'render-blocking'."
+
+#: src/Admin/Settings/Renderer/Section.php:229
+msgid "Reduce DOM Tree"
+msgstr "Riduci l'albero DOM"
+
+#: src/Admin/Settings/Renderer/Section.php:230
+msgid "HTML5 DOM elements exceeding the limit of 600 below the fold will be removed and loaded asynchronously using Javascript after that the page has been fully rendered."
+msgstr "Gli elementi DOM HTML5 che superano il limite di 600 sotto il fold verranno rimossi e caricati in modo asincrono utilizzando JavaScript dopo che la pagina è stata completamente renderizzata."
+
+#: src/Admin/Settings/Renderer/Section.php:235
+msgid "Minify Assets"
+msgstr "Minimizza risorse"
+
+#: src/Admin/Settings/Renderer/Section.php:236
+msgid "CSS, Javascript and HTML code can be minified and optimized."
+msgstr "Il codice CSS, JavaScript ed HTML può essere minimizzato ed ottimizzato."
+
+#: src/Admin/Settings/Renderer/Section.php:241
+msgid "Exclude Urls"
+msgstr "Escludi URL"
+
+#: src/Admin/Settings/Renderer/Section.php:242
+msgid "Disable the plugin optimization for specific urls."
+msgstr "Disabilita l'ottimizzazione del plugin per URL specifici."
+
+#: src/Admin/Settings/Renderer/Section.php:249
+msgid "Combine Assets"
+msgstr "Combina risorse"
+
+#: src/Admin/Settings/Renderer/Section.php:250
+msgid "Manage the combining of CSS and Javascript files."
+msgstr "Gestisci la combinazione di file CSS e JavaScript."
+
+#: src/Admin/Settings/Renderer/Section.php:255
+msgid "Optimization Settings"
+msgstr "Impostazioni di ottimizzazione"
+
+#: src/Admin/Settings/Renderer/Section.php:256
+msgid "Manage optimizations settings such as cache, position of scripts and fonts loading."
+msgstr "Gestisci le impostazioni di ottimizzazione come cache, posizione degli script e caricamento dei font."
+
+#: src/Admin/Settings/Renderer/Section.php:261
+msgid "Exclude JS With Order"
+msgstr "Escludi JS con ordine"
+
+#: src/Admin/Settings/Renderer/Section.php:262
+msgid "If you experience conflicts, choose Javascript files to exclude from the combine functionality preserving their execution order as they appear on the page."
+msgstr "Se riscontri conflitti, scegli i file JavaScript da escludere dalla funzionalità di combinazione mantenendo il loro ordine di esecuzione come appaiono sulla pagina."
+
+#: src/Admin/Settings/Renderer/Section.php:267
+msgid "Exclude JS Without Order"
+msgstr "Escludi JS senza ordine"
+
+#: src/Admin/Settings/Renderer/Section.php:268
+msgid "If you experience conflicts, choose Javascript files to exclude from the combine functionality without preserving their execution order as they appear on the page."
+msgstr "Se riscontri conflitti, scegli i file JavaScript da escludere dalla funzionalità di combinazione senza mantenere il loro ordine di esecuzione come appaiono sulla pagina."
+
+#: src/Admin/Settings/Renderer/Section.php:273
+msgid "Remove Javascript Files"
+msgstr "Rimuovi file JavaScript"
+
+#: src/Admin/Settings/Renderer/Section.php:274
+msgid "You can remove and prevent Javascript files from loading on the page if they're optional or not being used at all to speed up page load and rendering. Pay attention that removing required files could break your pages."
+msgstr "È possibile rimuovere e impedire ai file JavaScript di caricare sulla pagina se non sono necessari o non vengono utilizzati affatto per velocizzare il caricamento della pagina e il rendering. Presta attenzione che rimuovere i file necessari potrebbe rompere le tue pagine."
+
+#: src/Admin/Settings/Renderer/Section.php:280
+msgid "Add custom Javascript"
+msgstr "Aggiungi JavaScript personalizzato"
+
+#: src/Admin/Settings/Renderer/Section.php:281
+msgid "You can add custom Javascript code that will be included within the compiled file."
+msgstr "È possibile aggiungere codice JavaScript personalizzato che verrà incluso nel file compilato."
+
+#: src/Admin/Settings/Renderer/Section.php:287
+msgid "Add custom CSS"
+msgstr "Aggiungi CSS personalizzato"
+
+#: src/Admin/Settings/Renderer/Section.php:288
+msgid "You can add custom CSS code that will be included within the compiled file."
+msgstr "È possibile aggiungere codice CSS personalizzato che verrà incluso nel file compilato."
+
+#: src/Admin/Settings/Renderer/Section.php:294
+msgid "Optimize Images By Pages"
+msgstr "Ottimizza immagini per pagine"
+
+#: src/Admin/Settings/Renderer/Section.php:295
+msgid "The plugin will scan the pages of your website for you to find the images to optimize. (Currently only the Main Menu). You don't need to select them beforehand."
+msgstr "Il plugin scannerà le pagine del tuo sito web per trovare le immagini da ottimizzare. (Attualmente solo il Menu Principale). Non è necessario selezionarle preventivamente."
+
+#: src/Admin/Settings/Renderer/Section.php:300
+msgid "Optimize Images By Folders"
+msgstr "Ottimizza immagini per cartelle"
+
+#: src/Admin/Settings/Renderer/Section.php:301
+msgid "Use the file tree to select the subfolders and files you want to optimize. Files will be optimized in subfolders recursively. If you want to rescale your images while optimizing, enter the new width and height in the respective columns beside each image on the right hand side."
+msgstr "Utilizza l'albero delle cartelle per selezionare le sottocartelle e i file che desideri ottimizzare. I file verranno ottimizzati nelle sottocartelle in modo ricorsivo. Se desideri ridimensionare le immagini durante l'ottimizzazione, inserisci la nuova larghezza e altezza nelle rispettive colonne accanto a ogni immagine sul lato destro."
+
+#: src/Admin/Settings/Renderer/Section.php:306
+msgid "Advanced Settings"
+msgstr "Impostazioni avanzate"
+
+#: src/Admin/Settings/Renderer/Section.php:307
+msgid "Manage advanced settings for the plugin"
+msgstr "Gestisci le impostazioni avanzate per il plugin"
+
+#: src/Admin/Settings/Renderer/Section.php:312
+msgid "Srcset management"
+msgstr "Gestione Srcset"
+
+#: src/Admin/Settings/Renderer/Section.php:313
+msgid "This settings make it possible to automatically generate a srcset starting from the original image. When this feature is enabled, it will replace the native Wordpress 'srcset'."
+msgstr "Queste impostazioni rendono possibile la generazione automatica di un srcset a partire dall'immagine originale. Quando questa funzione è abilitata, sostituirà il 'srcset' nativo di Wordpress."
+
+#: src/Admin/Settings/Renderer/Section.php:318
+msgid "Instant Page"
+msgstr "Pagina istantanea"
+
+#: src/Admin/Settings/Renderer/Section.php:319
+msgid "Enable the Instant Page preloading before a page is opened."
+msgstr "Abilita il precaricamento della pagina istantanea prima che una pagina venga aperta."
+
+#: src/Admin/Settings/Renderer/Section.php:324
+msgid "Lazy-Load HTML tags"
+msgstr "Caricamento ritardato dei tag HTML"
+
+#: src/Admin/Settings/Renderer/Section.php:325
+msgid "Enable the lazy-load for user-defined HTML tags and parts of a page. They will be loaded when the user scrolls down the page or after a delay."
+msgstr "Abilita il lazy load per tag HTML definiti dall'utente e parti di una pagina. Saranno caricati quando l'utente scorre verso il basso della pagina o dopo un ritardo."
+
+#: src/Admin/Settings/Renderer/Setting.php:20
+#: src/Admin/Settings/Renderer/Setting.php:36
+#: src/Admin/Settings/Renderer/Setting.php:40
+#: src/Admin/Settings/Renderer/Setting.php:385
+#: src/Admin/Settings/Renderer/Setting.php:429
+#: src/Admin/Settings/Renderer/Setting.php:525
+#: src/Admin/Settings/Renderer/Setting.php:791
+#: src/Admin/Settings/Renderer/Setting.php:840
+msgid "text"
+msgstr "text"
+
+#: src/Admin/Settings/Renderer/Setting.php:24
+msgid "rangeSlider"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:28
+msgid "pluginsDiagnosis"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:32
+msgid "pageSpeed"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:43
+#: src/Admin/Settings/Renderer/Setting.php:46
+#: src/Admin/Settings/Renderer/Setting.php:49
+#: src/Admin/Settings/Renderer/Setting.php:52
+#: src/Admin/Settings/Renderer/Setting.php:58
+#: src/Admin/Settings/Renderer/Setting.php:93
+#: src/Admin/Settings/Renderer/Setting.php:96
+#: src/Admin/Settings/Renderer/Setting.php:99
+#: src/Admin/Settings/Renderer/Setting.php:102
+#: src/Admin/Settings/Renderer/Setting.php:105
+#: src/Admin/Settings/Renderer/Setting.php:108
+#: src/Admin/Settings/Renderer/Setting.php:111
+#: src/Admin/Settings/Renderer/Setting.php:114
+#: src/Admin/Settings/Renderer/Setting.php:126
+#: src/Admin/Settings/Renderer/Setting.php:132
+#: src/Admin/Settings/Renderer/Setting.php:135
+#: src/Admin/Settings/Renderer/Setting.php:138
+#: src/Admin/Settings/Renderer/Setting.php:164
+#: src/Admin/Settings/Renderer/Setting.php:167
+#: src/Admin/Settings/Renderer/Setting.php:173
+#: src/Admin/Settings/Renderer/Setting.php:176
+#: src/Admin/Settings/Renderer/Setting.php:179
+#: src/Admin/Settings/Renderer/Setting.php:182
+#: src/Admin/Settings/Renderer/Setting.php:185
+#: src/Admin/Settings/Renderer/Setting.php:197
+#: src/Admin/Settings/Renderer/Setting.php:218
+#: src/Admin/Settings/Renderer/Setting.php:221
+#: src/Admin/Settings/Renderer/Setting.php:224
+#: src/Admin/Settings/Renderer/Setting.php:266
+#: src/Admin/Settings/Renderer/Setting.php:269
+#: src/Admin/Settings/Renderer/Setting.php:272
+#: src/Admin/Settings/Renderer/Setting.php:275
+#: src/Admin/Settings/Renderer/Setting.php:278
+#: src/Admin/Settings/Renderer/Setting.php:289
+#: src/Admin/Settings/Renderer/Setting.php:298
+#: src/Admin/Settings/Renderer/Setting.php:301
+#: src/Admin/Settings/Renderer/Setting.php:304
+#: src/Admin/Settings/Renderer/Setting.php:307
+#: src/Admin/Settings/Renderer/Setting.php:310
+#: src/Admin/Settings/Renderer/Setting.php:313
+#: src/Admin/Settings/Renderer/Setting.php:316
+#: src/Admin/Settings/Renderer/Setting.php:328
+#: src/Admin/Settings/Renderer/Setting.php:331
+#: src/Admin/Settings/Renderer/Setting.php:334
+#: src/Admin/Settings/Renderer/Setting.php:353
+#: src/Admin/Settings/Renderer/Setting.php:356
+#: src/Admin/Settings/Renderer/Setting.php:359
+#: src/Admin/Settings/Renderer/Setting.php:362
+#: src/Admin/Settings/Renderer/Setting.php:365
+#: src/Admin/Settings/Renderer/Setting.php:368
+#: src/Admin/Settings/Renderer/Setting.php:382
+#: src/Admin/Settings/Renderer/Setting.php:405
+#: src/Admin/Settings/Renderer/Setting.php:432
+#: src/Admin/Settings/Renderer/Setting.php:443
+#: src/Admin/Settings/Renderer/Setting.php:473
+#: src/Admin/Settings/Renderer/Setting.php:476
+#: src/Admin/Settings/Renderer/Setting.php:479
+#: src/Admin/Settings/Renderer/Setting.php:482
+#: src/Admin/Settings/Renderer/Setting.php:485
+#: src/Admin/Settings/Renderer/Setting.php:497
+#: src/Admin/Settings/Renderer/Setting.php:522
+#: src/Admin/Settings/Renderer/Setting.php:528
+#: src/Admin/Settings/Renderer/Setting.php:531
+#: src/Admin/Settings/Renderer/Setting.php:540
+#: src/Admin/Settings/Renderer/Setting.php:613
+#: src/Admin/Settings/Renderer/Setting.php:787
+#: src/Admin/Settings/Renderer/Setting.php:808
+#: src/Admin/Settings/Renderer/Setting.php:811
+#: src/Admin/Settings/Renderer/Setting.php:822
+#: src/Admin/Settings/Renderer/Setting.php:828
+#: src/Admin/Settings/Renderer/Setting.php:834
+#: src/Admin/Settings/Renderer/Setting.php:837
+#: src/Admin/Settings/Renderer/Setting.php:876
+msgid "radio"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:55
+#: src/Admin/Settings/Renderer/Setting.php:117
+#: src/Admin/Settings/Renderer/Setting.php:120
+#: src/Admin/Settings/Renderer/Setting.php:123
+#: src/Admin/Settings/Renderer/Setting.php:129
+#: src/Admin/Settings/Renderer/Setting.php:170
+#: src/Admin/Settings/Renderer/Setting.php:188
+#: src/Admin/Settings/Renderer/Setting.php:191
+#: src/Admin/Settings/Renderer/Setting.php:194
+#: src/Admin/Settings/Renderer/Setting.php:200
+#: src/Admin/Settings/Renderer/Setting.php:203
+#: src/Admin/Settings/Renderer/Setting.php:206
+#: src/Admin/Settings/Renderer/Setting.php:209
+#: src/Admin/Settings/Renderer/Setting.php:212
+#: src/Admin/Settings/Renderer/Setting.php:215
+#: src/Admin/Settings/Renderer/Setting.php:263
+#: src/Admin/Settings/Renderer/Setting.php:292
+#: src/Admin/Settings/Renderer/Setting.php:295
+#: src/Admin/Settings/Renderer/Setting.php:319
+#: src/Admin/Settings/Renderer/Setting.php:322
+#: src/Admin/Settings/Renderer/Setting.php:325
+#: src/Admin/Settings/Renderer/Setting.php:344
+#: src/Admin/Settings/Renderer/Setting.php:347
+#: src/Admin/Settings/Renderer/Setting.php:350
+#: src/Admin/Settings/Renderer/Setting.php:379
+#: src/Admin/Settings/Renderer/Setting.php:507
+#: src/Admin/Settings/Renderer/Setting.php:510
+#: src/Admin/Settings/Renderer/Setting.php:513
+#: src/Admin/Settings/Renderer/Setting.php:516
+#: src/Admin/Settings/Renderer/Setting.php:519
+#: src/Admin/Settings/Renderer/Setting.php:797
+#: src/Admin/Settings/Renderer/Setting.php:805
+msgid "multiselect"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:62
+#: src/Admin/Settings/Renderer/Setting.php:228
+msgid "1 min"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:63
+#: src/Admin/Settings/Renderer/Setting.php:229
+msgid "5 min"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:64
+#: src/Admin/Settings/Renderer/Setting.php:230
+msgid "10 min"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:65
+#: src/Admin/Settings/Renderer/Setting.php:231
+msgid "15 min"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:66
+#: src/Admin/Settings/Renderer/Setting.php:232
+msgid "30 min"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:67
+#: src/Admin/Settings/Renderer/Setting.php:233
+msgid "1 hour"
+msgstr "1 ora"
+
+#: src/Admin/Settings/Renderer/Setting.php:68
+#: src/Admin/Settings/Renderer/Setting.php:234
+msgid "3 hours"
+msgstr "3 ore"
+
+#: src/Admin/Settings/Renderer/Setting.php:69
+#: src/Admin/Settings/Renderer/Setting.php:235
+msgid "6 hours"
+msgstr "6 ore"
+
+#: src/Admin/Settings/Renderer/Setting.php:70
+#: src/Admin/Settings/Renderer/Setting.php:236
+msgid "12 hours"
+msgstr "12 ore"
+
+#: src/Admin/Settings/Renderer/Setting.php:71
+#: src/Admin/Settings/Renderer/Setting.php:237
+msgid "1 day"
+msgstr "1 giorno"
+
+#: src/Admin/Settings/Renderer/Setting.php:72
+#: src/Admin/Settings/Renderer/Setting.php:238
+msgid "2 days"
+msgstr "2 giorni"
+
+#: src/Admin/Settings/Renderer/Setting.php:73
+msgid "7 days"
+msgstr "7 giorni"
+
+#: src/Admin/Settings/Renderer/Setting.php:74
+msgid "2 weeks"
+msgstr "2 settimane"
+
+#: src/Admin/Settings/Renderer/Setting.php:75
+msgid "3 weeks"
+msgstr "3 settimane"
+
+#: src/Admin/Settings/Renderer/Setting.php:76
+msgid "1 month"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:77
+msgid "3 months"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:78
+msgid "No expiration"
+msgstr "Nessuna scadenza"
+
+#: src/Admin/Settings/Renderer/Setting.php:81
+#: src/Admin/Settings/Renderer/Setting.php:90
+#: src/Admin/Settings/Renderer/Setting.php:161
+#: src/Admin/Settings/Renderer/Setting.php:242
+#: src/Admin/Settings/Renderer/Setting.php:286
+#: src/Admin/Settings/Renderer/Setting.php:402
+#: src/Admin/Settings/Renderer/Setting.php:426
+#: src/Admin/Settings/Renderer/Setting.php:494
+#: src/Admin/Settings/Renderer/Setting.php:558
+#: src/Admin/Settings/Renderer/Setting.php:569
+#: src/Admin/Settings/Renderer/Setting.php:588
+#: src/Admin/Settings/Renderer/Setting.php:599
+#: src/Admin/Settings/Renderer/Setting.php:610
+#: src/Admin/Settings/Renderer/Setting.php:819
+#: src/Admin/Settings/Renderer/Setting.php:848
+#: src/Admin/Settings/Renderer/Setting.php:873
+msgid "select"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:85
+msgid "Low"
+msgstr "Basso"
+
+#: src/Admin/Settings/Renderer/Setting.php:86
+msgid "Normal"
+msgstr "Normale"
+
+#: src/Admin/Settings/Renderer/Setting.php:87
+msgid "High"
+msgstr "Alto"
+
+#: src/Admin/Settings/Renderer/Setting.php:239
+msgid "1 week"
+msgstr "1 settimana"
+
+#: src/Admin/Settings/Renderer/Setting.php:282
+msgid "Vertical direction"
+msgstr "Direzione verticale"
+
+#: src/Admin/Settings/Renderer/Setting.php:283
+msgid "Horizontal direction"
+msgstr "Direzione orizzontale"
+
+#: src/Admin/Settings/Renderer/Setting.php:389
+#: src/Admin/Settings/Renderer/Setting.php:413
+#: src/Admin/Settings/Renderer/Setting.php:544
+#: src/Admin/Settings/Renderer/Setting.php:573
+msgid "40%"
+msgstr "40%"
+
+#: src/Admin/Settings/Renderer/Setting.php:390
+#: src/Admin/Settings/Renderer/Setting.php:414
+#: src/Admin/Settings/Renderer/Setting.php:545
+#: src/Admin/Settings/Renderer/Setting.php:574
+msgid "45%"
+msgstr "45%"
+
+#: src/Admin/Settings/Renderer/Setting.php:391
+#: src/Admin/Settings/Renderer/Setting.php:415
+#: src/Admin/Settings/Renderer/Setting.php:546
+#: src/Admin/Settings/Renderer/Setting.php:575
+msgid "50%"
+msgstr "50%"
+
+#: src/Admin/Settings/Renderer/Setting.php:392
+#: src/Admin/Settings/Renderer/Setting.php:416
+#: src/Admin/Settings/Renderer/Setting.php:547
+#: src/Admin/Settings/Renderer/Setting.php:576
+msgid "55%"
+msgstr "55%"
+
+#: src/Admin/Settings/Renderer/Setting.php:393
+#: src/Admin/Settings/Renderer/Setting.php:417
+#: src/Admin/Settings/Renderer/Setting.php:548
+#: src/Admin/Settings/Renderer/Setting.php:577
+msgid "60%"
+msgstr "60%"
+
+#: src/Admin/Settings/Renderer/Setting.php:394
+#: src/Admin/Settings/Renderer/Setting.php:418
+#: src/Admin/Settings/Renderer/Setting.php:549
+#: src/Admin/Settings/Renderer/Setting.php:578
+msgid "65%"
+msgstr "65%"
+
+#: src/Admin/Settings/Renderer/Setting.php:395
+#: src/Admin/Settings/Renderer/Setting.php:419
+#: src/Admin/Settings/Renderer/Setting.php:550
+#: src/Admin/Settings/Renderer/Setting.php:579
+msgid "70%"
+msgstr "70%"
+
+#: src/Admin/Settings/Renderer/Setting.php:396
+#: src/Admin/Settings/Renderer/Setting.php:420
+#: src/Admin/Settings/Renderer/Setting.php:551
+#: src/Admin/Settings/Renderer/Setting.php:580
+msgid "75%"
+msgstr "75%"
+
+#: src/Admin/Settings/Renderer/Setting.php:397
+#: src/Admin/Settings/Renderer/Setting.php:421
+#: src/Admin/Settings/Renderer/Setting.php:552
+#: src/Admin/Settings/Renderer/Setting.php:581
+msgid "80%"
+msgstr "80%"
+
+#: src/Admin/Settings/Renderer/Setting.php:398
+#: src/Admin/Settings/Renderer/Setting.php:422
+#: src/Admin/Settings/Renderer/Setting.php:553
+#: src/Admin/Settings/Renderer/Setting.php:582
+msgid "85%"
+msgstr "85%"
+
+#: src/Admin/Settings/Renderer/Setting.php:399
+#: src/Admin/Settings/Renderer/Setting.php:423
+#: src/Admin/Settings/Renderer/Setting.php:554
+#: src/Admin/Settings/Renderer/Setting.php:583
+msgid "90%"
+msgstr "90%"
+
+#: src/Admin/Settings/Renderer/Setting.php:409
+#: src/Admin/Settings/Renderer/Setting.php:565
+#: src/Admin/Settings/Renderer/Setting.php:595
+msgid "20%"
+msgstr "20%"
+
+#: src/Admin/Settings/Renderer/Setting.php:410
+#: src/Admin/Settings/Renderer/Setting.php:566
+#: src/Admin/Settings/Renderer/Setting.php:596
+msgid "25%"
+msgstr "25%"
+
+#: src/Admin/Settings/Renderer/Setting.php:411
+msgid "30%"
+msgstr "30%"
+
+#: src/Admin/Settings/Renderer/Setting.php:412
+msgid "35%"
+msgstr "35%"
+
+#: src/Admin/Settings/Renderer/Setting.php:435
+msgid "Your server and PHP version support the conversion to the WebP format"
+msgstr "Il tuo server e la versione di PHP supportano la conversione nel formato WebP"
+
+#: src/Admin/Settings/Renderer/Setting.php:436
+msgid "WebP conversion supported"
+msgstr "Conversione WebP supportata"
+
+#: src/Admin/Settings/Renderer/Setting.php:438
+msgid "Your server and PHP version don't support the conversion to the WebP format. Contact your hosting provider in order to activate it via the PHP GD library"
+msgstr "Il tuo server e la versione di PHP non supportano la conversione nel formato WebP. Contatta il tuo provider di hosting per attivarla tramite la libreria PHP GD"
+
+#: src/Admin/Settings/Renderer/Setting.php:439
+msgid "WebP conversion not supported"
+msgstr "Conversione WebP non supportata"
+
+#: src/Admin/Settings/Renderer/Setting.php:461
+msgid "Your server and PHP version support the conversion to the AVIF format"
+msgstr "Il tuo server e la versione di PHP supportano la conversione nel formato AVIF"
+
+#: src/Admin/Settings/Renderer/Setting.php:462
+msgid "AVIF conversion supported"
+msgstr "Conversione AVIF supportata"
+
+#: src/Admin/Settings/Renderer/Setting.php:464
+#: src/Admin/Settings/Renderer/Setting.php:468
+msgid "Your server and PHP version don't support the conversion to the AVIF format. Upgrade at least to PHP 8.1 and contact your hosting provider in order to activate it via the PHP GD library"
+msgstr "Il tuo server e la versione di PHP non supportano la conversione nel formato AVIF. Effettua un aggiornamento almeno a PHP 8.1 e contatta il tuo provider di hosting per attivarla tramite la libreria PHP GD"
+
+#: src/Admin/Settings/Renderer/Setting.php:465
+#: src/Admin/Settings/Renderer/Setting.php:469
+msgid "AVIF conversion not supported"
+msgstr "Conversione AVIF non supportata"
+
+#: src/Admin/Settings/Renderer/Setting.php:489
+msgid "Full"
+msgstr "Completo"
+
+#: src/Admin/Settings/Renderer/Setting.php:490
+msgid "Partial"
+msgstr "Parziale"
+
+#: src/Admin/Settings/Renderer/Setting.php:491
+msgid "None"
+msgstr "Nessuno"
+
+#: src/Admin/Settings/Renderer/Setting.php:501
+msgid "jpeg"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:502
+msgid "jpg"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:503
+msgid "png"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:504
+msgid "gif"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:505
+msgid "bmp"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:534
+#: src/Admin/Settings/Renderer/Setting.php:537
+#: src/Admin/Settings/Renderer/Setting.php:825
+#: src/Admin/Settings/Renderer/Setting.php:831
+msgid "textarea"
+msgstr "textarea"
+
+#: src/Admin/Settings/Renderer/Setting.php:555
+#: src/Admin/Settings/Renderer/Setting.php:584
+msgid "95%"
+msgstr "95%"
+
+#: src/Admin/Settings/Renderer/Setting.php:562
+#: src/Admin/Settings/Renderer/Setting.php:592
+msgid "5%"
+msgstr "5%"
+
+#: src/Admin/Settings/Renderer/Setting.php:563
+#: src/Admin/Settings/Renderer/Setting.php:593
+msgid "10%"
+msgstr "10%"
+
+#: src/Admin/Settings/Renderer/Setting.php:564
+#: src/Admin/Settings/Renderer/Setting.php:594
+msgid "15%"
+msgstr "15%"
+
+#: src/Admin/Settings/Renderer/Setting.php:585
+msgid "100%"
+msgstr "100%"
+
+#: src/Admin/Settings/Renderer/Setting.php:603
+msgid "Original image"
+msgstr "Immagine originale"
+
+#: src/Admin/Settings/Renderer/Setting.php:604
+msgid "4x"
+msgstr "4x"
+
+#: src/Admin/Settings/Renderer/Setting.php:605
+msgid "3x"
+msgstr "3x"
+
+#: src/Admin/Settings/Renderer/Setting.php:606
+msgid "2x"
+msgstr "2x"
+
+#: src/Admin/Settings/Renderer/Setting.php:607
+msgid "1x"
+msgstr "1x"
+
+#: src/Admin/Settings/Renderer/Setting.php:619
+msgid "If selected, activates communication with the CDN"
+msgstr "Se selezionato, attiva la comunicazione con la CDN"
+
+#: src/Admin/Settings/Renderer/Setting.php:621
+msgid "The caching system automatically regenerates the cache every \""
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:625
+#, php-format
+msgid "The caching system automatically regenerates the cache every \"%s\" seconds or according to the \"ttl\" value entered in the appropriate fields"
+msgstr "Il sistema di caching rigenera automaticamente la cache ogni “%s” secondi oppure in base al valore “ttl” inserito nei rispettivi campi."
+
+#: src/Admin/Settings/Renderer/Setting.php:672
+msgid "Insert here the access token"
+msgstr "Inserisci qui il token di accesso"
+
+#: src/Admin/Settings/Renderer/Setting.php:673
+msgid "You can get the access token in the host.it customer area"
+msgstr "Puoi ottenere il token di accesso nell'area clienti host.it"
+
+#: src/Admin/Settings/Renderer/Setting.php:698
+#: src/Admin/Settings/TabSettings.php:755
+msgid "Enable Log Debug"
+msgstr "Abilita il debug del file di log"
+
+#: src/Admin/Settings/Renderer/Setting.php:699
+msgid "Once activated, the log file inside the folder wp-content/plugins/fastcache/logs/log.txt will be updated"
+msgstr "Una volta attivato, il file di log all'interno della cartella wp-content/plugins/fastcache/logs/log.txt verrà aggiornato con le informazioni di debug"
+
+#: src/Admin/Settings/Renderer/Setting.php:700
+msgid "Check the configuration!"
+msgstr "Controlla la configurazione!"
+
+#: src/Admin/Settings/Renderer/Setting.php:701
+msgid "Check that settings are correct"
+msgstr "Controlla che le impostazioni e il collegamento alla CDN siano corretti"
+
+#: src/Admin/Settings/Renderer/Setting.php:760
+msgid "Frequently Asked Question"
+msgstr "Domande frequenti"
+
+#: src/Admin/Settings/Renderer/Setting.php:815
+msgid "Fast delay"
+msgstr "Ritardo rapido"
+
+#: src/Admin/Settings/Renderer/Setting.php:816
+msgid "Slow delay"
+msgstr "Ritardo lento"
+
+#: src/Admin/Settings/Renderer/Setting.php:844
+msgid "Scroll"
+msgstr "Scorrimento"
+
+#: src/Admin/Settings/Renderer/Setting.php:845
+msgid "Delay"
+msgstr "Ritardo"
+
+#: src/Admin/Settings/Renderer/Setting.php:852
+msgid "100 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:853
+msgid "200 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:854
+msgid "300 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:855
+msgid "500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:856
+msgid "600 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:857
+msgid "700 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:858
+msgid "800 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:859
+msgid "900 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:860
+msgid "1000 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:861
+msgid "1500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:862
+msgid "2000 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:863
+msgid "2500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:864
+msgid "3000 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:865
+msgid "3500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:866
+msgid "4000 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:867
+msgid "4500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:868
+msgid "5000 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:869
+msgid "5500 ms"
+msgstr ""
+
+#: src/Admin/Settings/Renderer/Setting.php:870
+msgid "6000 ms"
+msgstr ""
+
+#: src/Admin/Settings/TabSettings.php:37
+msgid "Enable combining of CSS and Javascript files"
+msgstr "Abilita la combinazione dei file CSS e Javascript"
+
+#: src/Admin/Settings/TabSettings.php:38
+msgid "If enabled, multiple CSS or Javascript files will be combined into a single file or grouped in as few files as possible. This feature allows to reduce the number of HTTP requests, the total page size and loading time."
+msgstr "Se abilitato, più file CSS o Javascript verranno combinati in un unico file o raggruppati nel minor numero possibile di file. Questa funzionalità consente di ridurre il numero di richieste HTTP, la dimensione totale della pagina e il tempo di caricamento."
+
+#: src/Admin/Settings/TabSettings.php:41
+msgid "Combine CSS files"
+msgstr "Combina i file CSS"
+
+#: src/Admin/Settings/TabSettings.php:42
+msgid "If enabled, multiple CSS files will be combined into a single file. The single file will replace all the original multiple files."
+msgstr "Se abilitato, più file CSS verranno combinati in un unico file. Il file singolo sostituirà tutti i file multipli originali."
+
+#: src/Admin/Settings/TabSettings.php:45
+msgid "Combine Javascript files"
+msgstr "Combina i file JavaScript"
+
+#: src/Admin/Settings/TabSettings.php:46
+msgid "If enabled, multiple Javascript files will be combined into a single file. In the case that it is necessary to exclude certain files while preserving the execution order, the files will be grouped in as few files as possible. Combined files will replace all the original multiple files, unless they have been excluded from the combine functionality."
+msgstr "Se abilitato, più file JavaScript verranno combinati in un unico file. Nel caso sia necessario escludere determinati file mantenendo l'ordine di esecuzione, i file verranno raggruppati nel minor numero possibile di file. I file combinati sostituiranno tutti i file multipli originali, a meno che non siano stati esclusi dalla funzionalità di combinazione."
+
+#: src/Admin/Settings/TabSettings.php:54
+msgid "Minify CSS"
+msgstr "Minimizza CSS"
+
+#: src/Admin/Settings/TabSettings.php:55
+msgid "Whitespaces and comments will be removed from the combined CSS file, this helps to reduce the file size, save bandwidth and improve the loading time. NOTICE: this applies only to resulting combined CSS files and not to original files, thus if the 'combine' feature is not enabled this setting won't have any effect."
+msgstr "Spazi bianchi e commenti verranno rimossi dal file CSS combinato, ciò contribuisce a ridurre le dimensioni del file, risparmiare larghezza di banda e migliorare il tempo di caricamento. NOTA: ciò si applica solo ai file CSS combinati risultanti e non ai file originali, quindi se la funzionalità di 'combinazione' non è abilitata questa impostazione non avrà alcun effetto."
+
+#: src/Admin/Settings/TabSettings.php:58
+msgid "Minify javascript"
+msgstr "Minimizza JavaScript"
+
+#: src/Admin/Settings/TabSettings.php:59
+msgid "Whitespaces and comments will be removed from the combined JS file, this helps to reduce the file size, save bandwidth and improve the loading time. NOTICE: this applies only to resulting combined JS files and not to original files, thus if the 'combine' feature is not enabled this setting won't have any effect."
+msgstr "Spazi vuoti e commenti verranno rimossi dal file JS combinato, ciò contribuisce a ridurre le dimensioni del file, risparmiare larghezza di banda e migliorare i tempi di caricamento. AVVISO: questo si applica solo ai file JS combinati risultanti e non ai file originali, quindi se la funzione 'combinazione' non è abilitata questa impostazione non avrà alcun effetto."
+
+#: src/Admin/Settings/TabSettings.php:62
+msgid "Minify HTML"
+msgstr "Minimizza HTML"
+
+#: src/Admin/Settings/TabSettings.php:63
+msgid "Whitespaces and comments will be removed from the HTML source code, this helps to save bandwidth and improve the loading time."
+msgstr "Spazi vuoti e commenti verranno rimossi dal codice sorgente HTML, ciò contribuisce a risparmiare larghezza di banda e migliorare i tempi di caricamento."
+
+#: src/Admin/Settings/TabSettings.php:66
+msgid "HTML Minification level"
+msgstr "Livello di Minimizzazione HTML"
+
+#: src/Admin/Settings/TabSettings.php:67
+msgid "Choose the level of minification for HTML. Using the 'Low' level, multiple whitespaces outside of elements will be reduced to a single one. Using the 'Normal' level comments and all not needed whitespaces or carriage returns will be removed. Using the 'High' level even quotes or double quotes from around attributes will be removed. CAUTION: using the 'High' level could cause issues with third-party plugins; if you experience this kind of problems switch back to 'Normal'."
+msgstr "Scegli il livello di minimizzazione per l'HTML. Utilizzando il livello 'Basso', più spazi vuoti al di fuori degli elementi verranno ridotti a uno solo. Utilizzando il livello 'Normale', i commenti e tutti gli spazi vuoti o ritorni a capo non necessari verranno rimossi. Utilizzando il livello 'Alto', verranno rimossi persino apici o doppi apici attorno agli attributi. ATTENZIONE: l'utilizzo del livello 'Alto' potrebbe causare problemi con plugin di terze parti; se riscontri questo tipo di problemi, torna al livello 'Normale'."
+
+#: src/Admin/Settings/TabSettings.php:76
+msgid "Cache lifetime"
+msgstr "Durata della Cache"
+
+#: src/Admin/Settings/TabSettings.php:77
+msgid "You can set the cache lifetime in minutes for the combined files. If you're using a third-party Page Cache plugin, be sure to set this value higher than the lifetime set in the Page Cache plugin. If you experience issues with a huge amount of cache being generated, then decrease this value to reduce the cache size."
+msgstr "È possibile impostare la durata della cache in minuti per i file combinati. Se si utilizza un plugin di cache di pagina di terze parti, assicurarsi di impostare questo valore più alto rispetto alla durata impostata nel plugin di cache di pagina. Se si riscontrano problemi con una grande quantità di cache generata, diminuire questo valore per ridurre le dimensioni della cache."
+
+#: src/Admin/Settings/TabSettings.php:80
+msgid "Combined Javascript at closing body tag"
+msgstr "Posiziona i file Javascript combinati in fondo alla pagina"
+
+#: src/Admin/Settings/TabSettings.php:81
+msgid "If enabled, the combined Javascript file will be positioned at the bottom of the page just before the closing body tag. In the case that multiple combined Javascript files have been generated, only the last one will be placed at the bottom of the page. Additionally thanks to this option, even files positioned within the 'body' section will be included in the combined file."
+msgstr "Se abilitato, il file Javascript combinato verrà posizionato in fondo alla pagina proprio prima della chiusura del tag body. Nel caso in cui siano stati generati più file Javascript combinati, solo l'ultimo verrà posizionato in fondo alla pagina. Inoltre, grazie a questa opzione, anche i file posizionati all'interno della sezione 'body' saranno inclusi nel file combinato."
+
+#: src/Admin/Settings/TabSettings.php:84
+msgid "Load Javascript files asynchronously"
+msgstr "Carica i file Javascript in modo asincrono"
+
+#: src/Admin/Settings/TabSettings.php:85
+msgid "If enabled, Javascript will be loaded asyncronously to avoid render blocking resources. If there is only one combined file placed at the bottom of the page without any excluded script it will be loaded using the 'async' attribute. If instead there are excluded scripts and the order of execution must be preserved it will be loaded using the 'defer' attribute."
+msgstr "Se abilitato, i file Javascript verranno caricati in modo asincrono per evitare risorse di blocco del rendering. Se è presente solo un file combinato posizionato in fondo alla pagina senza alcuno script escluso, verrà caricato utilizzando l'attributo 'async'. Se invece ci sono script esclusi e l'ordine d'esecuzione deve essere preservato, verrà caricato utilizzando l'attributo 'defer'."
+
+#: src/Admin/Settings/TabSettings.php:88
+msgid "Visible text during fonts load"
+msgstr "Testo visibile durante il caricamento dei font"
+
+#: src/Admin/Settings/TabSettings.php:89
+msgid "If enabled, this function will fix the PageSpeed audit: 'Ensure text remains visible during webfont load'. The easiest way to avoid showing invisible text while custom fonts load is to temporarily show a system font. When this option is enabled a special CSS rule 'font-display: swap' will be included in each @font-face style, so that the flash of invisible text won't happen in most modern browsers. The font-display API specifies how a font is displayed, 'swap' tells the browser that text using the font should be displayed immediately using a system font. Once the custom font is ready, it replaces the system font."
+msgstr "Se abilitata, questa funzione risolverà l'audit di PageSpeed: 'Assicurati che il testo rimanga visibile durante il caricamento dei webfont'. Il modo più semplice per evitare di mostrare testo invisibile durante il caricamento dei font personalizzati è mostrare temporaneamente un font di sistema. Quando questa opzione è abilitata, una regola CSS speciale 'font-display: swap' sarà inclusa in ogni stile @font-face, in modo che il flash di testo invisibile non avvenga nella maggior parte dei browser moderni. L'API font-display specifica come viene visualizzato un font, 'swap' indica al browser che il testo che utilizza il font dovrebbe essere visualizzato immediatamente utilizzando un font di sistema. Una volta che il font personalizzato è pronto, sostituisce il font di sistema."
+
+#: src/Admin/Settings/TabSettings.php:92
+msgid "Defer combined styles"
+msgstr "Ritarda il caricamento dei file CSS combinati"
+
+#: src/Admin/Settings/TabSettings.php:93
+msgid "If enabled, the combined CSS file resulting from the merge of original ones will be loaded in a special 'preload' mode to eliminate render-blocking resources and improve the First Contentful Paint (FCP)."
+msgstr "Se abilitato, il file CSS combinato risultante dalla fusione di quelli originali verrà caricato in una modalità 'preload' speciale per eliminare le risorse di blocco del rendering e migliorare la prima visualizzazione del contenuto (FCP)."
+
+#: src/Admin/Settings/TabSettings.php:105
+msgid "Remove unused CSS files"
+msgstr "Rimuovi file CSS non utilizzati"
+
+#: src/Admin/Settings/TabSettings.php:106
+msgid "Select or add the CSS files that you want to remove. Be sure that they are optional or not used on the site."
+msgstr "Seleziona o aggiungi i file CSS che desideri rimuovere. Assicurati che siano opzionali o non utilizzati sul sito."
+
+#: src/Admin/Settings/TabSettings.php:114
+msgid "Remove unused javascript files"
+msgstr "Rimuovi i file javascript non utilizzati"
+
+#: src/Admin/Settings/TabSettings.php:115
+msgid "Select or add the Javascript files that you want to remove. Be sure that they are optional or not used on the site."
+msgstr "Seleziona o aggiungi i file Javascript che desideri rimuovere. Assicurati che siano opzionali o non utilizzati sul sito."
+
+#: src/Admin/Settings/TabSettings.php:123
+msgid "Add custom JS code"
+msgstr "Aggiungi codice JS personalizzato"
+
+#: src/Admin/Settings/TabSettings.php:124
+msgid "If enabled, it's possible to include custom JS code within the compiled JS file."
+msgstr "Se abilitato, è possibile includere codice JS personalizzato all'interno del file JS compilato."
+
+#: src/Admin/Settings/TabSettings.php:127
+msgid "Custom JS code"
+msgstr "Codice JS personalizzato"
+
+#: src/Admin/Settings/TabSettings.php:128
+msgid "Enter the custom JS code to be included within the compiled JS file."
+msgstr "Inserisci il codice JS personalizzato da includere nel file JS compilato."
+
+#: src/Admin/Settings/TabSettings.php:136
+msgid "Add custom CSS code"
+msgstr "Aggiungi codice CSS personalizzato"
+
+#: src/Admin/Settings/TabSettings.php:137
+msgid "If enabled, it's possible to include custom CSS code within the compiled CSS file."
+msgstr "Se abilitato, è possibile includere codice CSS personalizzato nel file CSS compilato."
+
+#: src/Admin/Settings/TabSettings.php:140
+msgid "Custom CSS code"
+msgstr "Codice CSS personalizzato"
+
+#: src/Admin/Settings/TabSettings.php:141
+msgid "Enter the custom CSS code to be included within the compiled CSS file."
+msgstr "Inserisci il codice CSS personalizzato da includere nel file CSS compilato."
+
+#: src/Admin/Settings/TabSettings.php:159
+msgid "Enable PHP page caching"
+msgstr "Abilita la cache delle pagine PHP"
+
+#: src/Admin/Settings/TabSettings.php:160
+msgid "When the PHP page caching is enabled, pages are served up as static HTML versions of a page in order to avoid potentially time-consuming execution of your server and database. NOTE: this feature is enabled only for logged out users."
+msgstr "Quando la cache delle pagine PHP è abilitata, le pagine vengono servite come versioni HTML statiche di una pagina per evitare esecuzioni potenzialmente dispendiose in termini di tempo del server e del database. NOTA: questa funzione è abilitata solo per gli utenti non autenticati."
+
+#: src/Admin/Settings/TabSettings.php:163
+msgid "Enable .htaccess page caching"
+msgstr "Abilita la cache delle pagine .htaccess"
+
+#: src/Admin/Settings/TabSettings.php:167
+msgid "Page cache lifetime"
+msgstr "Durata della cache della pagina"
+
+#: src/Admin/Settings/TabSettings.php:168
+msgid "The lifetime of the page cache. This value must be lower than the cache lifetime of combined files under the optimization settings."
+msgstr "La durata della cache della pagina. Questo valore deve essere inferiore alla durata della cache dei file combinati nelle impostazioni di ottimizzazione."
+
+#: src/Admin/Settings/TabSettings.php:171
+msgid "Platform specific cache"
+msgstr "Cache specifica della piattaforma"
+
+#: src/Admin/Settings/TabSettings.php:172
+msgid "Page caching can be different for mobile and desktop devices. Enable this option if you need to serve different contents through 2 separate cache."
+msgstr "La memorizzazione nella cache delle pagine può essere diversa per dispositivi mobili e desktop. Abilita questa opzione se hai bisogno di servire contenuti diversi attraverso 2 cache separate."
+
+#: src/Admin/Settings/TabSettings.php:175
+msgid "Exclude page cache by URL"
+msgstr "Escludi la cache della pagina per URL"
+
+#: src/Admin/Settings/TabSettings.php:176
+msgid "Enter a substring of each url that you want to exclude from the page cache. It's not needed to enter the complete url for the matching, but only a part of it. Add a string and hit 'Enter'."
+msgstr "Inserisci una sottostringa di ogni URL che desideri escludere dalla cache della pagina. Non è necessario inserire l'URL completo per la corrispondenza, ma solo una parte di esso. Aggiungi una stringa e premi 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:179
+msgid "Delete all cache folders"
+msgstr "Cancella tutte le cartelle delle cache"
+
+#: src/Admin/Settings/TabSettings.php:180
+msgid "If enabled, FastCache will delete every cache folder inside wp-content/cache/, including those created by other plugins. This may solve conflicts but can also cause issues with third-party caches. Disable to limit deletions only to the FastCache cache."
+msgstr "Se abilitata, FastCache eliminerà tutte le cartelle di cache all'interno di wp-content/cache/, comprese quelle create da altri plugin. Questo potrebbe risolvere i conflitti, ma può anche causare problemi con le cache di terze parti. Disattivarla per limitare le eliminazioni solo alla cache di FastCache."
+
+#: src/Admin/Settings/TabSettings.php:185
+msgid "Enable Instant Page <br/>preloading"
+msgstr "Abilita il precaricamento istantaneo delle pagine"
+
+#: src/Admin/Settings/TabSettings.php:186
+msgid "Instant Page uses just-in-time preloading. This feature, compatible with both desktop and mobile devices, preloads a page right before a user clicks on it. Pages are preloaded only when there's a good chance that a user will visit them, and only the HTML is preloaded, being respectful of your users and servers bandwidth and CPU. Preloading happens just a few milliseconds before than a user opens a page thanks to the special 'Prefetch' metatag, as a result Instant Page makes you pages feel instant to the human brain even on 3G."
+msgstr "La Pagina Istantanea utilizza il precaricamento in tempo reale. Questa funzionalità, compatibile sia con dispositivi desktop che mobili, precarica una pagina proprio prima che un utente ci clicchi sopra. Le pagine vengono precaricate solo quando c'è una buona probabilità che un utente le visiti, e viene precaricato solo l'HTML, rispettando la larghezza di banda e la CPU del tuo server e dei tuoi utenti. Il precaricamento avviene solo pochi millisecondi prima che un utente apra una pagina grazie al metatag 'Prefetch' speciale, di conseguenza la Pagina Istantanea rende le tue pagine istantanee anche per il cervello umano anche su 3G."
+
+#: src/Admin/Settings/TabSettings.php:189
+msgid "Preload delay"
+msgstr "Ritardo del precaricamento"
+
+#: src/Admin/Settings/TabSettings.php:190
+msgid "By default, Instant Page preloads 65 ms fast after hovering a link and when a mobile user starts touching their display. For some sites with a lot of huge click targets, it's possible to increase the delay on hover to preload 150 ms slow."
+msgstr "Per impostazione predefinita, la Pagina Istantanea precarica 65 ms velocemente dopo aver posato il cursore su un link e quando un utente mobile inizia a toccare il display. Per alcuni siti con molti grandi target di clic, è possibile aumentare il ritardo al passaggio del mouse per precaricare 150 ms lentamente."
+
+#: src/Admin/Settings/TabSettings.php:208
+msgid "Enable lazy-load for images and iframes"
+msgstr "Abilita il caricamento lento per immagini e iframe"
+
+#: src/Admin/Settings/TabSettings.php:209
+msgid "Enable the lazy-load for images and iframes when the user scrolls down to view them. This feature reduces the loading time of the page."
+msgstr "Abilita il caricamento lento per immagini e iframe quando l'utente scorre in basso per visualizzarli. Questa funzionalità riduce il tempo di caricamento della pagina."
+
+#: src/Admin/Settings/TabSettings.php:212
+msgid "Autosize images"
+msgstr "Dimensioni automatiche delle immagini"
+
+#: src/Admin/Settings/TabSettings.php:213
+msgid "Enable this option if you experience an incorrect size of images or an empty space around them."
+msgstr "Abilita questa opzione se riscontri una dimensione errata delle immagini o uno spazio vuoto attorno ad esse."
+
+#: src/Admin/Settings/TabSettings.php:216
+msgid "Enable effects"
+msgstr "Abilita effetti"
+
+#: src/Admin/Settings/TabSettings.php:217
+msgid "If enabled, a fade-in effects will be applied to lazy-loaded images when they are scrolled into view."
+msgstr "Se abilitato, verrà applicato un effetto fade-in alle immagini caricate lazy quando vengono visualizzate scorrendo."
+
+#: src/Admin/Settings/TabSettings.php:220
+msgid "Include iframes"
+msgstr "Includi iframe"
+
+#: src/Admin/Settings/TabSettings.php:221
+msgid "If enabled, also iframes will be lazy-loaded."
+msgstr "Se abilitato, anche gli iframe saranno caricati in modalità lazy load."
+
+#: src/Admin/Settings/TabSettings.php:224
+msgid "Include CSS background <br/> images"
+msgstr "Includi immagini di sfondo CSS"
+
+#: src/Admin/Settings/TabSettings.php:225
+msgid "If enabled, also CSS background images will be lazy-loaded in the same way of normal images."
+msgstr "Se abilitato, anche le immagini di sfondo CSS saranno caricate lazy allo stesso modo delle immagini normali."
+
+#: src/Admin/Settings/TabSettings.php:228
+msgid "Include audio/video tags"
+msgstr "Includi tag audio/video"
+
+#: src/Admin/Settings/TabSettings.php:229
+msgid "If enabled, also audio/video tags will be lazy-loaded."
+msgstr "Se abilitato, anche i tag audio/video saranno caricati in modalità lazy load."
+
+#: src/Admin/Settings/TabSettings.php:232
+msgid "Disable core lazy-load"
+msgstr "Disabilita lazy-load core"
+
+#: src/Admin/Settings/TabSettings.php:233
+msgid "If enabled, the WordPress core lazy-load will be disabled. This is helpful to improve the LCP by disabling the lazy-load of images displayed above the fold."
+msgstr "Se abilitato, il lazy-load core di WordPress verrà disabilitato. Questo è utile per migliorare l'LCP disabilitando il lazy-load delle immagini visualizzate sopra la piega."
+
+#: src/Admin/Settings/TabSettings.php:236
+msgid "Exclude images by URL"
+msgstr "Escludi immagini per URL"
+
+#: src/Admin/Settings/TabSettings.php:237
+msgid "Choose URLs of the images that you want to exclude from being lazy-loaded. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Scegli gli URL delle immagini che vuoi escludere dal lazy load. È possibile selezionare un nome file dall'elenco delle opzioni o specificare quelli aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:240
+msgid "Exclude images by folder"
+msgstr "Escludi immagini per cartella"
+
+#: src/Admin/Settings/TabSettings.php:241
+msgid "Choose folders of the images that you want to exclude from being lazy-loaded. It's possible to select a folder name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Scegli le cartelle delle immagini che vuoi escludere dal lazy load. È possibile selezionare un nome di cartella dall'elenco delle opzioni o specificarne di aggiuntive e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:244
+msgid "Exclude images by CSS class"
+msgstr "Escludi immagini per classe CSS"
+
+#: src/Admin/Settings/TabSettings.php:245
+msgid "Choose classes of the images that you want to exclude from being lazy-loaded. A class must be declared in the tag of an <span class=\"notranslate\">'&lt;img&gt;'</span> element. It's possible to select a class name or attribute from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Scegli le classi delle immagini che vuoi escludere dal lazy load. Una classe deve essere dichiarata nel tag di un elemento <span class=\"notranslate\">'&lt;img&gt;'</span>. È possibile selezionare un nome di classe o un attributo dall'elenco delle opzioni o specificarne di aggiuntive e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:253
+msgid "Enable lazy-loading for HTML elements"
+msgstr "Abilita lazy load per elementi HTML"
+
+#: src/Admin/Settings/TabSettings.php:254
+msgid "Choose if enable the lazy-loading for HTML elements based on the CSS selectors parameter. This feature requires \"Minify HTML\" enabled in order to work."
+msgstr "Scegli se abilitare il lazy load per gli elementi HTML in base al parametro selettori CSS. Questa funzionalità richiede \"Minify HTML\" abilitato per funzionare."
+
+#: src/Admin/Settings/TabSettings.php:257
+msgid "CSS selectors for lazy-loaded elements"
+msgstr "Selettori CSS per elementi caricati in modalità lazy load"
+
+#: src/Admin/Settings/TabSettings.php:258
+msgid "Enter one or more CSS selectors comma separated to match certain HTML elements that should be lazy-loaded, for example using the selector 'img.myclass,div.myclass'. This option could be useful for example to lazy-load the LCP element of a certain page."
+msgstr "Inserisci uno o più selettori CSS separati da virgola per corrispondere a determinati elementi HTML che devono essere caricati in modalità lazy load, ad esempio utilizzando il selettore 'img.myclass,div.myclass'. Questa opzione potrebbe essere utile ad esempio per caricare lazy l'elemento LCP di una determinata pagina."
+
+#: src/Admin/Settings/TabSettings.php:261
+msgid "Lazy-load method"
+msgstr "Metodo di lazy load"
+
+#: src/Admin/Settings/TabSettings.php:262
+msgid "Choose the preferred method used to reveal lazy-loaded elements. Hidden elements can be lazy-loaded using scrolling or a delay."
+msgstr "Scegli il metodo preferito utilizzato per rivelare gli elementi caricati in modalità lazy load. Gli elementi nascosti possono essere caricati in modalità lazy load utilizzando lo scrolling o un ritardo."
+
+#: src/Admin/Settings/TabSettings.php:265
+msgid "Lazy-load delay"
+msgstr "Ritardo lazy load"
+
+#: src/Admin/Settings/TabSettings.php:266
+msgid "When the selected lazy-load method is 'Delay' then the lazy-loading of selected HTML elements will be delayed of a certain amount of milliseconds, by default it's delayed of 3000 ms. You can change this value based on best performance reported in the PageSpeed test."
+msgstr "Quando il metodo di lazy load selezionato è 'Ritardo' allora il lazy load degli elementi HTML selezionati verrà ritardato di una determinata quantità di millisecondi, di default è ritardato di 3000 ms. Puoi cambiare questo valore in base alle migliori prestazioni riportate nel test PageSpeed."
+
+#: src/Admin/Settings/TabSettings.php:269
+msgid "Use CSS override"
+msgstr "Utilizza override CSS"
+
+#: src/Admin/Settings/TabSettings.php:270
+msgid "If enabled, the special '!important' CSS override will be used to lazy-load a HTML elements. This may be needed if certain tags can't be lazy-loaded because of CSS styles included in the template that require to be overridden."
+msgstr "Se abilitato, sarà utilizzato il override CSS speciale '!important' per caricare lazy un elemento HTML. Questo potrebbe essere necessario se certain tags can't be lazy-loaded perché gli stili CSS inclusi nel template richiedono di essere sovrascritti."
+
+#: src/Admin/Settings/TabSettings.php:288
+msgid "Combine background images"
+msgstr "Combina immagini di sfondo"
+
+#: src/Admin/Settings/TabSettings.php:289
+msgid "If enabled, images loaded through CSS background styles will be combined into one single image in order to reduce HTTP requests. NOTICE: the option 'Combine CSS Files' must be enabled to have this feature working\"."
+msgstr "Se abilitato, le immagini caricate tramite stili di sfondo CSS verranno combinate in un'unica immagine al fine di ridurre le richieste HTTP. NOTA: l'opzione 'Combina file CSS' deve essere abilitata per far funzionare questa funzionalità."
+
+#: src/Admin/Settings/TabSettings.php:292
+msgid "Image orientation"
+msgstr "Orientamento dell'immagine"
+
+#: src/Admin/Settings/TabSettings.php:293
+msgid "Choose the best orientation used for images positioned inside the combined one."
+msgstr "Scegli la migliore orientazione utilizzata per le immagini posizionate all'interno di quella combinata."
+
+#: src/Admin/Settings/TabSettings.php:296
+msgid "Auto-format combined image"
+msgstr "Auto-formatta immagine combinata"
+
+#: src/Admin/Settings/TabSettings.php:297
+msgid "If the size of the combined image exceeds 2000px, included images will be wrapped in a new row or column."
+msgstr "Se le dimensioni dell'immagine combinata superano i 2000px, le immagini incluse verranno avvolte in una nuova riga o colonna."
+
+#: src/Admin/Settings/TabSettings.php:300
+msgid "Exclude images"
+msgstr "Escludi immagini"
+
+#: src/Admin/Settings/TabSettings.php:301
+msgid "You can exclude certain images from the combine functionality in the case that they got broken or displayed incorrectly. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'\"."
+msgstr "È possibile escludere determinate immagini dalla funzionalità di combinazione nel caso in cui siano danneggiate o visualizzate in modo non corretto. È possibile selezionare un nome file dall'elenco delle opzioni o specificarne di aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:304
+msgid "Include additional images"
+msgstr "Includi immagini aggiuntive"
+
+#: src/Admin/Settings/TabSettings.php:305
+msgid "Images to be combined are crawled and selected automatically. In the case that you want to include additional images that have not been found automatically, you can enter them in this parameter. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Le immagini da combinare vengono cercate e selezionate automaticamente. Nel caso in cui si desideri includere immagini aggiuntive che non sono state trovate automaticamente, è possibile inserirle in questo parametro. È possibile selezionare un nome file dall'elenco delle opzioni o specificarne di aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:323
+msgid "Enable HTTP/2 Server Push"
+msgstr "Abilita l'invio del server HTTP/2"
+
+#: src/Admin/Settings/TabSettings.php:324
+msgid "HTTP/2 Server Push allows an HTTP/2-compliant server to send resources to a HTTP/2-compliant client before the client requests them. It is, for the most part, a performance technique that can be helpful in loading resources preemptively. If this option is enabled, Fastcache will communicate to the server to operate with this technique, keep in mind that this only works on a HTTP/2 compliant server."
+msgstr "HTTP/2 Server Push consente a un server conforme a HTTP/2 di inviare risorse a un client conforme a HTTP/2 prima che il client le richieda. È, per la maggior parte, una tecnica di prestazione che può essere utile per caricare risorse preventivamente. Se questa opzione è abilitata, FastCache comunicherà al server di operare con questa tecnica, tieni presente che ciò funziona solo su un server conforme a HTTP/2."
+
+#: src/Admin/Settings/TabSettings.php:327
+msgid "Exclude asyncronous assets"
+msgstr "Escludi risorse asincrone"
+
+#: src/Admin/Settings/TabSettings.php:328
+msgid "If enabled, assets that are deferred, loaded asynchronously or lazy-loaded will be excluded."
+msgstr "Se abilitato, le risorse che sono differite, caricate in modo asincrono o caricate in modo ritardato saranno escluse."
+
+#: src/Admin/Settings/TabSettings.php:331
+msgid "Include CDN files"
+msgstr "Includi file CDN"
+
+#: src/Admin/Settings/TabSettings.php:332
+msgid "Files loaded over your CDN domains will also be included."
+msgstr "Anche i file caricati sui tuoi domini CDN saranno inclusi."
+
+#: src/Admin/Settings/TabSettings.php:335
+msgid "File types"
+msgstr "Tipi di file"
+
+#: src/Admin/Settings/TabSettings.php:336
+msgid "Select the type of files to preload through HTTP/2."
+msgstr "Seleziona il tipo di file da precaricare tramite HTTP/2."
+
+#: src/Admin/Settings/TabSettings.php:339
+msgid "Add custom files"
+msgstr "Aggiungi file personalizzati"
+
+#: src/Admin/Settings/TabSettings.php:340
+msgid "It's possible to preload custom files adding their full path in this field. supported file types are: .js, .css, .webp, .gif, .png, .jpg, .woff, .woff2"
+msgstr "È possibile precaricare file personalizzati aggiungendo il loro percorso completo in questo campo. I tipi di file supportati sono: .js, .css, .webp, .gif, .png, .jpg, .woff, .woff2"
+
+#: src/Admin/Settings/TabSettings.php:343
+msgid "Exclude files"
+msgstr "Escludi file"
+
+#: src/Admin/Settings/TabSettings.php:344
+msgid "If you receive warnings in the browser console about preloaded files not used within a few seconds, you can exclude these files here."
+msgstr "Se ricevi avvisi nella console del browser riguardo ai file precaricati non utilizzati entro pochi secondi, puoi escludere questi file qui."
+
+#: src/Admin/Settings/TabSettings.php:362
+msgid "Enable image optimization"
+msgstr "Abilita ottimizzazione immagini"
+
+#: src/Admin/Settings/TabSettings.php:363
+msgid "If images optimization is enabled, images will be compressed on the fly to reduce the bandwidth usage and speed up your site. NOTICE: the quality of images may be significantly decreased on large screens."
+msgstr "Se l'ottimizzazione delle immagini è abilitata, le immagini verranno compresse al volo per ridurre l'utilizzo della larghezza di banda e velocizzare il tuo sito. NOTA: la qualità delle immagini potrebbe essere significativamente ridotta su schermi di grandi dimensioni."
+
+#: src/Admin/Settings/TabSettings.php:366
+msgid "Minimum width for image optimization"
+msgstr "Larghezza minima per ottimizzazione immagini"
+
+#: src/Admin/Settings/TabSettings.php:367
+msgid "Choose the minimum width that images must have to be optimized. You should ignore small images that are already lightweight and don't need any kind of optimization."
+msgstr "Scegli la larghezza minima che le immagini devono avere per essere ottimizzate. Dovresti ignorare le immagini piccole che sono già leggere e non necessitano di alcun tipo di ottimizzazione."
+
+#: src/Admin/Settings/TabSettings.php:370
+msgid "Quality for compressed <br/>images"
+msgstr "Qualità per immagini compressi <br/>"
+
+#: src/Admin/Settings/TabSettings.php:371
+msgid "You can choose the image quality for resulting optimized images. High value will mean a higher quality but also higher bandwidth usage."
+msgstr "Puoi scegliere la qualità dell'immagine per le immagini ottimizzate risultanti. Un valore elevato significherà una qualità più alta ma anche un utilizzo maggiore della larghezza di banda."
+
+#: src/Admin/Settings/TabSettings.php:374
+msgid "Enable image resizing"
+msgstr "Abilita ridimensionamento immagini"
+
+#: src/Admin/Settings/TabSettings.php:375
+msgid "You can choose if images should be resized to a lower resolution to reduce size."
+msgstr "Puoi scegliere se le immagini dovrebbero essere ridimensionate a una risoluzione più bassa per ridurre le dimensioni."
+
+#: src/Admin/Settings/TabSettings.php:378
+msgid "Resizing percentage"
+msgstr "Percentuale di ridimensionamento"
+
+#: src/Admin/Settings/TabSettings.php:379
+msgid "Choose the percentage to which you want to down-size your images. For example if you have an image 1500px wide and apply a resizing percentage of 50%, the image will be resized to 750px thus saving bandwidth."
+msgstr "Scegli la percentuale con cui desideri ridurre le dimensioni delle tue immagini. Ad esempio se hai un'immagine larga 1500px e applichi una percentuale di ridimensionamento del 50%, l'immagine verrà ridimensionata a 750px risparmiando così larghezza di banda."
+
+#: src/Admin/Settings/TabSettings.php:382
+msgid "Minimum width for resizing images"
+msgstr "Larghezza minima per ridimensionamento immagini"
+
+#: src/Admin/Settings/TabSettings.php:383
+msgid "Choose the minimum width that images must have to be resized to a lower resolution. You should avoid to resize small images that are already lightweight and apply down-sizing only to large and heavyweight images."
+msgstr "Scegli la larghezza minima che le immagini devono avere per essere ridimensionate a una risoluzione più bassa. Dovresti evitare di ridimensionare immagini piccole che sono già leggere e applicare il ridimensionamento solo a immagini grandi e pesanti."
+
+#: src/Admin/Settings/TabSettings.php:386
+msgid "Convert all images to WebP"
+msgstr "Converti tutte le immagini in WebP"
+
+#: src/Admin/Settings/TabSettings.php:387
+msgid "If enabled, all optimized images will be converted to the next generation WebP format. NOTICE: for this function to work the server PHP must include the GD library with the WebP support enabled and the 'imagewebp' function must be available, if this is missing on your server you can contact the hosting provider."
+msgstr "Se abilitato, tutte le immagini ottimizzate verranno convertite nel formato WebP di ultima generazione. NOTA: perché questa funzione funzioni, il PHP del server deve includere la libreria GD con il supporto WebP abilitato e la funzione 'imagewebp' deve essere disponibile, se manca sul tuo server puoi contattare il provider di hosting."
+
+#: src/Admin/Settings/TabSettings.php:390
+msgid "Convert all images to AVIF"
+msgstr "Converti tutte le immagini in AVIF"
+
+#: src/Admin/Settings/TabSettings.php:391
+msgid "If enabled, all optimized images will be converted to the next generation AVIF format. NOTICE: for this function to work the server PHP must include the GD library with the AVIF support enabled and the 'imageavif' function must be available, if this is missing on your server you can contact the hosting provider. Commonly this feature is supported by PHP 8.1 and later."
+msgstr "Se abilitato, tutte le immagini ottimizzate verranno convertite nel formato AVIF di ultima generazione. NOTA: perché questa funzione funzioni, il PHP del server deve includere la libreria GD con il supporto AVIF abilitato e la funzione 'imageavif' deve essere disponibile, se manca sul tuo server puoi contattare il provider di hosting. Comunemente questa funzione è supportata da PHP 8.1 e versioni successive."
+
+#: src/Admin/Settings/TabSettings.php:394
+msgid "Exclude images conversion for Safari"
+msgstr "Escludi la conversione delle immagini per Safari"
+
+#: src/Admin/Settings/TabSettings.php:395
+msgid "If enabled, all optimized images will not be converted to the next generation WebP/AVIF format for Safari browser on iOS devices. Safari supports WebP images since version 16.0 and AVIF images since version 16.4. Keep this option enabled for maximum compatibility with older versions of the Safari browser."
+msgstr "Se abilitato, tutte le immagini ottimizzate non verranno convertite nel formato WebP/AVIF di ultima generazione per il browser Safari sui dispositivi iOS. Safari supporta le immagini WebP dalla versione 16.0 e le immagini AVIF dalla versione 16.4. Mantieni questa opzione abilitata per massima compatibilità con le versioni più vecchie del browser Safari."
+
+#: src/Admin/Settings/TabSettings.php:398
+msgid "Optimize CSS background <br/>images"
+msgstr "Ottimizza immagini di sfondo CSS <br/>"
+
+#: src/Admin/Settings/TabSettings.php:399
+msgid "If enabled, all images that are loaded through CSS files will also be optimized. The compiled CSS files will include new links to optimized images. This features requires CSS optimization to be enabled."
+msgstr "Se abilitato, tutte le immagini caricate tramite file CSS verranno ottimizzate. I file CSS compilati includeranno nuovi collegamenti alle immagini ottimizzate. Questa funzione richiede che l'ottimizzazione CSS sia abilitata."
+
+#: src/Admin/Settings/TabSettings.php:402
+msgid "Optimize HTML background images"
+msgstr "Ottimizza immagini di sfondo HTML"
+
+#: src/Admin/Settings/TabSettings.php:403
+msgid "If enabled, all images that are loaded through HTML inline styles for background will also be optimized. The minified HTML code will include new links to optimized images. This features requires HTML optimization to be enabled and set to 'High' level."
+msgstr "Se abilitato, tutte le immagini caricate tramite stili inline HTML per lo sfondo verranno ottimizzate. Il codice HTML minificato includerà nuovi collegamenti alle immagini ottimizzate. Questa funzione richiede che l'ottimizzazione HTML sia abilitata e impostata al livello 'Alto'."
+
+#: src/Admin/Settings/TabSettings.php:406
+msgid "GIF images optimization"
+msgstr "Ottimizzazione immagini GIF"
+
+#: src/Admin/Settings/TabSettings.php:407
+msgid "Choose to optmize also GIF images on your site. Note that if this feature is enabled for animated GIF all animation frames will be lost."
+msgstr "Scegli di ottimizzare anche le immagini GIF sul tuo sito. Nota che se questa funzione è abilitata per le GIF animate, tutti i fotogrammi di animazione verranno persi."
+
+#: src/Admin/Settings/TabSettings.php:410
+msgid "Lossless optimization"
+msgstr "Ottimizzazione senza perdita di qualità"
+
+#: src/Admin/Settings/TabSettings.php:411
+msgid "If enabled, all images will be converted using a lossless compression provided by the third-party Resmush WebService https://resmush.it. NOTICE: using this system images won't never be resized, the parameter 'Quality for compressed images' is applied only to JPG images and the conversion to the WebP format won't have any effect. Although it's possible to generate a srcset using this method it doesn't make much sense, indeed all images of the srcset will have the same size and quality."
+msgstr "Se abilitato, tutte le immagini verranno convertite utilizzando una compressione senza perdita di qualità fornita dal servizio Web Resmush di terze parti https://resmush.it. NOTA: utilizzando questo sistema le immagini non verranno mai ridimensionate, il parametro 'Qualità per immagini comprimi' viene applicato solo alle immagini JPG e la conversione nel formato WebP non avrà alcun effetto. Anche se è possibile generare un srcset utilizzando questo metodo, non ha molto senso, infatti tutte le immagini del srcset avranno le stesse dimensioni e qualità."
+
+#: src/Admin/Settings/TabSettings.php:414
+msgid "Hash method of images name"
+msgstr "Metodo di hash del nome delle immagini"
+
+#: src/Admin/Settings/TabSettings.php:415
+msgid "Choose the preferred method for the hash generation of the image name. The 'full' method totally replaces the name of an image with a full hash. The 'partial' method concatenates a hash to the original name of an image. The 'none' method leaves the original name of an image unaltered, but pay attention that not using a hash could cause names collision if you have different images with the same name."
+msgstr "Scegli il metodo preferito per la generazione di hash del nome dell'immagine. Il metodo 'completo' sostituisce completamente il nome di un'immagine con un hash completo. Il metodo 'parziale' concatena un hash al nome originale di un'immagine. Il metodo 'nessuno' lascia il nome originale di un'immagine inalterato, ma fai attenzione che non utilizzare un hash potrebbe causare collisioni di nomi se hai immagini diverse con lo stesso nome."
+
+#: src/Admin/Settings/TabSettings.php:418
+msgid "Preserve cached images"
+msgstr "Preserva le immagini in cache"
+
+#: src/Admin/Settings/TabSettings.php:419
+msgid "If enabled, images stored in the cache will not be deleted when clearing or regenerating the cache and will persist indefinitely. The first time a page is visited, optimized images must be created and this may slightly increase the loading time. By preserving cached images forever, once they are generated the following visits will be much faster since the optimized images are already available"
+msgstr "Se abilitato, le immagini memorizzate nella cache non verranno eliminate quando si svuota o rigenera la cache e rimarranno disponibili indefinitamente. La prima volta che una pagina viene visitata, le immagini ottimizzate devono essere create, il che può aumentare leggermente i tempi di caricamento. Conservando le immagini in cache in modo permanente, le visite successive saranno molto più rapide poiché le immagini ottimizzate saranno già disponibili."
+
+#: src/Admin/Settings/TabSettings.php:422
+msgid "Exclude image extensions"
+msgstr "Escludi estensioni immagine"
+
+#: src/Admin/Settings/TabSettings.php:423
+msgid "Choose by file extension if some image types should be excluded from the resizing process."
+msgstr "Scegli per estensione file se alcuni tipi di immagini devono essere esclusi dal processo di ridimensionamento."
+
+#: src/Admin/Settings/TabSettings.php:426
+msgid "Exclude images by name/path"
+msgstr "Escludi immagini per nome/percorso"
+
+#: src/Admin/Settings/TabSettings.php:427
+msgid "If you need to exclude certain images from the optimization process you can enter a substring of the name or path to keep the original one. For example if you want to exclude an image at the following path: 'images/socials/mycustomimage.png' it's enough to enter 'socials' to exclude the entire folder or 'custom' to exclude an image named 'mycustomname.png'."
+msgstr "Se è necessario escludere determinate immagini dal processo di ottimizzazione, puoi inserire una sottostringa del nome o del percorso per mantenere quello originale. Ad esempio se vuoi escludere un'immagine nel percorso seguente: 'immagini/social/mycustomimage.png' è sufficiente inserire 'social' per escludere l'intera cartella o 'custom' per escludere un'immagine chiamata 'mycustomname.png'."
+
+#: src/Admin/Settings/TabSettings.php:430
+msgid "Exclude images by class"
+msgstr "Escludi immagini per classe"
+
+#: src/Admin/Settings/TabSettings.php:431
+msgid "Choose classes of the images that you want to exclude from being optimized. A class must be declared in the attribute of an '&lt;img&gt;' element. It's possible to select a class name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Scegli le classi delle immagini che vuoi escludere dall'essere ottimizzate. Una classe deve essere dichiarata nell'attributo di un elemento '&lt;img&gt;'. È possibile selezionare un nome di classe dall'elenco delle opzioni o specificarne di aggiuntive e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:434
+msgid "Exclude images optimization by page URL"
+msgstr "Escludi ottimizzazione immagini per URL della pagina"
+
+#: src/Admin/Settings/TabSettings.php:435
+msgid "Enter a substring of each url that you want to exclude from the images optimization. It's not needed to enter the complete url for the matching, but only a part of it. Add a string and hit 'Enter'."
+msgstr "Inserisci una sottostringa di ciascun URL che desideri escludere dall'ottimizzazione delle immagini. Non è necessario inserire l'URL completo per la corrispondenza, ma solo una parte di esso. Aggiungi una stringa e premi 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:438
+msgid "Process 'data-src' attribute"
+msgstr "Processa l'attributo 'data-src'"
+
+#: src/Admin/Settings/TabSettings.php:439
+msgid "If enabled, when the special 'data-src' attribute of an image is present, it will be set to point to the optimized image. This can be useful for example for galleries that use this special attribute in order to load the optimized image instead that the original one\"."
+msgstr "Se abilitato, quando è presente lo speciale attributo 'data-src' di un'immagine, verrà impostato per puntare all'immagine ottimizzata. Questo può essere utile ad esempio per le gallerie che utilizzano questo attributo speciale per caricare l'immagine ottimizzata invece che quella originale."
+
+#: src/Admin/Settings/TabSettings.php:442
+msgid "Process custom \"data-\" attributes"
+msgstr "Processa l'attributo 'data-src'"
+
+#: src/Admin/Settings/TabSettings.php:443
+msgid "If enabled, custom \"data-\" attributes containing image URLs will be processed to point to optimized images. This is useful for elements that store image sources in custom attributes instead of the standard \"src\" or \"data-src\""
+msgstr "Se abilitato, gli attributi \"data-\" personalizzati contenenti URL di immagini verranno elaborati per puntare a immagini ottimizzate. Questa opzione è utile per gli elementi che memorizzano le fonti delle immagini in attributi personalizzati anziché negli attributi standard \"src\" o \"data-src\"."
+
+#: src/Admin/Settings/TabSettings.php:446
+msgid "Add size attributes"
+msgstr "Aggiungi attributi dimensioni"
+
+#: src/Admin/Settings/TabSettings.php:449
+msgid "Alternative HTML parsing mode"
+msgstr "Modalità di analisi HTML alternativa"
+
+#: src/Admin/Settings/TabSettings.php:450
+msgid "Enable this option only if you notice layout issues, wrong UTF-8 characters encoding or conflicts with the default processing. It provides an alternative way to analyze and optimize your page output, which may improve compatibility with certain templates or extensions"
+msgstr "Abilita questa opzione solo se noti problemi di layout, codifica dei caratteri UTF-8 errata o conflitti con l'elaborazione predefinita. Fornisce un modo alternativo per analizzare e ottimizzare l'output della pagina, il che potrebbe migliorare la compatibilità con determinati modelli o estensioni."
+
+#: src/Admin/Settings/TabSettings.php:453
+msgid "Decode HTML entities"
+msgstr "Decodifica entità HTML"
+
+#: src/Admin/Settings/TabSettings.php:454
+msgid "If enabled, UTF-8 characters will be decoded and preserved without encoding entities."
+msgstr "Se abilitato, i caratteri UTF-8 verranno decodificati e preservati senza codificare le entità."
+
+#: src/Admin/Settings/TabSettings.php:457
+msgid "Decode UTF-8 HTML entities"
+msgstr "Decodifica entità HTML UTF-8"
+
+#: src/Admin/Settings/TabSettings.php:458
+msgid "If enabled, UTF-8 characters will be decoded into HTML entities. Enable this option if you experience characters on the page that are wrongly encoded."
+msgstr "Se abilitato, i caratteri UTF-8 verranno decodificati in entità HTML. Abilita questa opzione se riscontri caratteri sulla pagina che sono codificati erroneamente."
+
+#: src/Admin/Settings/TabSettings.php:461
+msgid "Purify string"
+msgstr "Pulisci stringa"
+
+#: src/Admin/Settings/TabSettings.php:462
+msgid "If you experience weird errors such as javascript code inside the page content caused by a certain script word or tag, you can specify that string in this parameter in order to remove it and avoid the conflict. This field supports regular expressions and automatically adds the escape slash to the '/' special character."
+msgstr "Se riscontri errori strani come codice JavaScript all'interno del contenuto della pagina causato da una certa parola o tag di script, puoi specificare quella stringa in questo parametro per rimuoverla e evitare il conflitto. Questo campo supporta le espressioni regolari e aggiunge automaticamente lo slash di escape al carattere speciale '/'."
+
+#: src/Admin/Settings/TabSettings.php:465
+msgid "Replacement string"
+msgstr "Stringa di sostituzione"
+
+#: src/Admin/Settings/TabSettings.php:466
+msgid "You can specify an alternative string used to replace the purified string. By default it will be completely removed and replaced with an empty string."
+msgstr "Puoi specificare una stringa alternativa utilizzata per sostituire la stringa pulita. Per impostazione predefinita verrà completamente rimossa e sostituita con una stringa vuota."
+
+#: src/Admin/Settings/TabSettings.php:469
+msgid "Decode text entities"
+msgstr "Decodifica entità HTML"
+
+#: src/Admin/Settings/TabSettings.php:470
+msgid "Convert encoded characters into normal characters in the visible text of your pages. Attributes such as links will remain safe. Enable only if you prefer cleaner source code or need it for validation"
+msgstr "Converti i caratteri codificati in caratteri normali nel testo visibile delle tue pagine. Attributi come i link rimarranno al sicuro. Abilita questa opzione solo se preferisci un codice sorgente più pulito o se ne hai bisogno per la convalida."
+
+#: src/Admin/Settings/TabSettings.php:475
+msgid "Create srcset"
+msgstr "Crea srcset"
+
+#: src/Admin/Settings/TabSettings.php:476
+msgid "If enabled, an additional HTML5 'srcset' attribute will be added for each image that need to be optimized and Fastcache will automatically create up to 4 differently-sized images as variations to the base image. The browser will pick up the most correct image based on the device screen size and resolution. IMPORTANT: if you activate this feature, images may be enlarged to full width because the srcset doesn't render images based on its own width but based on the total width of the container element; as a result you may need to rework your CSS and apply a 'max-width' to the various images displayed via a srcset."
+msgstr "Se abilitato, verrà aggiunto un attributo HTML5 aggiuntivo 'srcset' per ogni immagine che deve essere ottimizzata e FastCache creerà automaticamente fino a 4 immagini di dimensioni diverse come varianti dell'immagine di base. Il browser sceglierà l'immagine più corretta in base alla dimensione dello schermo del dispositivo e alla risoluzione. IMPORTANTE: se attivi questa funzione, le immagini potrebbero essere ingrandite alla larghezza intera perché il srcset non rende le immagini in base alla sua larghezza ma in base alla larghezza totale dell'elemento contenitore; di conseguenza potresti dover rielaborare il tuo CSS e applicare una 'larghezza massima' alle varie immagini visualizzate tramite un srcset."
+
+#: src/Admin/Settings/TabSettings.php:479
+msgid "Initial quality value"
+msgstr "Valore di qualità iniziale"
+
+#: src/Admin/Settings/TabSettings.php:480
+msgid "Choose the value of the initial quality used for the image with the highest resolution of the srcset and for the regular fallback img tag. Clear the plugin cache after that you have changed this setting."
+msgstr "Scegli il valore della qualità iniziale utilizzato per l'immagine con la risoluzione più alta dello srcset e per il tag img di fallback normale. Cancella la cache del plugin dopo aver modificato questa impostazione."
+
+#: src/Admin/Settings/TabSettings.php:483
+msgid "Quality decrease"
+msgstr "Decremento di qualità"
+
+#: src/Admin/Settings/TabSettings.php:484
+msgid "Choose the amount of quality decrease that each srcset image should have. Starting from the highest quality image there will be 3 more images with a lower quality reduced by this value. Clear the plugin cache after that you have changed this setting."
+msgstr "Scegli l'ammontare di decremento di qualità che dovrebbe avere ciascuna immagine dello srcset. A partire dall'immagine di qualità più alta ci saranno altre 3 immagini con una qualità inferiore ridotta di questo valore. Cancella la cache del plugin dopo aver modificato questa impostazione."
+
+#: src/Admin/Settings/TabSettings.php:487
+msgid "Initial resizing value"
+msgstr "Valore di ridimensionamento iniziale"
+
+#: src/Admin/Settings/TabSettings.php:488
+msgid "Choose the value of the initial resizing used for the image with the largest size of the srcset and for the regular fallback img tag. Clear the plugin cache after that you have changed this setting."
+msgstr "Scegli il valore del ridimensionamento iniziale utilizzato per l'immagine con la dimensione più grande dello srcset e per il tag img di fallback normale. Cancella la cache del plugin dopo aver modificato questa impostazione."
+
+#: src/Admin/Settings/TabSettings.php:491
+msgid "Resizing decrease"
+msgstr "Decremento di ridimensionamento"
+
+#: src/Admin/Settings/TabSettings.php:492
+msgid "Choose the amount of resizing decrease that each srcset image should have. Starting from the biggest image there will be 3 more smaller images reduced by this value. Clear the plugin cache after that you have changed this setting."
+msgstr "Scegli l'ammontare di decremento di ridimensionamento che dovrebbe avere ciascuna immagine dello srcset. A partire dall'immagine più grande ci saranno altre 3 immagini più piccole ridotte di questo valore. Cancella la cache del plugin dopo aver modificato questa impostazione."
+
+#: src/Admin/Settings/TabSettings.php:495
+msgid "Standard image 'src'"
+msgstr "'src' dell'immagine standard"
+
+#: src/Admin/Settings/TabSettings.php:496
+msgid "You can choose which image to use for the standard 'src' attribute used as a fallback for browsers that don't support srcset. Choosing a lower resolution image for the 'src' attribute could be helpful to reach a higher score during the PageSpeed test."
+msgstr "Puoi scegliere quale immagine utilizzare per l'attributo standard 'src' usato come fallback per i browser che non supportano srcset. Scegliere un'immagine a risoluzione inferiore per l'attributo 'src' potrebbe essere utile per ottenere un punteggio più alto durante il test di PageSpeed."
+
+#: src/Admin/Settings/TabSettings.php:499
+msgid "Create 'srcset' for 'data-src' images"
+msgstr "Crea 'srcset' per 'data-src' immagini"
+
+#: src/Admin/Settings/TabSettings.php:500
+msgid "If enabled, Fastcache will generate a 'srcset' attribute for images using 'data-src' or custom 'data-' attributes, ensuring optimized responsive images for different screen sizes and improving loading performance."
+msgstr "Se abilitato, FastCache genererà un attributo 'srcset' per le immagini che utilizzano attributi 'data-src' o 'data-' personalizzati, garantendo immagini responsive ottimizzate per diverse dimensioni dello schermo e migliorando le prestazioni di caricamento."
+
+#: src/Admin/Settings/TabSettings.php:518
+msgid "Enable extraction"
+msgstr "Abilita l'estrazione"
+
+#: src/Admin/Settings/TabSettings.php:519
+msgid "Enable the extraction of basic CSS styles and load them above the fold to avoid render blocking resources."
+msgstr "Abilita l'estrazione degli stili CSS di base e caricarli sopra il fold per evitare risorse che bloccano il rendering."
+
+#: src/Admin/Settings/TabSettings.php:522
+msgid "Number of elements"
+msgstr "Numero di elementi"
+
+#: src/Admin/Settings/TabSettings.php:523
+msgid "Select the number of HTML elements from the top of the page that you want to analyze to find the basic CSS to be extracted from."
+msgstr "Seleziona il numero di elementi HTML dall'inizio della pagina che desideri analizzare per trovare i CSS di base da estrarre."
+
+#: src/Admin/Settings/TabSettings.php:526
+msgid "Remove unused CSS"
+msgstr "Rimuovi CSS non utilizzati"
+
+#: src/Admin/Settings/TabSettings.php:527
+msgid "If enabled, the plugin will 'lazy-load' the unused CSS to prevent unnecessary processing before than the page is loaded."
+msgstr "Se abilitato, il plugin 'lazy-caricherà' i CSS non utilizzati per prevenire l'elaborazione non necessaria prima che la pagina venga caricata."
+
+#: src/Admin/Settings/TabSettings.php:530
+msgid "Exclude @font-face"
+msgstr "Escludi @font-face"
+
+#: src/Admin/Settings/TabSettings.php:531
+msgid "If enabled, the extracted 'Above-the-fold' CSS code will not include any external font, futher improving performance."
+msgstr "Se abilitato, il codice CSS 'Above-the-fold' estratto non includerà alcun font esterno, migliorando ulteriormente le prestazioni."
+
+#: src/Admin/Settings/TabSettings.php:534
+msgid "CSS selectors"
+msgstr "Selettori CSS"
+
+#: src/Admin/Settings/TabSettings.php:535
+msgid "It could be necessary to extract the basic CSS for some custom elements. Add any substring from the CSS declaration here to have them included in the extracted CSS code and hit 'Enter'."
+msgstr "Può essere necessario estrarre i CSS di base per alcuni elementi personalizzati. Aggiungi qualsiasi sottostringa dalla dichiarazione CSS qui per includerli nel codice CSS estratto e premi 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:538
+msgid "Exclude extraction by page URL"
+msgstr "Escludi estrazione per URL della pagina"
+
+#: src/Admin/Settings/TabSettings.php:539
+msgid "Enter a substring of each url that you want to exclude from the CSS extraction. It's not needed to enter the complete url for the matching, but only a part of it. Add a string and hit 'Enter'."
+msgstr "Inserisci una sottostringa di ogni URL che desideri escludere dall'estrazione CSS. Non è necessario inserire l'URL completo per la corrispondenza, ma solo una parte di esso. Aggiungi una stringa e premi 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:547
+msgid "Enable DOM reduction"
+msgstr "Abilita riduzione del DOM"
+
+#: src/Admin/Settings/TabSettings.php:548
+msgid "Enable the reduction of DOM tree. If you experience conflicts or malfuctioning keep this feature disabled."
+msgstr "Abilita la riduzione dell'albero DOM. Se riscontri conflitti o malfunzionamenti, mantieni questa funzione disabilitata."
+
+#: src/Admin/Settings/TabSettings.php:551
+msgid "HTML tags to load asynchronously"
+msgstr "Tag HTML da caricare asincronamente"
+
+#: src/Admin/Settings/TabSettings.php:552
+msgid "Select which HTML elements you want to load asynchronously."
+msgstr "Seleziona quali elementi HTML desideri caricare in modo asincrono."
+
+#: src/Admin/Settings/TabSettings.php:557
+msgid "Clear server cache (Varnish)"
+msgstr "Pulisci la cache del server (Varnish)"
+
+#: src/Admin/Settings/TabSettings.php:558
+msgid "If enabled, when the plugin clears its own cache it will also try to invalidate a server side caching system, such as Varnish, by making a PURGE request. This could be needed to keep synced the cache cleaning between the static files generated by the plugin and the server side cache."
+msgstr "Se abilitato, quando il plugin cancella la propria cache, cercherà anche di invalidare un sistema di caching lato server, come Varnish, effettuando una richiesta PURGE. Questo potrebbe essere necessario per mantenere sincronizzata la pulizia della cache tra i file statici generati dal plugin e la cache lato server."
+
+#: src/Admin/Settings/TabSettings.php:561
+msgid "Cache encryption"
+msgstr "Crittografia della cache"
+
+#: src/Admin/Settings/TabSettings.php:562
+msgid "If enabled, all cached files will be encrypted by PHP and it won't be possible to read contents. This option could slow down performance and increase the cache size."
+msgstr "Se abilitato, tutti i file memorizzati nella cache verranno criptati da PHP e non sarà possibile leggerne il contenuto. Questa opzione potrebbe rallentare le prestazioni e aumentare le dimensioni della cache."
+
+#: src/Admin/Settings/TabSettings.php:565
+msgid "Debug Plugin"
+msgstr "Debug del plugin"
+
+#: src/Admin/Settings/TabSettings.php:566
+msgid "This option will enable the debug mode that adds the url of the original files inside the combined and optimized file generated by FastCache and enable the log system at the path \"root/wp-content/plugins/fastcache/logs\". This is useful to identify and resolve conflicts."
+msgstr "Questa opzione abiliterà la modalità di debug che aggiunge l'URL dei file originali all'interno del file combinato e ottimizzato generato da FastCache e abilita il sistema di log nel percorso \"root/wp-content/plugins/fastcache/logs\". Questo è utile per identificare e risolvere conflitti."
+
+#: src/Admin/Settings/TabSettings.php:569
+msgid "Order plugins"
+msgstr "Ordina plugin"
+
+#: src/Admin/Settings/TabSettings.php:570
+msgid "If enabled, the plugin automatically ensures the correct execution order with other popular caching plugins."
+msgstr "Se abilitato, il plugin garantisce automaticamente l'ordine di esecuzione corretto con altri plugin di caching popolari."
+
+#: src/Admin/Settings/TabSettings.php:573
+msgid "Handle Javascript errors"
+msgstr "Gestisci gli errori di Javascript"
+
+#: src/Admin/Settings/TabSettings.php:574
+msgid "If you get Javascript errors in the browser console, you can try to enable this option to execute each combined Javascript file within a try-catch block."
+msgstr "Se si verificano errori di Javascript nella console del browser, è possibile provare ad abilitare questa opzione per eseguire ogni file Javascript combinato all'interno di un blocco try-catch."
+
+#: src/Admin/Settings/TabSettings.php:592
+msgid "Include all assets"
+msgstr "Includi tutti gli asset"
+
+#: src/Admin/Settings/TabSettings.php:593
+msgid "If enabled, all files managed by third-party plugins and external domains will be included in the combined file."
+msgstr "Se abilitato, tutti i file gestiti da plugin di terze parti e domini esterni saranno inclusi nel file combinato."
+
+#: src/Admin/Settings/TabSettings.php:596
+msgid "Include imported CSS files"
+msgstr "Includi file CSS importati"
+
+#: src/Admin/Settings/TabSettings.php:597
+msgid "If you have CSS files that use @import statements, when this option is enabled the contents of each referenced resource will be fetched and directly included in the containing file to speed up delivering of all styles."
+msgstr "Se hai file CSS che utilizzano dichiarazioni @import, quando questa opzione è abilitata il contenuto di ciascuna risorsa referenziata verrà recuperato e incluso direttamente nel file contenitore per velocizzare la consegna di tutti gli stili."
+
+#: src/Admin/Settings/TabSettings.php:600
+msgid "Include PHP and external files"
+msgstr "Includi file PHP e esterni"
+
+#: src/Admin/Settings/TabSettings.php:601
+msgid "If enabled, dynamic Javascript and CSS files having a '.php' file extension and files pointing to external domains will be included in the combined file. This feature requires the 'PHP CURL' library or 'allow_url_fopen' enabled on your server for PHP."
+msgstr "Se abilitato, i file Javascript e CSS dinamici con estensione file '.php' e i file che puntano a domini esterni saranno inclusi nel file combinato. Questa funzionalità richiede la libreria 'PHP CURL' o 'allow_url_fopen' abilitata nel tuo server per PHP."
+
+#: src/Admin/Settings/TabSettings.php:604
+msgid "Include inline CSS styles"
+msgstr "Includi stili CSS inline"
+
+#: src/Admin/Settings/TabSettings.php:605
+msgid "If enabled, inline CSS styles will be included in the combined CSS file in the same order that they appear in the page."
+msgstr "Se abilitato, gli stili CSS inline verranno inclusi nel file CSS combinato nell'ordine in cui appaiono nella pagina."
+
+#: src/Admin/Settings/TabSettings.php:608
+msgid "Include inline scripts"
+msgstr "Includi script inline"
+
+#: src/Admin/Settings/TabSettings.php:609
+msgid "If enabled, inline Javascript scripts will be included in the combined JS files in the same order that they appear in the page."
+msgstr "Se abilitato, gli script Javascript inline saranno inclusi nei file JS combinati nello stesso ordine in cui appaiono nella pagina."
+
+#: src/Admin/Settings/TabSettings.php:627
+msgid "Exclude CSS files"
+msgstr "Escludi file CSS"
+
+#: src/Admin/Settings/TabSettings.php:628
+msgid "Select the CSS files that you want to exclude from the combine functionality. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Seleziona i file CSS che vuoi escludere dalla funzionalità di combinazione. È possibile selezionare un nome file dall'elenco delle opzioni o specificare quelli aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:631
+msgid "Exclude CSS files by plugin"
+msgstr "Escludi file CSS per plugin"
+
+#: src/Admin/Settings/TabSettings.php:632
+msgid "All CSS files that belong to the chosen extensions will be excluded from the combine functionality. It's possible to select an extension name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Tutti i file CSS che appartengono alle estensioni scelte saranno esclusi dalla funzionalità di combinazione. È possibile selezionare un nome di estensione dall'elenco delle opzioni o specificarne di aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:635
+msgid "Exclude inline \"style\" <br/>declarations"
+msgstr "Escludi dichiarazioni \"style\" inline"
+
+#: src/Admin/Settings/TabSettings.php:636
+msgid "Select an inline 'style' declaration that you want to exclude from the combine functionality, you can type in a substring of the style tag or content that you want to exclude."
+msgstr "Seleziona una dichiarazione 'style' inline che vuoi escludere dalla funzionalità di combinazione, puoi digitare una sottostringa del tag di stile o il contenuto che desideri escludere."
+
+#: src/Admin/Settings/TabSettings.php:639
+msgid "Exclude all inline \"style\" declarations"
+msgstr "Escludi tutte le dichiarazioni \"style\" inline"
+
+#: src/Admin/Settings/TabSettings.php:640
+msgid "Exclude all inline 'style' declaration from the combine functionality. This could reduce the amount of cache if there are inline styles that change continuously."
+msgstr "Escludi tutte le dichiarazioni 'style' inline dalla funzionalità di combinazione. Questo potrebbe ridurre la quantità di cache se ci sono stili "
+
+#: src/Admin/Settings/TabSettings.php:648
+msgid "Exclude Javascript files"
+msgstr "Escludi file Javascript"
+
+#: src/Admin/Settings/TabSettings.php:649
+msgid "Select the Javascript files that you want to exclude from the combine functionality preserving the execution order as they appear on the page. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Seleziona i file Javascript che vuoi escludere dalla funzionalità di combinazione mantenendo l'ordine di esecuzione come appaiono nella pagina. È possibile selezionare un nome file dall'elenco delle opzioni o specificare quelli aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:652
+#: src/Admin/Settings/TabSettings.php:673
+msgid "Exclude Javascript files <br/>by plugin"
+msgstr "Escludi file Javascript per plugin"
+
+#: src/Admin/Settings/TabSettings.php:653
+msgid "All Javascript files that belong to the chosen plugin will be excluded from the combine functionality preserving the execution order as they appear on the page. It's possible to select a plugin name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Tutti i file Javascript che appartengono al plugin scelto saranno esclusi dalla funzionalità di combinazione mantenendo l'ordine di esecuzione come appaiono nella pagina. È possibile selezionare un nome plugin dall'elenco delle opzioni o specificarne di aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:656
+#: src/Admin/Settings/TabSettings.php:677
+msgid "Exclude inline \"script\" <br/>declarations"
+msgstr "Escludi dichiarazioni \"script\" inline"
+
+#: src/Admin/Settings/TabSettings.php:657
+#: src/Admin/Settings/TabSettings.php:678
+msgid "Select an inline 'script' declarations that you want to exclude from the combine functionality, you can type in a substring of the script tag or content that you want to exclude."
+msgstr "Seleziona una dichiarazione 'script' inline che vuoi escludere dalla funzionalità di combinazione, puoi digitare una sottostringa del tag di script o il contenuto che desideri escludere."
+
+#: src/Admin/Settings/TabSettings.php:660
+msgid "Exclude all inline \"script\" declarations"
+msgstr "Escludi tutte le dichiarazioni \"script\" inline"
+
+#: src/Admin/Settings/TabSettings.php:661
+msgid "Exclude all inline 'script' declaration from the combine functionality. This could reduce the amount of cache if there are inline styles that change continuously."
+msgstr "Escludi tutte le dichiarazioni 'script' inline dalla funzionalità di combinazione. Questo potrebbe ridurre la quantità di cache se ci sono stili inline che cambiano continuamente."
+
+#: src/Admin/Settings/TabSettings.php:669
+msgid "Exclude javascript files"
+msgstr "Escludi file javascript"
+
+#: src/Admin/Settings/TabSettings.php:670
+msgid "Select the Javascript files that you want to exclude from the combine functionality without preserving the execution order as they appear on the page. It's possible to select a file name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Seleziona i file Javascript che vuoi escludere dalla funzionalità di combinazione senza mantenere l'ordine di esecuzione come appaiono nella pagina. È possibile selezionare un nome file dall'elenco delle opzioni o specificare quelli aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:674
+msgid "All Javascript files that belong to the chosen plugin will be excluded from the combine functionality without preserving the execution order as they appear on the page. It's possible to select a plugin name from the list of options or specify additional ones and hit 'Enter'."
+msgstr "Tutti i file Javascript che appartengono al plugin scelto saranno esclusi dalla funzionalità di combinazione senza mantenere l'ordine di esecuzione come appaiono nella pagina. È possibile selezionare un nome plugin dall'elenco delle opzioni o specificare quelli aggiuntivi e premere 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:686
+msgid "Exclude urls"
+msgstr "Escludi URL"
+
+#: src/Admin/Settings/TabSettings.php:687
+msgid "Enter a substring of each url that you want to exclude from the plugin optimization. It's not needed to enter the complete url for the matching, but only a part of it. Add a string and hit 'Enter'."
+msgstr "Inserisci una sottostringa di ciascun URL che vuoi escludere dall'ottimizzazione del plugin. Non è necessario inserire l'URL completo per il matching, ma solo una parte di esso. Aggiungi una stringa e premi 'Invio'."
+
+#: src/Admin/Settings/TabSettings.php:690
+msgid "Exclude logged in users"
+msgstr "Escludi utenti loggati"
+
+#: src/Admin/Settings/TabSettings.php:691
+msgid "If enabled, the plugin will be disabled for all users that are logged in."
+msgstr "Se abilitato, il plugin sarà disabilitato per tutti gli utenti che sono loggati."
+
+#: src/Admin/Settings/TabSettings.php:699
+msgid "Javascript files"
+msgstr "File javascript"
+
+#: src/Admin/Settings/TabSettings.php:700
+msgid "Excluded Javascript files are commonly moved to the bottom of the page. In the case of conflicts, it's possible to enter them in this setting to keep the original position in the page."
+msgstr "I file Javascript esclusi vengono comunemente spostati in fondo alla pagina. In caso di conflitti, è possibile inserirli in questa impostazione per mantenere la posizione originale nella pagina."
+
+#: src/Admin/Settings/TabSettings.php:703
+msgid "Inline scripts"
+msgstr "Script inline"
+
+#: src/Admin/Settings/TabSettings.php:704
+msgid "Excluded scripts are commonly moved to the bottom of the page. In the case of conflicts, it's possible to enter them in this setting to keep the original position in the page."
+msgstr "Gli script esclusi vengono comunemente spostati in fondo alla pagina. In caso di conflitti, è possibile inserirli in questa impostazione per mantenere la posizione originale nella pagina."
+
+#: src/Admin/Settings/TabSettings.php:718
+msgid "Enable FastCache CDN"
+msgstr "Abilita FastCache CDN"
+
+#: src/Admin/Settings/TabSettings.php:719
+msgid "If enabled, it activates the communication with the FastCache CDN by host.it"
+msgstr "Se abilitato, attiva la comunicazione con la CDN FastCache di host.it"
+
+#: src/Admin/Settings/TabSettings.php:722
+msgid "Access token"
+msgstr "Token di accesso"
+
+#: src/Admin/Settings/TabSettings.php:723
+msgid "Enter your access token obtained in the host.it customer area"
+msgstr "Inserisci il tuo token di accesso ottenuto nell'area clienti di host.it per attivare la CDN Fastcache e sbloccare le funzionalità del plugin"
+
+#: src/Admin/Settings/TabSettings.php:728
+msgid "Enable TTL"
+msgstr "Abilita TTL"
+
+#: src/Admin/Settings/TabSettings.php:729
+msgid "By default, the TTL is set to 300 seconds. If you need to use a different value, you can enter it as the global default or set it per post type by enabling this option."
+msgstr "Per impostazione predefinita, il TTL è impostato su 300 secondi. Se è necessario utilizzare un valore diverso, è possibile inserirlo come predefinito globale o impostarlo per tipo di post abilitando questa opzione."
+
+#: src/Admin/Settings/TabSettings.php:732
+msgid "Set not found default TTL"
+msgstr "Imposta TTL predefinito se non trovato"
+
+#: src/Admin/Settings/TabSettings.php:733
+msgid "If a ttl value for a given post type is not found, you can choose to set the default ttl value or not set a ttl at all"
+msgstr "Se non viene trovato un valore TTL per un determinato tipo di contenuto, puoi scegliere di impostare il valore TTL predefinito oppure di non impostare alcun TTL"
+
+#: src/Admin/Settings/TabSettings.php:736
+msgid "Default TTL"
+msgstr "TTL predefinito"
+
+#: src/Admin/Settings/TabSettings.php:737
+msgid "Default TTL (generic cache duration in seconds)"
+msgstr "TTL predefinito (durata generica della cache in secondi)"
+
+#: src/Admin/Settings/TabSettings.php:740
+msgid "Post type TTL"
+msgstr "TTL per tipo di post"
+
+#: src/Admin/Settings/TabSettings.php:745
+msgid "Exclude pages"
+msgstr "Escludi pagine"
+
+#: src/Admin/Settings/TabSettings.php:746
+msgid "Enter the list of URLs to be excluded from the cache"
+msgstr "Inserisci l'elenco degli URL da escludere dalla cache"
+
+#: src/Admin/Settings/TabSettings.php:749
+msgid "Exclude post type"
+msgstr "Escludi tipo di contenuto"
+
+#: src/Admin/Settings/TabSettings.php:750
+msgid "Enter the post type to be excluded from the cache"
+msgstr "Inserisci il tipo di contenuto da escludere dalla cache"
+
+#: src/Admin/Settings/TabSettings.php:756
+msgid "Once activated, the log file inside the folder wp-content/plugins/fastcache/logs/log.txt is updated"
+msgstr "Una volta attivato, il file di log all'interno della cartella wp-content/plugins/fastcache/logs/log.txt viene aggiornato"
+
+#: src/Admin/Settings/TabSettings.php:762
+msgid "FAQs section"
+msgstr "Sezione delle domande frequenti"
+
+#: src/Admin/Settings/TabSettings.php:774
+msgid "Choose optimization level"
+msgstr "Scegli il livello di ottimizzazione"
+
+#: src/Admin/Settings/TabSettings.php:775
+msgid "Select an optimization level for the auto configuration"
+msgstr "Seleziona un livello di ottimizzazione per la configurazione automatica"
+
+#: src/Admin/Settings/TabSettings.php:788
+msgid "Plugins conflict diagnosis"
+msgstr "Diagnosi dei conflitti dei plugin"
+
+#: src/Admin/Settings/TabSettings.php:802
+msgid "Google PageSpeed score"
+msgstr "Punteggio Google PageSpeed"
+
+#: src/Admin/Settings/TabSettings.php:803
+msgid "Test your website to evaluate your Google PageSpeed score"
+msgstr "Testa il tuo sito web per valutare il tuo punteggio Google PageSpeed"
+
+#: src/Admin/Settings/TabSettings.php:807
+msgid "Page URL to test"
+msgstr "URL della pagina da testare"
+
+#: src/Admin/Settings/TabSettings.php:808
+msgid "Enter the URL of the page to test, if the field is left empty then the home page URL will be used"
+msgstr "Inserisci l'URL della pagina da testare, se il campo viene lasciato vuoto verrà utilizzato l'URL della pagina iniziale"
+
+#: src/Admin/Settings/TabSettings.php:812
+msgid "Custom Google PageSpeed ApiKey"
+msgstr "Chiave API Google PageSpeed personalizzata"
+
+#: src/Admin/Settings/TabSettings.php:813
+msgid "It's possible to enter a custom Google PageSpeed ApiKey, if the field is left empty then the built in ApiKey will be used"
+msgstr "È possibile inserire una chiave API Google PageSpeed personalizzata, se il campo viene lasciato vuoto verrà utilizzata la chiave API integrata"
+
+#: src/Admin/templates/admin/index.php:9
+msgid "FastCache"
+msgstr "FastCache"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:24
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:169
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:24
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:154
+msgid "Save Settings"
+msgstr "Salva impostazioni"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:36
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:33
+#, php-format
+msgid "Cache files: <span class=\"chart-details\">%s</span>"
+msgstr "Files di cache: <span class=\"chart-details\">%s</span>"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:45
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:34
+#, php-format
+msgid "Cache size: <span class=\"chart-details\">%s</span>"
+msgstr "Dimensione cache: <span class=\"chart-details\">%s</span>"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:67
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:45
+msgid "FastCache CDN"
+msgstr "Cache CDN di FastCache"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:81
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:59
+msgid "Optimizations"
+msgstr "Ottimizzazioni"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:88
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:66
+msgid "Assets Inclusions"
+msgstr "Inclusioni Risorse"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:95
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:73
+msgid "Assets Exclusions"
+msgstr "Esclusioni Risorse"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:102
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:80
+msgid "Lazy Load"
+msgstr "Lazy load"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:109
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:87
+msgid "Optimize Images"
+msgstr "Ottimizza Immagini"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:116
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:101
+msgid "Assets Management"
+msgstr "Gestione Risorse"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:123
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:108
+msgid "Http/2"
+msgstr ""
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:130
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:115
+msgid "Combine Images"
+msgstr "Combina Immagini"
+
+#: src/Admin/templates/compiled/46326b4df04382cb68b5bc29da6400fa1b43533f.php:137
+#: src/Admin/templates/compiled/cdfddae0efa73eb9b29da5e2b0f5e7812a0796be.php:122
+msgid "Advanced"
+msgstr "Avanzate"
+
+#: src/Admin/templates/compiled/7ec3f93fa412f576dd6c5aef3bd56d6efd599aee.php:36
+msgid "Attiva plugin"
+msgstr ""
+
+#: src/Core/Admin/Icons.php:94
+msgid "Optimize .htaccess"
+msgstr "Ottimizza .htaccess"
+
+#: src/Core/Admin/Icons.php:95
+msgid "Click this button to optimize your htaccess file adding special directives to leverage browser caching and gzip compression. NOTICE: the Apache modules mod_expires, mod_headers and mod_deflate must be enabled on the server."
+msgstr "Fai clic su questo pulsante per ottimizzare il file .htaccess aggiungendo istruzioni speciali per sfruttare la memorizzazione nella cache del browser e la compressione gzip. NOTA: i moduli Apache mod_expires, mod_headers e mod_deflate devono essere abilitati sul server."
+
+#: src/Core/Admin/Icons.php:100
+msgid "Restore .htaccess"
+msgstr "Ripristina .htaccess"
+
+#: src/Core/Admin/Icons.php:101
+msgid "Click this button to remove the optimizations code added to the .htaccess by FastCache and restore the original file."
+msgstr "Fai clic su questo pulsante per rimuovere il codice di ottimizzazione aggiunto al file .htaccess da FastCache e ripristinare il file originale."
+
+#: src/Core/Admin/Icons.php:106
+msgid "Clear Cache"
+msgstr "Pulisci cache locale"
+
+#: src/Core/Admin/Icons.php:107
+msgid "Click this button to clear the plugin cache and page cache."
+msgstr "Fai clic su questo pulsante per cancellare la cache dei file ottimizzati del plugin e la cache locale della pagina."
+
+#: src/Core/Admin/Icons.php:112
+msgid "Reorder Plugins"
+msgstr "Riordina plugin"
+
+#: src/Core/Admin/Icons.php:113
+msgid "The execution order of plugins could matter to include all assets within the optimization, by clicking this button FastCache attempts to order plugins correctly."
+msgstr "L'ordine di esecuzione dei plugin potrebbe essere importante per includere tutti gli asset nell'ottimizzazione, facendo clic su questo pulsante FastCache tenta di ordinare correttamente i plugin."
+
+#: src/Core/Admin/Icons.php:118
+msgid "Refresh cache"
+msgstr "Aggiorna cache locale"
+
+#: src/Core/Admin/Icons.php:119
+msgid "If you've made any changes to your files you can generate a new cache key to refresh it for browsers and get new contents."
+msgstr "Se hai apportato modifiche ai tuoi file CSS o Javascript, puoi generare una nuova chiave cache per aggiornarla nei browser e ottenere nuovi contenuti."
+
+#: src/Core/Platform/Cache.php:137
+msgid "Error writing files to cache"
+msgstr "Errore nella scrittura dei file nella cache"
+
+#: src/Core/Platform/Html.php:61
+msgid "Load or refresh the front-end site first then refresh this page to populate the multi select exclude lists."
+msgstr "Carica o aggiorna prima il sito front-end, quindi aggiorna questa pagina per popolare gli elenchi di esclusione a selezione multipla."
+
+#: src/Host/admin/class-fastcache-admin.php:76
+msgid "Disable the cache for this \"post\""
+msgstr "Disabilita la cache per questo \"post\""
+
+#: src/Host/admin/class-fastcache-admin.php:87
+msgid "Cache refresh time in seconds for this post. Entering \"0\" disables the cache. Default: 300"
+msgstr "Tempo di aggiornamento della cache in secondi per questo post. Inserendo \"0\" si disabilita la cache. Valore predefinito: 300"
+
+#: src/Host/admin/class-fastcache-admin.php:162
+#: src/Host/public/class-fastcache-public.php:132
+msgid "Caches are automatically regenerated when the default TTL expires or at the TTL value set in the appropriate fields. For this reason, we suggest not performing the purge but waiting for the time indicated in TTL."
+msgstr "Le cache vengono automaticamente rigenerate allo scadere del TTL di default o al valore TTL impostato negli appositi campi. Per questo motivo suggeriamo di non effettuare il purge ma di attendere il tempo indicato in TTL."
+
+#: src/Host/admin/class-fastcache-admin.php:163
+#: src/Host/public/class-fastcache-public.php:133
+msgid "Do you want to proceed anyway with the deletion"
+msgstr "Vuoi procedere comunque con la cancellazione"
+
+#: src/Host/admin/class-fastcache-admin.php:164
+#: src/Host/public/class-fastcache-public.php:134
+msgid "of this page cache?"
+msgstr "della cache di questa pagina?"
+
+#: src/Host/admin/class-fastcache-admin.php:165
+#: src/Host/public/class-fastcache-public.php:135
+msgid "of all cache?"
+msgstr "di tutta la cache?"
+
+#: src/Host/admin/class-fastcache-admin.php:166
+#: src/Host/public/class-fastcache-public.php:136
+msgid "of the homepage cache?"
+msgstr "della cache della homepage?"
+
+#: src/Host/admin/class-fastcache-admin.php:167
+#, fuzzy
+msgid "No conflicts detected"
+msgstr "Nessun altro plugin di cache rilevato."
+
+#: src/Host/admin/class-fastcache-admin.php:168
+#, fuzzy
+msgid "Cache conflict detected"
+msgstr "Nessun altro plugin di cache rilevato."
+
+#: src/Host/admin/partials/faq.php:9
+msgid "How can i get an authentication token for FastCache?"
+msgstr "Come posso ottenere un token di autenticazione per FastCache?"
+
+#: src/Host/admin/partials/faq.php:10
+msgid "You can obtain an authentication token by visiting https://host.it. Once you have the token, you can enter it into the FastCache plugin interface on your WordPress site."
+msgstr "Puoi ottenere un token di autenticazione visitando https://host.it. Una volta ottenuto il token, puoi inserirlo nell'interfaccia del plug-in FastCache sul tuo sito WordPress per attivare le funzionalità"
+
+#: src/Host/admin/partials/faq.php:14
+msgid "What happens if a CDN server goes offline?"
+msgstr "Cosa succede se un server CDN va offline?"
+
+#: src/Host/admin/partials/faq.php:15
+msgid "If a CDN server goes offline, user requests will simply be redirected to another server in the network. This ensures that your site always remains available and fast, even in the event of problems with a single server."
+msgstr "Se un server CDN va offline, le richieste degli utenti verranno semplicemente reindirizzate a un altro server nella rete. Questo garantisce che il tuo sito rimanga sempre disponibile e veloce, anche in caso di problemi con un singolo server."
+
+#: src/Host/admin/partials/faq.php:19
+msgid "How can i set up FastCache on my site?"
+msgstr "Come posso configurare FastCache sul mio sito?"
+
+#: src/Host/admin/partials/faq.php:19
+msgid "No other caching plugins detected."
+msgstr "Nessun altro plugin di cache trovato."
+
+#: src/Host/admin/partials/faq.php:19
+msgid "Other cache plugins detected:"
+msgstr "Altri plugin della cache rilevati:"
+
+#: src/Host/admin/partials/faq.php:19
+msgid "FastCache can safely manage your site cache."
+msgstr "FastCache può gestire in modo sicuro la cache del tuo sito."
+
+#: src/Host/admin/partials/faq.php:19
+msgid "These plugins may conflict with FastCache. It is recommended to deactivate them to ensure proper functionality."
+msgstr "Questi plugin potrebbero entrare in conflitto con FastCache. Si consiglia di disattivarli per garantirne il corretto funzionamento."
+
+#: src/Host/admin/partials/faq.php:20
+msgid "After installing and activating the plugin, you will be able to access the plugin interface on your WordPress site. Here, you can enter your authentication token and configure all the operating parameters of the CDN"
+msgstr "Dopo aver installato e attivato il plugin, sarai in grado di accedere all'interfaccia completa del plugin e utilizzare tutte le funzionalità."
+
+#: src/Host/includes/class-fastcache-adminbar.php:17
+#: src/Host/includes/class-fastcache-adminbar.php:55
+msgid "FastCache CDN Cache"
+msgstr "Cache CDN di FastCache"
+
+#: src/Host/includes/class-fastcache-adminbar.php:66
+msgid "Are you sure you want to purge all cache?"
+msgstr "Sei sicuro di voler svuotare tutta la cache?"
+
+#: src/Host/includes/class-fastcache-adminbar.php:78
+msgid "Are you sure you want to purge homepage cache?"
+msgstr "Sei sicuro di voler svuotare la cache della homepage?"
+
+#: src/Host/public/class-fastcache-public.php:294
+msgid "Some security checks failed, we recommend contacting plugin support!"
+msgstr "Alcuni controlli di sicurezza non sono riusciti, ti consigliamo di contattare l'assistenza del plugin!"
+
+#: src/Host/public/class-fastcache-public.php:442
+msgid "Global features"
+msgstr "Funzioni generiche"
+
+#: src/Host/public/class-fastcache-public.php:451
+#: src/Host/public/class-fastcache-public.php:453
+msgid "Commands"
+msgstr "Comandi"
+
+#: src/Host/public/class-fastcache-public.php:461
+msgid "Check IP adddresses"
+msgstr "Controlla indirizzi IP"
+
+#: src/Host/public/class-fastcache-public.php:466
+msgid "Details"
+msgstr "Dettagli"
+
+#: src/Host/public/class-fastcache-public.php:467
+msgid "The CDN is correctly configured"
+msgstr "Il CDN è configurato correttamente"
+
+#: src/Host/public/class-fastcache-public.php:468
+msgid "There are problems with the CDN configuration, check all the parameters and if you find no errors, contact the support staff."
+msgstr "Ci sono problemi con la configurazione del CDN, controlla tutti i parametri e se non trovi errori, contatta il personale di supporto."
+
+#. Plugin Name of the plugin/theme
+msgid "FastCache by host.it"
+msgstr "FastCache by host.it"
+
+#. Plugin URI of the plugin/theme
+msgid "https://fastcache.host.it/wordpress/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Abilita il tuo sito Wordpress alla prima vera CDN realizzata PER Wordpress e configurata AD-HOC per il tuo sito. Il massimo della velocità senza difficoltà di setup."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Host.it"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://fastcache.host.it/"
+msgstr ""
+
+msgid "Object Cache"
+msgstr "Object Cache"
+
+msgid "Manage object cache for DB queries and PHP objects."
+msgstr "Gestisci la object cache per le query del DB e gli oggetti PHP."
+
+msgid "Manage Redis object cache configuration."
+msgstr "Gestisci la configurazione della object cache Redis."
+
+msgid "Manage MemCached object cache configuration."
+msgstr "Gestisci la configurazione della object cache MemCached."
+
+msgid "Enable Object Cache"
+msgstr "Abilita Object Cache"
+
+msgid "Object cache"
+msgstr "Object cache"
+
+msgid "Object cache flushed successfully."
+msgstr "Cache oggetti svuotata con successo."
+
+msgid "Object cache is not available."
+msgstr "Cache oggetti non disponibile."
+
+msgid "When enabled, WordPress database query results and objects are cached persistently using the selected backend (Redis, Memcached, or File System). This significantly reduces database queries and improves performance."
+msgstr "Se abilitato, i risultati delle query del database di WordPress e gli oggetti vengono memorizzati nella cache in modo persistente utilizzando il backend selezionato (Redis, Memcached o File System). Ciò riduce significativamente le query del database e migliora le prestazioni."
+
+msgid "Cache backend"
+msgstr "Backend di cache"
+
+msgid "Auto-detect (Redis -> Memcached -> File)"
+msgstr "Rilevamento automatico (Redis -> Memcached -> File)"
+
+msgid "Redis"
+msgstr "Redis"
+
+msgid "Memcached"
+msgstr "Memcached"
+
+msgid "File System"
+msgstr "File System"
+
+msgid "Choose the cache backend. \"Auto\" will automatically detect the best available backend in order: Redis → Memcached → File System."
+msgstr "Scegli il backend della cache. \"Auto\" rileverà automaticamente il miglior backend disponibile in ordine: Redis → Memcached → File System."
+
+msgid "Default TTL (seconds)"
+msgstr "TTL predefinito (secondi)"
+
+msgid "Default time-to-live for cached objects in seconds. Set to 0 for no expiration (recommended for Redis/Memcached). For file-based backend, a value like 3600 (1 hour) is recommended."
+msgstr "Tempo di vita predefinito per gli oggetti nella cache in secondi. Impostare a 0 per nessuna scadenza (consigliato per Redis/Memcached). Per il backend basato su file, è consigliato un valore come 3600 (1 ora)."
+
+msgid "Key prefix"
+msgstr "Prefisso della chiave"
+
+msgid "A prefix added to all cache keys. Useful when multiple WordPress installations share the same Redis/Memcached server."
+msgstr "Un prefisso aggiunto a tutte le chiavi della cache. Utile quando più installazioni di WordPress condividono lo stesso server Redis/Memcached."
+
+msgid "Enable statistics"
+msgstr "Abilita statistiche"
+
+msgid "When enabled, cache hit/miss statistics are tracked and displayed in the admin dashboard."
+msgstr "Se abilitato, le statistiche hit/miss della cache vengono tracciate e visualizzate nel pannello di amministrazione."
+
+msgid "Hit"
+msgstr "Hit"
+
+msgid "Miss"
+msgstr "Miss"
+
+msgid "Hit rate"
+msgstr "Percentuale di hit"
+
+msgid "Redis host"
+msgstr "Host Redis"
+
+msgid "The hostname or IP address of the Redis server. Default: 127.0.0.1"
+msgstr "Il nome host o l'indirizzo IP del server Redis. Predefinito: 127.0.0.1"
+
+msgid "Redis port"
+msgstr "Porta Redis"
+
+msgid "The port number of the Redis server. Default: 6379"
+msgstr "Il numero di porta del server Redis. Predefinito: 6379"
+
+msgid "Redis password"
+msgstr "Password Redis"
+
+msgid "The authentication password for the Redis server. Leave empty if no authentication is required."
+msgstr "La password di autenticazione per il server Redis. Lasciare vuoto se non è richiesta l'autenticazione."
+
+msgid "Redis database"
+msgstr "Database Redis"
+
+msgid "The Redis database index to use (0-15). Default: 0. Use different indexes for different WordPress installations on the same server."
+msgstr "L'indice del database Redis da utilizzare (0-15). Predefinito: 0. Utilizza indici diversi per diverse installazioni di WordPress sullo stesso server."
+
+msgid "Redis configuration"
+msgstr "Configurazione Redis"
+
+msgid "MemCached configuration"
+msgstr "Configurazione MemCached"
+
+msgid "Memcached host"
+msgstr "Host Memcached"
+
+msgid "The hostname or IP address of the Memcached server. Default: 127.0.0.1"
+msgstr "Il nome host o l'indirizzo IP del server Memcached. Predefinito: 127.0.0.1"
+
+msgid "Memcached port"
+msgstr "Porta Memcached"
+
+msgid "The port number of the Memcached server. Default: 11211"
+msgstr "Il numero di porta del server Memcached. Predefinito: 11211"
+
+msgid "Exclusions configuration"
+msgstr "Configurazione esclusioni"
+
+msgid "Exclude logged-in users"
+msgstr "Escludi utenti connessi"
+
+msgid "Disable object caching for logged-in users. This is recommended to avoid displaying stale or private data."
+msgstr "Disabilita la object cache per gli utenti connessi. È consigliato per evitare la visualizzazione di dati obsoleti o privati."
+
+msgid "Exclude admin area"
+msgstr "Escludi area admin"
+
+msgid "Disable object caching for the WordPress admin dashboard (wp-admin). This ensures that admin actions always reflect the latest database state."
+msgstr "Disabilita la object cache per il pannello di amministrazione di WordPress (wp-admin). Ciò garantisce che le azioni dell'amministratore riflettano sempre lo stato più recente del database."
+
+msgid "Non-persistent groups"
+msgstr "Gruppi non persistenti"
+
+msgid "Cache groups that should only be stored in memory (not persisted to the backend). One group per line. Default groups: counts, plugins, themes. WooCommerce users should always include: wc_session_id"
+msgstr "Gruppi di cache che devono essere memorizzati solo in memoria (non persistenti nel backend). Un gruppo per riga. Gruppi predefiniti: counts, plugins, themes. Gli utenti di WooCommerce dovrebbero sempre includere: wc_session_id"
+
+#: src/Admin/Settings/Renderer/Setting.php:1184
+msgid "Drop-in File Status:"
+msgstr "Stato del file Drop-in:"
+
+#: src/Admin/Settings/Renderer/Setting.php:1186
+msgid "Not Installed"
+msgstr "Non installato"
+
+#: src/Admin/Settings/Renderer/Setting.php:1188
+msgid "Installed & Active"
+msgstr "Installato e attivo"
+
+#: src/Admin/Settings/Renderer/Setting.php:1190
+msgid "Foreign Drop-in Detected"
+msgstr "Drop-in esterno rilevato"
+
+#: src/Admin/Settings/Renderer/Setting.php:1195
+msgid "The object-cache.php drop-in is not installed."
+msgstr "Il drop-in object-cache.php non è installato."
+
+#: src/Admin/Settings/Renderer/Setting.php:1198
+msgid "The FastCache object-cache.php drop-in is installed successfully."
+msgstr "Il drop-in object-cache.php di FastCache è installato con successo."
+
+#: src/Admin/Settings/Renderer/Setting.php:1202
+msgid "Another plugin (%s) has installed the object-cache.php drop-in."
+msgstr "Un altro plugin (%s) ha installato il drop-in object-cache.php."
+
+#: src/Admin/Settings/Renderer/Setting.php:1203
+msgid "You must disable or uninstall that plugin's object cache before FastCache can manage the drop-in."
+msgstr "Devi disabilitare o disinstallare la cache degli oggetti di quel plugin prima che FastCache possa gestire il drop-in."
+
+#: src/Admin/Settings/Renderer/Setting.php:1210
+msgid "Current Request Status:"
+msgstr "Stato della richiesta corrente:"
+
+#: src/Admin/Settings/Renderer/Setting.php:1213
+msgid "Exclusion Active (No Persistent Cache)"
+msgstr "Esclusione attiva (nessuna cache persistente)"
+
+#: src/Admin/Settings/Renderer/Setting.php:1215
+msgid "Your session is currently excluded from persistent object caching (e.g., because you are an admin or logged in)."
+msgstr "La tua sessione è attualmente esclusa dalla cache persistente degli oggetti (ad esempio, perché sei un amministratore o hai effettuato l'accesso)."
+
+#: src/Admin/Settings/Renderer/Setting.php:1219
+msgid "Caching Enabled"
+msgstr "Caching abilitato"
+
+#: src/Admin/Settings/Renderer/Setting.php:1226
+msgid "Warning: Your wp-content directory is not writable. Automatic drop-in management might fail."
+msgstr "Avvertenza: la tua directory wp-content non è scrivibile. La gestione automatica del drop-in potrebbe fallire."
+
+#: src/Admin/Settings/Renderer/Setting.php:1233
+msgid "Detected Backend:"
+msgstr "Backend rilevato:"
+
+#: src/Admin/Settings/Renderer/Setting.php:1239
+msgid "Active"
+msgstr "Attivo"
+
+#: src/Admin/Settings/Renderer/Setting.php:1243
+msgid "Available"
+msgstr "Disponibile"
+
+#: src/Admin/Settings/Renderer/Setting.php:1246
+msgid "Not Available"
+msgstr "Non disponibile"
+
+#: src/Admin/Settings/Renderer/Setting.php:1267
+msgid "Stato Globale Object Cache (su disco)"
+msgstr "Stato Globale Object Cache (su disco)"
+
+#: src/Admin/Settings/Renderer/Setting.php:1270
+msgid "File cache totali:"
+msgstr "File cache totali:"
+
+#: src/Admin/Settings/Renderer/Setting.php:1274
+msgid "Dimensione cache totale:"
+msgstr "Dimensione cache totale:"
+
+#: src/Admin/Settings/Renderer/Setting.php:1283
+msgid "Statistiche richiesta corrente"
+msgstr "Statistiche richiesta corrente"
+
+#: src/Admin/Settings/Renderer/Setting.php:1285
+msgid "Session Excluded"
+msgstr "Sessione esclusa"
+
+#: src/Admin/Settings/TabSettings.php
+msgid "Drop-in status"
+msgstr "Stato del drop-in"
+
+#: src/Admin/Settings/Renderer/Setting.php:1309
+msgid "Flush Object Cache"
+msgstr "Svuota Cache Oggetti"
+
+#: src/Admin/Settings/Renderer/Setting.php:1320
+msgid "Are you sure you want to flush the object cache?"
+msgstr "Sei sicuro di voler svuotare la cache degli oggetti?"
+
+#: src/Admin/Settings/Renderer/Section.php:335
+msgid "Transfer Configuration"
+msgstr "Trasferimento Configurazione"
+
+#: src/Admin/Settings/Renderer/Section.php:336
+msgid "Download or upload the plugin configuration."
+msgstr "Scarica o carica la configurazione del plugin."
+
+#: src/Admin/Settings/TabSettings.php:843
+msgid "Download configuration"
+msgstr "Scarica configurazione"
+
+#: src/Admin/Settings/TabSettings.php:848
+msgid "Upload configuration"
+msgstr "Carica configurazione"
+
+#: src/ObjectCache/BackendDetector.php:13
+msgid "In-memory data structure store, used as a database, cache, and message broker."
+msgstr "Store di strutture dati in memoria, utilizzato come database, cache e broker di messaggi."
+
+#: src/ObjectCache/BackendDetector.php:18
+msgid "Free & open source, high-performance, distributed memory object caching system."
+msgstr "Sistema di caching di oggetti in memoria distribuito, open source e ad alte prestazioni."
+
+#: src/ObjectCache/BackendDetector.php:23
+msgid "Caches objects to the local file system. Does not require additional server software."
+msgstr "Memorizza gli oggetti nel file system locale. Non richiede software server aggiuntivo."
+
+#: src/Admin/Settings/TabSettings.php:169
+msgid "When the .htaccess page caching is enabled, pages are served up as static HTML versions of a page directly via the modified .htaccess completely bypassing the execution of Wordpress. This simulates having a website with static html pages and dramatically increases performance. NOTE: this feature is enabled only for logged out users and may not follow cache lifetime given that if all pages of the website are cached the PHP execution will be completely skipped. You can delete cached files using admin buttons. This cache system supports up to 10 segments in the URL path on Apache server version 2.2. If you need more segments, manually edit the .htaccess file or upgrade to Apache version 2.4"
+msgstr "Quando il caching della pagina .htaccess è abilitato, le pagine vengono servite come versioni HTML statiche di una pagina direttamente tramite l'.htaccess modificato, completamente bypassando l'esecuzione di WordPress. Questo simula avere un sito web con pagine html statiche e aumenta drammaticamente le prestazioni. NOTA: questa funzione è abilitata solo per gli utenti disconnessi e potrebbe non seguire la durata della cache se tutte le pagine del sito sono memorizzate nella cache, l'esecuzione PHP verrà completamente saltata. È possibile eliminare i file memorizzati nella cache utilizzando i pulsanti di amministrazione. Questo sistema di cache supporta fino a 10 segmenti nel percorso URL sulla versione 2.2 del server Apache. Se hai bisogno di più segmenti, modifica manualmente il file .htaccess o aggiorna alla versione 2.4 di Apache."
+
+msgid "Log cleared."
+msgstr "Log cancellato."
+
+msgid "Testing..."
+msgstr "Test in corso..."
+
+msgid "Test Connection"
+msgstr "Test Connessione"
+
+msgid "Redis PHP extension not loaded"
+msgstr "Estensione PHP Redis non caricata"
+
+msgid "Redis connection OK"
+msgstr "Connessione Redis OK"
+
+msgid "Redis test failed: data mismatch"
+msgstr "Test Redis fallito: mancata corrispondenza dati"
+
+msgid "Memcached PHP extension not loaded"
+msgstr "Estensione PHP Memcached non caricata"
+
+msgid "Memcached connection OK"
+msgstr "Connessione Memcached OK"
+
+msgid "Memcached test failed: data mismatch"
+msgstr "Test Memcached fallito: mancata corrispondenza dati"
+
+#: src/Host/admin/class-fastcache-admin.php:298
+msgid "WARNING! HOST Caching requires the user to have \"manage_options\" rights. Currently, the user: <b>%s</b> does not have the necessary rights. If content is updated, the cache will not be automatically updated."
+msgstr "ATTENZIONE! HOST Caching richiede che l'utente in uso abbia i diritti di \"manage_options\" attivi. In questo momento l'utente: <b>%s</b> non ha i diritti necessari. In caso di update di un contenuto, la cache non sarà aggiornata automaticamente."
+
+#: src/Host/admin/class-fastcache-admin.php:311
+msgid "WARNING! HOST Caching requires the user to have \"manage_options\" rights."
+msgstr "ATTENZIONE! HOST Caching richiede che l'utente in uso abbia i diritti di \"manage_options\" attivi."
+
+#: src/Admin/Settings/TabSettings.php:184
+msgid "Enable late nonce refresh"
+msgstr "Abilita aggiornamento nonce ritardato"
+
+#: src/Admin/Settings/TabSettings.php:185
+msgid "When enabled, WordPress nonces in cached pages are replaced with placeholders and refreshed via REST API before AJAX requests. This prevents \"nonce verification failed\" errors when pages are cached longer than the nonce lifespan (12 hours). Works with both .htaccess static caching and PHP page caching."
+msgstr "Se abilitato, i nonce di WordPress nelle pagine cachate vengono sostituiti con placeholder e aggiornati tramite REST API prima delle richieste AJAX. Ciò previene errori di \"verifica nonce non riuscita\" quando le pagine vengono cachate più a lungo della durata del nonce (12 ore). Funziona sia con il caching statico .htaccess che con il caching di pagina PHP."
+
+#~ msgid "Cache files: %s"
+#~ msgstr "File di cache: %s"
+
+#~ msgid "Cache size: %s"
+#~ msgstr "Dimensione della cache: %s"
+
+#~ msgid ""
+#~ "TTL in seconds for this post type. You can set a specific TTL (in "
+#~ "seconds) for each post type"
+#~ msgstr ""
+#~ "TTL in secondi per questo tipo di post. Puoi impostare un TTL specifico "
+#~ "(in secondi) per ogni tipo di post."
+
+#~ msgid "You can set a specific TTL (in seconds) for each post type"
+#~ msgstr "Puoi impostare un TTL specifico (in secondi) per ogni tipo di post"
+
+#~ msgid "General"
+#~ msgstr "Generale"
+
+#~ msgid "Fastcache CDN settings"
+#~ msgstr "Impostazioni CDN Fastcache"
+
+#~ msgid "Activate the communication with the FastCache CDN by host.it."
+#~ msgstr "Attiva la comunicazione con la CDN FastCache di host.it."
+
+#~ msgid "Licence code"
+#~ msgstr "Codice di licenza"
+
+#~ msgid "Relative"
+#~ msgstr "Relativo"
+
+#~ msgid "Insert here the license code"
+#~ msgstr "Inserisci qui il codice di licenza"
+
+#~ msgid ""
+#~ "Enter the license code associated to your CDN plan obtained in the host."
+#~ "it customer area"
+#~ msgstr ""
+#~ "Inserisci il codice di licenza associato al piano selezionato per la CDN "
+#~ "Fastcache nell'area clienti di host.it"
+
+#~ msgid ""
+#~ "The license code that you have entered is not correct and does not match "
+#~ "any active license"
+#~ msgstr ""
+#~ "Il codice di licenza che hai inserito non è corretto e non corrisponde a "
+#~ "nessuna licenza attiva"
+
+#~ msgid "The license code is valid and the plugin is active"
+#~ msgstr "Il codice di licenza è valido e il plugin è attivo"
+
+#~ msgid "Generate WebP srcset"
+#~ msgstr "Genera WebP srcset"
+
+#~ msgid ""
+#~ "If enabled, FastCache will create a WebP version of each image and generate "
+#~ "an additional 'srcset' attribute pointing to these WebP images."
+#~ msgstr ""
+#~ "Se abilitato, FastCache creerà una versione WebP di ogni immagine e genererà "
+#~ "un ulteriore attributo 'srcset' che punta a queste immagini WebP."
+
+#~ msgid "Generate AVIF srcset"
+#~ msgstr "Genera AVIF srcset"
+
+#~ msgid ""
+#~ "If enabled, FastCache will create an AVIF version of each image and generate "
+#~ "an additional 'srcset' attribute pointing to these AVIF images."
+#~ msgstr ""
+#~ "Se abilitato, FastCache creerà una versione AVIF di ogni immagine e genererà "
+#~ "un ulteriore attributo 'srcset' che punta a queste immagini AVIF."
+
+#~ msgid "Image sizes"
+#~ msgstr "Dimensioni immagini"
+
+#~ msgid ""
+#~ "If you activate the srcset, you must choose which image sizes to "
+#~ "generate. You can use one of the predefined sizes or add custom ones."
+#~ msgstr ""
+#~ "Se attivi il srcset, devi scegliere quali dimensioni delle immagini "
+#~ "generare. Puoi utilizzare una delle dimensioni predefinite o aggiungere "
+#~ "dimensioni personalizzate."
+
+#~ msgid "Predefined image sizes"
+#~ msgstr "Dimensioni immagini predefinite"
+
+#~ msgid ""
+#~ "You can choose from the predefined set of image sizes that FastCache should "
+#~ "generate for the srcset. If you need custom sizes, please use the 'Custom "
+#~ "sizes' field."
+#~ msgstr ""
+#~ "Puoi scegliere dall'insieme predefinito di dimensioni delle immagini che "
+#~ "FastCache dovrebbe generare per il srcset. Se hai bisogno di dimensioni "
+#~ "personalizzate, utilizza il campo 'Dimensioni personalizzate'."
+
+#~ msgid "Custom sizes"
+#~ msgstr "Dimensioni personalizzate"
+
+#~ msgid ""
+#~ "If you need to generate custom image sizes for the srcset, specify them "
+#~ "here. You should enter sizes in the format: widthxheight. Separate "
+#~ "multiple sizes with commas. For example: '300x200,768x512,1024x768'."
+#~ msgstr ""
+#~ "Se devi generare dimensioni personalizzate delle immagini per il srcset, "
+#~ "specificale qui. Dovresti inserire le dimensioni nel formato: "
+#~ "larghezzaxaltezza. Separare dimensioni multiple con virgole. Ad esempio: "
+#~ "'300x200,768x512,1024x768'."
+
+#~ msgid "Custom sizes for WebP images"
+#~ msgstr "Dimensioni personalizzate per immagini WebP"
+
+#~ msgid ""
+#~ "If you need to generate custom image sizes for the WebP srcset, specify "
+#~ "them here. You should enter sizes in the format: widthxheight. Separate "
+#~ "multiple sizes with commas. For example: '300x200,768x512,1024x768'."
+#~ msgstr ""
+#~ "Se devi generare dimensioni personalizzate delle immagini per il srcset "
+#~ "WebP, specificale qui. Dovresti inserire le dimensioni nel formato: "
+#~ "larghezzaxaltezza. Separare dimensioni multiple con virgole. Ad esempio: "
+#~ "'300x200,768x512,1024x768'."
+
+#~ msgid "Custom sizes for AVIF images"
+#~ msgstr "Dimensioni personalizzate per immagini AVIF"
+
+#~ msgid ""
+#~ "If you need to generate custom image sizes for the AVIF srcset, specify "
+#~ "them here. You should enter sizes in the format: widthxheight. Separate "
+#~ "multiple sizes with commas. For example: '300x200,768x512,1024x768'."
+#~ msgstr ""
+#~ "Se devi generare dimensioni personalizzate delle immagini per il srcset "
+#~ "AVIF, specificale qui. Dovresti inserire le dimensioni nel formato: "
+#~ "larghezzaxaltezza. Separare dimensioni multiple con virgole. Ad esempio: "
+#~ "'300x200,768x512,1024x768'."
+
+#~ msgid "Exclude images in amp-img"
+#~ msgstr "Escludi immagini in amp-img"
+
+#~ msgid ""
+#~ "If enabled, images inside 'amp-img' tags will be excluded from the "
+#~ "optimization process."
+#~ msgstr ""
+#~ "Se abilitato, le immagini all'interno dei tag 'amp-img' verranno escluse "
+#~ "dal processo di ottimizzazione."
+
+#~ msgid "Skip optimization of images with lazy loading"
+#~ msgstr "Salta l'ottimizzazione delle immagini con lazy loading"
+
+#~ msgid ""
+#~ "If enabled, images with the 'loading' attribute set to 'lazy' will be "
+#~ "excluded from the optimization process."
+#~ msgstr ""
+#~ "Se abilitato, le immagini con l'attributo 'loading' impostato su 'lazy' "
+#~ "verranno escluse dal processo di ottimizzazione."
+
+#~ msgid "Optimize JPEG images"
+#~ msgstr "Ottimizza immagini JPEG"
+
+#~ msgid ""
+#~ "If enabled, all JPEG images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini JPEG verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize PNG images"
+#~ msgstr "Ottimizza immagini PNG"
+
+#~ msgid ""
+#~ "If enabled, all PNG images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini PNG verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize GIF images"
+#~ msgstr "Ottimizza immagini GIF"
+
+#~ msgid ""
+#~ "If enabled, all GIF images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini GIF verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize SVG images"
+#~ msgstr "Ottimizza immagini SVG"
+
+#~ msgid ""
+#~ "If enabled, all SVG images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini SVG verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize WebP images"
+#~ msgstr "Ottimizza immagini WebP"
+
+#~ msgid ""
+#~ "If enabled, all WebP images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini WebP verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize AVIF images"
+#~ msgstr "Ottimizza immagini AVIF"
+
+#~ msgid ""
+#~ "If enabled, all AVIF images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini AVIF verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize BMP images"
+#~ msgstr "Ottimizza immagini BMP"
+
+#~ msgid ""
+#~ "If enabled, all BMP images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini BMP verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize TIFF images"
+#~ msgstr "Ottimizza immagini TIFF"
+
+#~ msgid ""
+#~ "If enabled, all TIFF images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini TIFF verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize ICO images"
+#~ msgstr "Ottimizza immagini ICO"
+
+#~ msgid ""
+#~ "If enabled, all ICO images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini ICO verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize CUR images"
+#~ msgstr "Ottimizza immagini CUR"
+
+#~ msgid ""
+#~ "If enabled, all CUR images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini CUR verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize PBM images"
+#~ msgstr "Ottimizza immagini PBM"
+
+#~ msgid ""
+#~ "If enabled, all PBM images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini PBM verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize PGM images"
+#~ msgstr "Ottimizza immagini PGM"
+
+#~ msgid ""
+#~ "If enabled, all PGM images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini PGM verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize PPM images"
+#~ msgstr "Ottimizza immagini PPM"
+
+#~ msgid ""
+#~ "If enabled, all PPM images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini PPM verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize XBM images"
+#~ msgstr "Ottimizza immagini XBM"
+
+#~ msgid ""
+#~ "If enabled, all XBM images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini XBM verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Optimize XPM images"
+#~ msgstr "Ottimizza immagini XPM"
+
+#~ msgid ""
+#~ "If enabled, all XPM images will be optimized during the process. Disable "
+#~ "this option to keep the original quality."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini XPM verranno ottimizzate durante il "
+#~ "processo. Disabilita questa opzione per mantenere la qualità originale."
+
+#~ msgid "Remove query strings"
+#~ msgstr "Rimuovi stringhe di query"
+
+#~ msgid ""
+#~ "If enabled, FastCache will remove the query string from the URL of each "
+#~ "image source in order to facilitate the browser cache usage."
+#~ msgstr ""
+#~ "Se abilitato, FastCache rimuoverà la stringa di query dall'URL di ogni "
+#~ "sorgente dell'immagine per facilitare l'utilizzo della cache del browser."
+
+#~ msgid "Enable lazy loading for images"
+#~ msgstr "Abilita lazy loading per immagini"
+
+#~ msgid ""
+#~ "If enabled, images will be loaded only when they are visible in the "
+#~ "viewport. This can reduce the initial load time and save bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, le immagini verranno caricate solo quando sono visibili "
+#~ "nella viewport. Questo può ridurre il tempo di caricamento iniziale e "
+#~ "risparmiare larghezza di banda."
+
+#~ msgid "Load placeholder while loading images"
+#~ msgstr "Carica segnaposto durante il caricamento delle immagini"
+
+#~ msgid ""
+#~ "If enabled, a placeholder will be loaded while images are being fetched. "
+#~ "This can give a visual cue to the user that content is loading."
+#~ msgstr ""
+#~ "Se abilitato, verrà caricato un segnaposto mentre le immagini vengono "
+#~ "recuperate. Questo può dare un suggerimento visivo all'utente che il "
+#~ "contenuto sta caricando."
+
+#~ msgid "Enable native lazy loading"
+#~ msgstr "Abilita lazy loading nativo"
+
+#~ msgid ""
+#~ "If enabled, FastCache will make use of the browser's native lazy loading for "
+#~ "images."
+#~ msgstr ""
+#~ "Se abilitato, FastCache farà uso del lazy loading nativo del browser per le "
+#~ "immagini."
+
+#~ msgid "Placeholder image URL"
+#~ msgstr "URL dell'immagine segnaposto"
+
+#~ msgid ""
+#~ "Enter the URL of the placeholder image that you want to display while the "
+#~ "real image is being loaded. It can be a data URL, or an external image "
+#~ "URL."
+#~ msgstr ""
+#~ "Inserisci l'URL dell'immagine segnaposto che desideri visualizzare mentre "
+#~ "l'immagine reale viene caricata. Può essere un URL dei dati o un URL "
+#~ "dell'immagine esterna."
+
+#~ msgid "Placeholder image dimensions"
+#~ msgstr "Dimensioni dell'immagine segnaposto"
+
+#~ msgid ""
+#~ "Enter the width and height in pixels of the placeholder image. It's "
+#~ "useful to allocate space in the layout for the image to avoid content "
+#~ "shifting."
+#~ msgstr ""
+#~ "Inserisci la larghezza e l'altezza in pixel dell'immagine segnaposto. È "
+#~ "utile allocare spazio nel layout per l'immagine per evitare lo "
+#~ "spostamento del contenuto."
+
+#~ msgid "Exclude images by dimension"
+#~ msgstr "Escludi immagini per dimensione"
+
+#~ msgid ""
+#~ "Exclude images based on their dimensions. This option is useful if you "
+#~ "want to exclude images that are smaller or larger than a certain size."
+#~ msgstr ""
+#~ "Escludi le immagini in base alle loro dimensioni. Questa opzione è utile "
+#~ "se vuoi escludere immagini più piccole o più grandi di una certa "
+#~ "dimensione."
+
+#~ msgid "Minimum image width (pixels)"
+#~ msgstr "Larghezza minima immagine (pixel)"
+
+#~ msgid ""
+#~ "Enter the minimum width in pixels for the images to be optimized. Images "
+#~ "smaller than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci la larghezza minima in pixel per le immagini da ottimizzare. Le "
+#~ "immagini più piccole di questa dimensione verranno escluse."
+
+#~ msgid "Maximum image width (pixels)"
+#~ msgstr "Larghezza massima immagine (pixel)"
+
+#~ msgid ""
+#~ "Enter the maximum width in pixels for the images to be optimized. Images "
+#~ "larger than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci la larghezza massima in pixel per le immagini da ottimizzare. "
+#~ "Le immagini più grandi di questa dimensione verranno escluse."
+
+#~ msgid "Minimum image height (pixels)"
+#~ msgstr "Altezza minima immagine (pixel)"
+
+#~ msgid ""
+#~ "Enter the minimum height in pixels for the images to be optimized. Images "
+#~ "shorter than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci l'altezza minima in pixel per le immagini da ottimizzare. Le "
+#~ "immagini più corte di questa dimensione verranno escluse."
+
+#~ msgid "Maximum image height (pixels)"
+#~ msgstr "Altezza massima immagine (pixel)"
+
+#~ msgid ""
+#~ "Enter the maximum height in pixels for the images to be optimized. Images "
+#~ "taller than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci l'altezza massima in pixel per le immagini da ottimizzare. Le "
+#~ "immagini più alte di questa dimensione verranno escluse."
+
+#~ msgid "Exclude images smaller than"
+#~ msgstr "Escludi immagini più piccole di"
+
+#~ msgid ""
+#~ "Enter the minimum size in kilobytes for the images to be optimized. "
+#~ "Images smaller than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci la dimensione minima in kilobyte per le immagini da "
+#~ "ottimizzare. Le immagini più piccole di questa dimensione verranno "
+#~ "escluse."
+
+#~ msgid "Exclude images larger than"
+#~ msgstr "Escludi immagini più grandi di"
+
+#~ msgid ""
+#~ "Enter the maximum size in kilobytes for the images to be optimized. "
+#~ "Images larger than this size will be excluded."
+#~ msgstr ""
+#~ "Inserisci la dimensione massima in kilobyte per le immagini da "
+#~ "ottimizzare. Le immagini più grandi di questa dimensione verranno escluse."
+
+#~ msgid "Convert PNG to WebP"
+#~ msgstr "Converti PNG in WebP"
+
+#~ msgid ""
+#~ "If enabled, FastCache will convert PNG images to WebP format. This can "
+#~ "provide better compression and save more bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, FastCache convertirà le immagini PNG nel formato WebP. Questo "
+#~ "può fornire una compressione migliore e risparmiare più larghezza di "
+#~ "banda."
+
+#~ msgid "Convert JPEG to WebP"
+#~ msgstr "Converti JPEG in WebP"
+
+#~ msgid ""
+#~ "If enabled, FastCache will convert JPEG images to WebP format. This can "
+#~ "provide better compression and save more bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, FastCache convertirà le immagini JPEG nel formato WebP. Questo "
+#~ "può fornire una compressione migliore e risparmiare più larghezza di "
+#~ "banda."
+
+#~ msgid "Convert GIF to WebP"
+#~ msgstr "Converti GIF in WebP"
+
+#~ msgid ""
+#~ "If enabled, FastCache will convert GIF images to WebP format. This can "
+#~ "provide better compression and save more bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, FastCache convertirà le immagini GIF nel formato WebP. Questo "
+#~ "può fornire una compressione migliore e risparmiare più larghezza di "
+#~ "banda."
+
+#~ msgid "Convert PNG to AVIF"
+#~ msgstr "Converti PNG in AVIF"
+
+#~ msgid ""
+#~ "If enabled, FastCache will convert PNG images to AVIF format. This can "
+#~ "provide better compression and save more bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, FastCache convertirà le immagini PNG nel formato AVIF. Questo "
+#~ "può fornire una compressione migliore e risparmiare più larghezza di "
+#~ "banda."
+
+#~ msgid "Convert JPEG to AVIF"
+#~ msgstr "Converti JPEG in AVIF"
+
+#~ msgid ""
+#~ "If enabled, FastCache will convert JPEG images to AVIF format. This can "
+#~ "provide better compression and save more bandwidth."
+#~ msgstr ""
+#~ "Se abilitato, FastCache convertirà le immagini JPEG nel formato AVIF. Questo "
+#~ "può fornire una compressione migliore e risparmiare più larghezza di "
+#~ "banda."
+
+#~ msgid "Exclude specific images"
+#~ msgstr "Escludi immagini specifiche"
+
+#~ msgid ""
+#~ "Exclude specific images by their filename. Separate multiple filenames "
+#~ "with commas."
+#~ msgstr ""
+#~ "Escludi immagini specifiche dal loro nome file. Separare più nomi di file "
+#~ "con virgole."
+
+#~ msgid "Automatically start optimization process"
+#~ msgstr "Avvia automaticamente il processo di ottimizzazione"
+
+#~ msgid ""
+#~ "If enabled, the optimization process will automatically start whenever an "
+#~ "image is uploaded or a post is updated."
+#~ msgstr ""
+#~ "Se abilitato, il processo di ottimizzazione verrà avviato automaticamente "
+#~ "ogni volta che viene caricata un'immagine o viene aggiornato un articolo."
+
+#~ msgid "Only apply to the original image"
+#~ msgstr "Applica solo all'immagine originale"
+
+#~ msgid ""
+#~ "If enabled, optimizations will only apply to the original image uploaded. "
+#~ "Images generated by WordPress (e.g., thumbnails) will not be optimized."
+#~ msgstr ""
+#~ "Se abilitato, le ottimizzazioni si applicheranno solo all'immagine "
+#~ "originale caricata. Le immagini generate da WordPress (ad es. miniature) "
+#~ "non verranno ottimizzate."
+
+#~ msgid "Exclude all images by default"
+#~ msgstr "Escludi tutte le immagini per impostazione predefinita"
+
+#~ msgid ""
+#~ "If enabled, all images will be excluded by default, and you need to "
+#~ "explicitly opt-in images for optimization."
+#~ msgstr ""
+#~ "Se abilitato, tutte le immagini saranno escluse per impostazione "
+#~ "predefinita e dovrai scegliere esplicitamente le immagini per "
+#~ "l'ottimizzazione."
+
+#~ msgid "Image optimization fallback"
+#~ msgstr "Ritorno ottimizzazione immagine"
+
+#~ msgid ""
+#~ "Select the image optimization fallback method to use when FastCache fails to "
+#~ "optimize images with an external service."
+#~ msgstr ""
+#~ "Scegli il metodo di fallback per l'ottimizzazione delle immagini da "
+#~ "utilizzare quando FastCache non riesce ad ottimizzare le immagini con un "
+#~ "servizio esterno."
+
+#~ msgid "Exclude images with SVG extension"
+#~ msgstr "Escludi immagini con estensione SVG"
+
+#~ msgid ""
+#~ "If enabled, images with SVG extensions will be excluded from the "
+#~ "optimization process."
+#~ msgstr ""
+#~ "Se abilitato, le immagini con estensioni SVG verranno escluse dal "
+#~ "processo di ottimizzazione."
+
+#~ msgid "Image optimization fallback method"
+#~ msgstr "Metodo di fallback per l'ottimizzazione delle immagini"
+
+#~ msgid ""
+#~ "Select the fallback method for image optimization. The available options "
+#~ "are:"
+#~ msgstr ""
+#~ "Scegli il metodo di fallback per l'ottimizzazione delle immagini. Le "
+#~ "opzioni disponibili sono:"
+
+#~ msgid "Display original image"
+#~ msgstr "Mostra immagine originale"
+
+#~ msgid ""
+#~ "If FastCache fails to optimize an image with an external service, it will "
+#~ "display the original image without any optimization."
+#~ msgstr ""
+#~ "Se FastCache non riesce ad ottimizzare un'immagine con un servizio esterno, "
+#~ "verrà visualizzata l'immagine originale senza alcuna ottimizzazione."
+
+#~ msgid "Disable lazy loading and WebP conversion"
+#~ msgstr "Disabilita lazy loading e conversione WebP"
+
+#~ msgid ""
+#~ "If FastCache fails to optimize an image with an external service, it will "
+#~ "disable lazy loading and WebP conversion for that image."
+#~ msgstr ""
+#~ "Se FastCache non riesce ad ottimizzare un'immagine con un servizio esterno, "
+#~ "disabiliterà lazy loading e conversione WebP per quella immagine."
+
+#~ msgid "Use local image optimization library"
+#~ msgstr "Utilizza la libreria di ottimizzazione delle immagini locale"
+
+#~ msgid ""
+#~ "If FastCache fails to optimize an image with an external service, it will "
+#~ "attempt to optimize the image using the local image optimization library."
+#~ msgstr ""
+#~ "Se FastCache non riesce ad ottimizzare un'immagine con un servizio esterno, "
+#~ "proverà ad ottimizzare l'immagine utilizzando la libreria di "
+#~ "ottimizzazione delle immagini locale."
+
+#~ msgid "Image optimization timeout (seconds)"
+#~ msgstr "Timeout dell'ottimizzazione delle immagini (secondi)"
+
+#~ msgid ""
+#~ "Enter the timeout period in seconds for the image optimization request. "
+#~ "If the external optimization service doesn't respond within this time, "
+#~ "the fallback method will be triggered."
+#~ msgstr ""
+#~ "Inserisci il periodo di timeout in secondi per la richiesta di "
+#~ "ottimizzazione delle immagini. Se il servizio di ottimizzazione esterno "
+#~ "non risponde entro questo tempo, verrà attivato il metodo di fallback."
+
+#~ msgid "Allow duplicate images optimization"
+#~ msgstr "Consenti ottimizzazione di immagini duplicate"
+
+#~ msgid ""
+#~ "If enabled, duplicate images will be optimized multiple times during the "
+#~ "process. Disable this option to optimize duplicate images only once."
+#~ msgstr ""
+#~ "Se abilitato, le immagini duplicate verranno ottimizzate più volte "
+#~ "durante il processo. Disabilita questa opzione per ottimizzare le "
+#~ "immagini duplicate solo una volta."
+
+#~ msgid "Optimize images with same filename"
+#~ msgstr "Ottimizza immagini con lo stesso nome file"
+
+#~ msgid ""
+#~ "If enabled, images with the same filename will be optimized multiple "
+#~ "times during the process. Disable this option to optimize images with the "
+#~ "same filename only once."
+#~ msgstr ""
+#~ "Se abilitato, le immagini con lo stesso nome file verranno ottimizzate "
+#~ "più volte durante il processo. Disabilita questa opzione per ottimizzare "
+#~ "le immagini con lo stesso nome file solo una volta."
+
+#~ msgid "Image optimization quality"
+#~ msgstr "Qualità dell'ottimizzazione delle immagini"
+
+#~ msgid ""
+#~ "Select the quality level for image optimization. This determines how much "
+#~ "the image quality is reduced to achieve better compression."
+#~ msgstr ""
+#~ "Scegli il livello di qualità per l'ottimizzazione delle immagini. Questo "
+#~ "determina quanto viene ridotta la qualità dell'immagine per ottenere una "
+#~ "migliore compressione."
+
+#~ msgid "Image optimization lossless"
+#~ msgstr "Ottimizzazione delle immagini senza perdite"
+
+#~ msgid ""
+#~ "If enabled, the optimization process will be lossless. This means that "
+#~ "the image quality will not be reduced, but the file size might not "
+#~ "decrease as much."
+#~ msgstr ""
+#~ "Se abilitato, il processo di ottimizzazione sarà senza perdite. Questo "
+#~ "significa che la qualità dell'immagine non verrà ridotta, ma la "
+#~ "dimensione del file potrebbe non diminuire molto."
+
+#~ msgid "Optimize images in parallel"
+#~ msgstr "Ottimizza immagini in parallelo"
+
+#~ msgid ""
+#~ "If enabled, the optimization process will occur simultaneously for "
+#~ "multiple images. This can reduce the overall optimization time."
+#~ msgstr ""
+#~ "Se abilitato, il processo di ottimizzazione avverrà contemporaneamente "
+#~ "per più immagini. Questo può ridurre il tempo complessivo di "
+#~ "ottimizzazione."
+
+#~ msgid "Optimization method"
+#~ msgstr "Metodo di ottimizzazione"
+
+#~ msgid "Select the optimization method to use. The available options are:"
+#~ msgstr ""
+#~ "Scegli il metodo di ottimizzazione da utilizzare. Le opzioni disponibili "
+#~ "sono:"
+
+#~ msgid "Lossy Optimization"
+#~ msgstr "Ottimizzazione lossy"
+
+#~ msgid "This method reduces the file size by selectively discarding data."
+#~ msgstr ""
+#~ "Questo metodo riduce la dimensione del file eliminando selettivamente i "
+#~ "dati."
+
+#~ msgid "Lossless Optimization"
+#~ msgstr "Ottimizzazione senza perdite"
+
+#~ msgid "This method reduces the file size without losing image quality."
+#~ msgstr ""
+#~ "Questo metodo riduce la dimensione del file senza perdere la qualità "
+#~ "dell'immagine."
+
+#~ msgid "Enable API-based optimization"
+#~ msgstr "Abilita l'ottimizzazione basata su API"
+
+#~ msgid ""
+#~ "If enabled, FastCache will use an external API for image optimization. You "
+#~ "need to configure the API credentials below."
+#~ msgstr ""
+#~ "Se abilitato, FastCache utilizzerà una API esterna per l'ottimizzazione "
+#~ "dell'immagine. Devi configurare le credenziali API di seguito."
+
+#~ msgid "API URL"
+#~ msgstr "URL API"
+
+#~ msgid "Enter the URL of the external API for image optimization."
+#~ msgstr ""
+#~ "Inserisci l'URL della API esterna per l'ottimizzazione delle immagini."
+
+#~ msgid "API Key"
+#~ msgstr "Chiave API"
+
+#~ msgid ""
+#~ "Enter the API key for authentication with the external image optimization "
+#~ "API."
+#~ msgstr ""
+#~ "Inserisci la chiave API per l'autenticazione con la API esterna di "
+#~ "ottimizzazione delle immagini."
+
+#~ msgid "API Secret"
+#~ msgstr "Segreto API"
+
+#~ msgid ""
+#~ "Enter the API secret for authentication with the external image "
+#~ "optimization API."
+#~ msgstr ""
+#~ "Inserisci il segreto API per l'autenticazione con la API esterna di "
+#~ "ottimizzazione delle immagini."
+
+#~ msgid "Cache API responses"
+#~ msgstr "Cache delle risposte API"
+
+#~ msgid ""
+#~ "If enabled, FastCache will cache the responses from the external image "
+#~ "optimization API to reduce API usage and improve performance."
+#~ msgstr ""
+#~ "Se abilitato, FastCache memorizzerà nella cache le risposte dalla API "
+#~ "esterna di ottimizzazione delle immagini per ridurre l'uso della API e "
+#~ "migliorare le prestazioni."
+
+#~ msgid "Allow HTTP requests from"
+#~ msgstr "Consenti richieste HTTP da"
+
+#~ msgid ""
+#~ "Enter the domains from which you want to allow HTTP requests. Separate "
+#~ "multiple domains with commas."
+#~ msgstr ""
+#~ "Inserisci i domini da cui desideri consentire le richieste HTTP. Separare "
+#~ "i domini multipli con virgole."
+
+#~ msgid "HTTP request timeout (seconds)"
+#~ msgstr "Timeout della richiesta HTTP (secondi)"
+
+#~ msgid ""
+#~ "Enter the timeout period in seconds for HTTP requests to the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Inserisci il periodo di timeout in secondi per le richieste HTTP alla API "
+#~ "esterna di ottimizzazione delle immagini."
+
+#~ msgid "Custom HTTP headers"
+#~ msgstr "Intestazioni HTTP personalizzate"
+
+#~ msgid ""
+#~ "Enter any custom HTTP headers that you want to send along with the "
+#~ "requests. Each header should be on a separate line."
+#~ msgstr ""
+#~ "Inserisci qualsiasi intestazioni HTTP personalizzate che desideri inviare "
+#~ "insieme alle richieste. Ogni intestazione dovrebbe essere su una riga "
+#~ "separata."
+
+#~ msgid "API request method"
+#~ msgstr "Metodo di richiesta API"
+
+#~ msgid ""
+#~ "Select the request method to use for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Scegli il metodo di richiesta da utilizzare per comunicare con la API "
+#~ "esterna di ottimizzazione delle immagini."
+
+#~ msgid "GET"
+#~ msgstr "GET"
+
+#~ msgid "POST"
+#~ msgstr "POST"
+
+#~ msgid "PUT"
+#~ msgstr "PUT"
+
+#~ msgid "DELETE"
+#~ msgstr "ELIMINA"
+
+#~ msgid "Allow Unsafe Requests"
+#~ msgstr "Consenti richieste non sicure"
+
+#~ msgid ""
+#~ "Allow unsafe requests (e.g., HTTP GET with request body) to the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Consenti richieste non sicure (ad esempio, HTTP GET con corpo della "
+#~ "richiesta) alla API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Basic Authentication"
+#~ msgstr "Autenticazione di base"
+
+#~ msgid ""
+#~ "If enabled, use basic authentication for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Se abilitato, utilizza l'autenticazione di base per comunicare con la API "
+#~ "esterna di ottimizzazione delle immagini."
+
+#~ msgid "Bearer Authentication"
+#~ msgstr "Autenticazione di tipo Bearer"
+
+#~ msgid ""
+#~ "If enabled, use bearer authentication for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Se abilitato, utilizza l'autenticazione di tipo bearer per comunicare con "
+#~ "la API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Custom Authentication"
+#~ msgstr "Autenticazione personalizzata"
+
+#~ msgid ""
+#~ "If enabled, use custom authentication for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Se abilitato, utilizza l'autenticazione personalizzata per comunicare con "
+#~ "la API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Content-Type"
+#~ msgstr "Tipo di contenuto"
+
+#~ msgid ""
+#~ "Enter the content type to use for communicating with the external image "
+#~ "optimization API."
+#~ msgstr ""
+#~ "Inserisci il tipo di contenuto da utilizzare per comunicare con la API "
+#~ "esterna di ottimizzazione delle immagini."
+
+#~ msgid "Authorization Header"
+#~ msgstr "Intestazione di autorizzazione"
+
+#~ msgid ""
+#~ "Enter the authorization header to use for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Inserisci l'intestazione di autorizzazione da utilizzare per comunicare "
+#~ "con la API esterna di ottimizzazione delle immagini."
+
+#~ msgid "API Version"
+#~ msgstr "Versione API"
+
+#~ msgid ""
+#~ "Enter the version of the external image optimization API that you want to "
+#~ "use."
+#~ msgstr ""
+#~ "Inserisci la versione della API esterna di ottimizzazione delle immagini "
+#~ "che desideri utilizzare."
+
+#~ msgid "Custom API Path"
+#~ msgstr "Percorso API personalizzato"
+
+#~ msgid ""
+#~ "Enter the custom API path to use for communicating with the external "
+#~ "image optimization API."
+#~ msgstr ""
+#~ "Inserisci il percorso API personalizzato da utilizzare per comunicare con "
+#~ "la API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Retries"
+#~ msgstr "Tentativi"
+
+#~ msgid ""
+#~ "Enter the number of times to retry failed requests to the external image "
+#~ "optimization API."
+#~ msgstr ""
+#~ "Inserisci il numero di volte in cui riprovare le richieste fallite alla "
+#~ "API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Retry Delay (seconds)"
+#~ msgstr "Ritardo di ripetizione (secondi)"
+
+#~ msgid ""
+#~ "Enter the delay period in seconds between retrying failed requests to the "
+#~ "external image optimization API."
+#~ msgstr ""
+#~ "Inserisci il periodo di ritardo in secondi tra il ripetere le richieste "
+#~ "fallite alla API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Maximum Request Size (bytes)"
+#~ msgstr "Dimensione massima della richiesta (byte)"
+
+#~ msgid ""
+#~ "Enter the maximum size in bytes for requests to the external image "
+#~ "optimization API."
+#~ msgstr ""
+#~ "Inserisci la dimensione massima in byte per le richieste alla API esterna "
+#~ "di ottimizzazione delle immagini."
+
+#~ msgid "Maximum Retry Attempts"
+#~ msgstr "Massimi tentativi di ripetizione"
+
+#~ msgid ""
+#~ "Enter the maximum number of retry attempts for failed requests to the "
+#~ "external image optimization API."
+#~ msgstr ""
+#~ "Inserisci il numero massimo di tentativi di ripetizione per le richieste "
+#~ "fallite alla API esterna di ottimizzazione delle immagini."
+
+#~ msgid "Exclude specific media folders"
+#~ msgstr "Escludi cartelle multimediali specifiche"
+
+#~ msgid ""
+#~ "Enter the paths to specific media folders you want to exclude from "
+#~ "optimization. Separate multiple paths with commas."
+#~ msgstr ""
+#~ "Inserisci i percorsi delle cartelle multimediali specifiche che desideri "
+#~ "escludere dall'ottimizzazione. Separare più percorsi con virgole."
+
+#~ msgid "Exclude specific image sizes"
+#~ msgstr "Escludi dimensioni immagine specifiche"
+
+#~ msgid ""
+#~ "Enter the names of specific image sizes you want to exclude from "
+#~ "optimization. Separate multiple image sizes with commas."
+#~ msgstr ""
+#~ "Inserisci i nomi delle dimensioni delle immagini specifiche che desideri "
+#~ "escludere dall'ottimizzazione. Separare le dimensioni delle immagini "
+#~ "multiple con virgole."
+
+#~ msgid "Enable experimental features"
+#~ msgstr "Abilita le funzionalità sperimentali"
+
+#~ msgid ""
+#~ "If enabled, experimental features that are still in development may be "
+#~ "enabled."
+#~ msgstr ""
+#~ "Se abilitato, le funzionalità sperimentali ancora in fase di sviluppo "
+#~ "potrebbero essere abilitate."
+
+#~ msgid "Enable experimental features that are still in development."
+#~ msgstr "Abilita le funzionalità sperimentali ancora in fase di sviluppo."
+
+#~ msgid "Save Changes"
+#~ msgstr "Salva modifiche"
+
+#~ msgid "Settings saved successfully."
+#~ msgstr "Impostazioni salvate correttamente."
+
+#~ msgid "Error saving settings."
+#~ msgstr "Errore nel salvataggio delle impostazioni."
+
+#~ msgid "An error occurred while saving the settings. Please try again."
+#~ msgstr ""
+#~ "Si è verificato un errore durante il salvataggio delle impostazioni. Si "
+#~ "prega di riprovare."
+
+#~ msgid "Adaptive Contents"
+#~ msgstr "Contenuti Adattivi"
+
+#~ msgid "Enable CDN rewriting"
+#~ msgstr "Abilita riscrittura CDN"
+
+#~ msgid ""
+#~ "If enabled, all static assets such as background images, Javascript, CSS "
+#~ "files, etc will be loaded from a CDN domain. This requires that you have "
+#~ "correctly setup a CDN for your website, you can configure up to 3 "
+#~ "different CDN domains."
+#~ msgstr ""
+#~ "Se abilitato, tutti gli asset statici come immagini di sfondo, "
+#~ "JavaScript, file CSS, ecc. saranno caricati da un dominio CDN. Questo "
+#~ "richiede che tu abbia configurato correttamente un CDN per il tuo sito "
+#~ "web, puoi configurare fino a 3 domini CDN diversi."
+
+#~ msgid "Preconnect browsers to CDN"
+#~ msgstr "Preconnetti i browser al CDN"
+
+#~ msgid ""
+#~ "If enabled, the browser will perform an early preconnect to your CDN "
+#~ "domains to speed up loading of subsequent resources."
+#~ msgstr ""
+#~ "Se abilitato, il browser eseguirà una preconnessione anticipata ai tuoi "
+#~ "domini CDN per accelerare il caricamento delle risorse successive."
+
+#~ msgid "CDN scheme"
+#~ msgstr "Schema CDN"
+
+#~ msgid "Select the scheme for your CDN domain."
+#~ msgstr "Seleziona lo schema per il tuo dominio CDN."
+
+#~ msgid "CDN Domain #1"
+#~ msgstr "Dominio CDN n. 1"
+
+#~ msgid "Enter the CDN domain #1."
+#~ msgstr "Inserisci il dominio CDN n. 1."
+
+#~ msgid "CDN files #1"
+#~ msgstr "File CDN n. 1"
+
+#~ msgid ""
+#~ "Select file types that you want to be loaded over a CDN with the domain "
+#~ "#1. It's possible to select a value from the list of options or specify "
+#~ "additional ones and hit 'Enter'."
+#~ msgstr ""
+#~ "Seleziona i tipi di file che vuoi caricare su un CDN con il dominio n. 1. "
+#~ "È possibile selezionare un valore dall'elenco delle opzioni o specificare "
+#~ "quelli aggiuntivi e premere 'Invio'."
+
+#~ msgid "CDN Domain #2"
+#~ msgstr "Dominio CDN n. 2"
+
+#~ msgid "Enter the CDN domain #2."
+#~ msgstr "Inserisci il dominio CDN n. 2."
+
+#~ msgid "CDN files #2"
+#~ msgstr "File CDN n. 2"
+
+#~ msgid ""
+#~ "Select file types that you want to be loaded over a CDN with the domain "
+#~ "#2. It's possible to select a value from the list of options or specify "
+#~ "additional ones and hit 'Enter'."
+#~ msgstr ""
+#~ "Seleziona i tipi di file che vuoi caricare su un CDN con il dominio n. 2. "
+#~ "È possibile selezionare un valore dall'elenco delle opzioni o specificare "
+#~ "quelli aggiuntivi e premere 'Invio'."
+
+#~ msgid "CDN Domain #3"
+#~ msgstr "Dominio CDN n. 3"
+
+#~ msgid "Enter the CDN domain #3."
+#~ msgstr "Inserisci il dominio CDN n. 3."
+
+#~ msgid "CDN files #3"
+#~ msgstr "File CDN n. 3"
+
+#~ msgid ""
+#~ "Select file types that you want to be loaded over a CDN with the domain "
+#~ "#3. It's possible to select a value from the list of options or specify "
+#~ "additional ones and hit 'Enter'."
+#~ msgstr ""
+#~ "Seleziona i tipi di file che vuoi caricare su un CDN con il dominio n. 3. "
+#~ "È possibile selezionare un valore dall'elenco delle opzioni o specificare "
+#~ "quelli aggiuntivi e premere 'Invio'."
+
+#~ msgid "Custom CDN extensions"
+#~ msgstr "Estensioni CDN personalizzate"
+
+#~ msgid ""
+#~ "It's possible to add custom extensions for file types to load them "
+#~ "through the CDN Domain #1. Add custom options and hit 'Enter'."
+#~ msgstr ""
+#~ "È possibile aggiungere estensioni personalizzate per i tipi di file per "
+#~ "caricarli tramite il dominio CDN n. 1. Aggiungi opzioni personalizzate e "
+#~ "premi 'Invio'."

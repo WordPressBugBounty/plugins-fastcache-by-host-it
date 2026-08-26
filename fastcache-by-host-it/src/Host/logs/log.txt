@@ -1,0 +1,9 @@
+2025-10-09 00:00:29 PURGE: https://purge.hostcdn.it:8443/.* Method: regexp noadm - retcode:200
+2025-11-17 17:04:36 PURGE: https://purge.hostcdn.it:8443/.* Method: regexp noadm - retcode:200
+2025-11-17 17:04:44 PURGE: https://purge.hostcdn.it:8443/ Method: exact noadm - retcode:200
+2025-11-17 17:04:51 PURGE: https://purge.hostcdn.it:8443/ Method: exact noadm - retcode:200
+2025-11-17 17:04:57 PURGE: https://purge.hostcdn.it:8443/.* Method: regexp noadm - retcode:200
+2025-11-17 17:05:09 PURGE: https://purge.hostcdn.it:8443/.* Method: regexp noadm - retcode:200
+2025-11-17 17:08:20 PURGE: https://purge.hostcdn.it:8443/.* Method: regexp noadm - retcode:200
+2025-11-17 17:21:01 PURGE: https://purge.hostcdn.it:8443/ Method: exact noadm - retcode:200
+2025-11-17 18:29:59 PURGE: https://purge.hostcdn.it:8443/ Method: exact noadm - retcode:200

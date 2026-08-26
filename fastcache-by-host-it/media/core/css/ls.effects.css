@@ -1,0 +1,21 @@
+/**
+ * FastCache - Performs several front-end optimizations for fast downloads
+ *
+ * @package   FastCache
+ * @author    Host.it <info@host.it>
+ * @copyright Copyright (c) 2025-2026 FastCache
+ * @license   GNU/GPLv3, or later. See LICENSE file
+ *
+ * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
+ */
+
+
+.fastcache-lazyload,
+.fastcache-lazyloading {
+	opacity: 0;
+}
+
+.fastcache-lazyloaded {
+	opacity: 1;
+	transition: opacity 300ms;
+}
