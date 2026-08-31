@@ -369,183 +369,63 @@ class Utility implements UtilityInterface {
 		return $oUA;
 	}
 	
-	public static function htaccessCacheManagement($postedSettings, $enable = null) {
-		// Htaccess page cache rules incompatible with Multisite (shared .htaccess)
-		if ( is_multisite() ) {
+	public static function htaccessCacheManagement($postedSettings, $enable = null, $currentSettingsOverride = null) {
+		// Subdomain multisite: Apache cannot distinguish sites by REQUEST_URI alone (every
+		// site's home is '/'), so we never write the rewrite rules for it. The page cache
+		// still works: files are generated in the same .html format as regular htaccess mode
+		// (see Cache::_getFileName()) and are found and served by the PHP safety net in
+		// PageCache::initialize() on every request, correctly isolated per domain via blog_id
+		// -- just never via a real Apache-level bypass.
+		if ( is_multisite() && defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ) {
 			return;
 		}
 
-		$currentSettings = Plugin::getPluginParams()->toArray();
+		// $currentSettingsOverride lets a caller that already has the authoritative "before"
+		// value (e.g. the update_option_{...} hook, which WordPress hands the old value to
+		// directly) skip Plugin::getPluginParams() entirely for this comparison -- avoiding
+		// any dependency on whether that cache happens to still hold pre-save data.
+		$currentSettings = is_array( $currentSettingsOverride ) ? $currentSettingsOverride : Plugin::getPluginParams()->toArray();
 		$currentHtaccessCacheEnable = isset($currentSettings['htaccess_cache_enable']) ? (int)$currentSettings['htaccess_cache_enable'] : 0;
 		$postedHtaccessCacheEnable = $postedSettings['htaccess_cache_enable'];
-		
-		if((int)$currentHtaccessCacheEnable != (int)$postedHtaccessCacheEnable || $postedHtaccessCacheEnable === 'auto') {
+
+		// Also rewrite when "Cache specifica della piattaforma" changes: the mobile/desktop
+		// UA-detection rules depend on this setting too (Bug#34278). Without this check, toggling
+		// pro_cache_platform while htaccess_cache_enable stays unchanged (e.g. already 1) would
+		// leave stale rules in .htaccess that never look for the _mobile variant files, because
+		// the block below would never re-run buildHtaccessBlock().
+		$currentPlatformCache = isset($currentSettings['pro_cache_platform']) ? (int)$currentSettings['pro_cache_platform'] : 0;
+		$postedPlatformCache  = isset($postedSettings['pro_cache_platform']) ? (int)$postedSettings['pro_cache_platform'] : 0;
+		$platformCacheChanged = $currentPlatformCache !== $postedPlatformCache;
+
+		if ( (int)$currentHtaccessCacheEnable != (int)$postedHtaccessCacheEnable || $postedHtaccessCacheEnable === 'auto' || $platformCacheChanged ) {
 			$htaccess = Paths::rootPath() . '/.htaccess';
-			
+
 			if ( file_exists( $htaccess ) ) {
 				$contents = file_get_contents( $htaccess );
-				
-				$apacheVersion = '';
-				if (function_exists('apache_get_version')) {
-					$apacheVersion = apache_get_version();
-				}
-				
-				// fallback per hosting con FastCGI/FPM
-				if (empty($apacheVersion) && isset($_SERVER['SERVER_SOFTWARE'])) {
-					$apacheVersion = $_SERVER['SERVER_SOFTWARE'];
-				}
-				
-				$isModernApache = (
-						strpos($apacheVersion, 'Apache/2.4') !== false ||
-						strpos($apacheVersion, 'Apache/2.5') !== false
-				);
-				
-				// scegli il blocco in base alla versione
-				if ($isModernApache) {
-					// Versione moderna per Apache 2.4+
-					$htaccessPageCache = <<<APACHECONFIG
-## BEGIN HTACCESS PAGE CACHING - FASTCACHE 2.4 ##
-# Serve cached pages only for GET requests
-RewriteCond %{REQUEST_METHOD} ^(GET)$
-# Exclude AJAX/XHR requests
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-# Exclude URLs containing query strings (?param=)
-RewriteCond %{QUERY_STRING} ^$
-# Exclude logged-in users and comment authors
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_) [NC]
-# Exclude WordPress backend and REST API requests
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-# Check if the cached file exists (replace '/' with '_')
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_\${REQUEST_URI//\//_}_.html -f
-# Serve the static cached file directly
-RewriteRule ^(.*)$ /wp-content/cache/fastcache/page/_\${REQUEST_URI//\//_}_.html [L]
-## END HTACCESS PAGE CACHING - FASTCACHE ##
 
+				// update_option() for this settings array has already run by the time this
+				// hook fires, but Plugin::getPluginParams() may have cached the pre-save
+				// values earlier in this same request. Force a fresh read so the rules
+				// buildHtaccessBlock() generates reflect what was just saved, not what was
+				// saved on the previous request (Bug#34278 follow-up).
+				Plugin::resetPluginParamsCache();
 
-APACHECONFIG;
-				} else {
-					// Versione legacy per Apache 2.2 (compatibile universale)
-					$htaccessPageCache = <<<APACHECONFIG
-## BEGIN HTACCESS PAGE CACHING - FASTCACHE ##
-## 3.0 
-RewriteEngine On
-RewriteRule ^wp-content/cache/fastcache/page/ - [E=FASTCACHE_LEVEL:CACHEFILE]
-RewriteCond %{REQUEST_URI} !^/wp-content/cache/fastcache/page/ [NC]
-RewriteRule ^ - [E=FASTCACHE_LEVEL:MISS]
-# ===== HOME =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_.html -f
-RewriteRule ^$ /wp-content/cache/fastcache/page/_.html [L,E=FASTCACHE_LEVEL:HITHOME]
+				$htaccessPageCache = self::buildHtaccessBlock();
 
-# ===== LEVEL 1 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_.html [L,E=FASTCACHE_LEVEL:HITL1]
-
-# ===== LEVEL 2 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_.html [L,E=FASTCACHE_LEVEL:HITL2]
-
-# ===== LEVEL 3 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_%3_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_%3_.html [L,E=FASTCACHE_LEVEL:HITL3]
-
-# ===== LEVEL 4 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_%3_%4_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_%3_%4_.html [L,E=FASTCACHE_LEVEL:HITL4]
-
-# ===== LEVEL 5 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_.html [L,E=FASTCACHE_LEVEL:HITL5]
-
-# ===== LEVEL 6 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_%6_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_%6_.html [L,E=FASTCACHE_LEVEL:HITL6]
-
-# ===== LEVEL 7 =====
-RewriteCond %{REQUEST_METHOD} ^GET$ [NC]
-RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]
-RewriteCond %{QUERY_STRING} ^$
-RewriteCond %{HTTP_COOKIE} !(wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_) [NC]
-RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-login|wp-json) [NC]
-RewriteCond %{REQUEST_URI} ^/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/$
-RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_%6_%7_.html -f
-RewriteRule ^ /wp-content/cache/fastcache/page/_%1_%2_%3_%4_%5_%6_%7_.html [L,E=FASTCACHE_LEVEL:HITL7]
-
-# ===== DEBUG HEADER (set only when FASTCACHE_LEVEL is present) =====
-Header always set X-HST-FASTCACHE-FS "%{FASTCACHE_LEVEL}e"
-
-## END HTACCESS PAGE CACHING - FASTCACHE ##
-
-
-APACHECONFIG;
-				}
-				
 				$regex = '~^[ \t]*## BEGIN HTACCESS PAGE CACHING - FASTCACHE[^\r\n]*\R.*?^[ \t]*## END HTACCESS PAGE CACHING - FASTCACHE[^\r\n]*\R?~sm';
 
-				if ($postedHtaccessCacheEnable == 1 || $postedHtaccessCacheEnable == -1 || $enable === true) {
-
-					// 1) Rimuovi TUTTE le occorrenze (anche duplicate, anche legacy)
-					$clean = preg_replace($regex, '', $contents, -1, $count);
-
-					// 2) Se non c’era nulla oppure c’erano duplicati, riscrivi inserendo UN SOLO blocco canonico
-					if ($count > 0) {
-						return file_put_contents($htaccess, $htaccessPageCache . $clean);
+				if ( $postedHtaccessCacheEnable == 1 || $postedHtaccessCacheEnable == -1 || $enable === true ) {
+					$clean = preg_replace( $regex, '', $contents, -1, $count );
+					if ( $count > 0 ) {
+						return file_put_contents( $htaccess, $htaccessPageCache . $clean );
 					}
+					return file_put_contents( $htaccess, $htaccessPageCache . $contents );
 
-					// 3) Se non è stato rimosso nulla, il blocco non c’era: aggiungilo
-					// (qui mantieni la tua logica originale: prepend)
-					return file_put_contents($htaccess, $htaccessPageCache . $contents);
-
-				} elseif ($postedHtaccessCacheEnable == 0 || $postedHtaccessCacheEnable == -1 || $enable === false) {
-
-					// Disable: rimuovi TUTTI i blocchi
-					$clean = preg_replace($regex, '', $contents, -1, $count);
-
-					if ($count > 0) {
-						return file_put_contents($htaccess, $clean);
+				} elseif ( $postedHtaccessCacheEnable == 0 || $postedHtaccessCacheEnable == -1 || $enable === false ) {
+					$clean = preg_replace( $regex, '', $contents, -1, $count );
+					if ( $count > 0 ) {
+						return file_put_contents( $htaccess, $clean );
 					}
-
 					return true;
 				}
 
@@ -553,6 +433,190 @@ APACHECONFIG;
 				return 'FILEDOESNTEXIST';
 			}
 		}
+	}
+
+	/**
+	 * Build the full htaccess cache block for single-site or multisite subdirectory.
+	 *
+	 * For multisite subdirectory, generates one Level 0-9 block per registered site.
+	 * Subsite blocks are written before the main site block so more-specific patterns
+	 * take precedence (e.g. /site2/ is matched before the root-level Level-1 rule).
+	 */
+	private static function buildHtaccessBlock() {
+		if ( is_multisite() ) {
+			return self::buildMultisiteHtaccessBlock();
+		}
+		$site_prefix = rtrim( wp_parse_url( home_url(), PHP_URL_PATH ), '/' );
+		$cache_base  = rtrim( wp_parse_url( content_url( 'cache/fastcache/page' ), PHP_URL_PATH ), '/' );
+		// Relative path for the CACHEFILE RewriteRule pattern (Apache strips the site prefix in .htaccess).
+		$cache_rel   = ltrim( substr( $cache_base, strlen( $site_prefix ) ), '/' );
+
+		$out  = "## BEGIN HTACCESS PAGE CACHING - FASTCACHE ##\n";
+		$out .= "RewriteEngine On\n";
+		$out .= "RewriteRule ^{$cache_rel}/ - [E=FASTCACHE_LEVEL:CACHEFILE]\n";
+		$out .= "RewriteCond %{REQUEST_URI} !^{$cache_base}/ [NC]\n";
+		$out .= "RewriteRule ^ - [E=FASTCACHE_LEVEL:MISS]\n";
+		$out .= self::buildSiteHtaccessRules( $cache_base, $site_prefix, [] );
+		$out .= "\n<IfModule mod_headers.c>\n\tHeader always set X-HST-FASTCACHE-FS \"%{FASTCACHE_LEVEL}e\"\n</IfModule>\n";
+		$out .= "## END HTACCESS PAGE CACHING - FASTCACHE ##\n\n";
+		return $out;
+	}
+
+	private static function buildMultisiteHtaccessBlock() {
+		$sites = get_sites( [ 'number' => 200 ] );
+		$main_id = (int) get_main_site_id();
+
+		// Collect subsite paths so the main-site block can exclude them.
+		$subsite_paths = [];
+		foreach ( $sites as $site ) {
+			if ( (int) $site->blog_id !== $main_id ) {
+				$subsite_paths[] = rtrim( $site->path, '/' ); // e.g. '/site2'
+			}
+		}
+
+		$subsite_blocks = '';
+		$main_block     = '';
+
+		foreach ( $sites as $site ) {
+			$blog_id    = (int) $site->blog_id;
+			$cache_base = '/wp-content/cache/fastcache/' . $blog_id . '/page';
+			// site_prefix: the path segment that prefixes each URI for this blog.
+			// Main site at '/' -> no prefix; site2 at '/site2/' -> prefix '/site2'
+			$site_prefix = rtrim( $site->path, '/' ); // '' for main, '/site2' for site2
+
+			if ( $blog_id === $main_id ) {
+				// Main site rules exclude all subsite paths to prevent false matches
+				// (e.g. Level-1 rule ^/([^/]+)/$ would otherwise match /site2/).
+				$main_block = self::buildSiteHtaccessRules( $cache_base, $site_prefix, $subsite_paths );
+			} else {
+				$subsite_blocks .= self::buildSiteHtaccessRules( $cache_base, $site_prefix, [] );
+			}
+		}
+
+		$out  = "## BEGIN HTACCESS PAGE CACHING - FASTCACHE ##\n";
+		$out .= "RewriteEngine On\n";
+		$out .= "RewriteRule ^wp-content/cache/fastcache/ - [E=FASTCACHE_LEVEL:CACHEFILE]\n";
+		$out .= "RewriteCond %{REQUEST_URI} !^/wp-content/cache/fastcache/ [NC]\n";
+		$out .= "RewriteRule ^ - [E=FASTCACHE_LEVEL:MISS]\n";
+		$out .= $subsite_blocks;
+		$out .= $main_block;
+		$out .= "\n<IfModule mod_headers.c>\n\tHeader always set X-HST-FASTCACHE-FS \"%{FASTCACHE_LEVEL}e\"\n</IfModule>\n";
+		$out .= "## END HTACCESS PAGE CACHING - FASTCACHE ##\n\n";
+		return $out;
+	}
+
+	/**
+	 * Generate Level 0-9 rewrite rules for one site.
+	 *
+	 * @param string $cache_base   Web-root-relative path to the site's page cache dir,
+	 *                             e.g. '/wp-content/cache/fastcache/2/page'
+	 * @param string $site_prefix  URI prefix for this site, e.g. '' or '/site2'
+	 * @param array  $exclude_paths  URI prefixes to exclude (used for main site to skip subsite paths)
+	 */
+	private static function buildSiteHtaccessRules( $cache_base, $site_prefix, array $exclude_paths ) {
+		$cookie_pattern = 'wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_';
+
+		// Append admin-configured cookie exclusions (e.g. cmplz_ for Complianz/GDPR plugins).
+		$params        = Plugin::getPluginParams();
+		$extra_cookies = $params->get( 'cache_cookie_exclude', [ 'cmplz_' ] );
+		foreach ( (array) $extra_cookies as $cookie ) {
+			$cookie = trim( $cookie );
+			if ( $cookie !== '' ) {
+				$cookie_pattern .= '|' . $cookie;
+			}
+		}
+
+		// When "Cache specifica della piattaforma" is on, generate separate mobile/desktop
+		// cache-file pairs so mobile visitors never receive a desktop-generated page and
+		// vice-versa (Bug#34278 / Ticket#71450934).
+		$platform_cache = (bool) $params->get( 'pro_cache_platform', '0' );
+
+		$p = $site_prefix; // e.g. '' or '/site2'
+
+		// Common conditions for every level (built once, prepended to each block)
+		$exclude_conds = '';
+		foreach ( $exclude_paths as $excl ) {
+			$exclude_conds .= 'RewriteCond %{REQUEST_URI} !^' . preg_quote( $excl, null ) . '/ [NC]' . "\n";
+		}
+
+		$common = "RewriteCond %{REQUEST_METHOD} ^GET$ [NC]\n"
+			. "RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]\n"
+			. "RewriteCond %{QUERY_STRING} ^$\n"
+			. "RewriteCond %{HTTP_COOKIE} !({$cookie_pattern}) [NC]\n"
+			. "RewriteCond %{REQUEST_URI} !^{$p}/(wp-admin|wp-login|wp-json) [NC]\n"
+			. $exclude_conds;
+
+		// Level labels for single-site have no prefix marker; multisite adds the blog path.
+		$label = $p ? " [{$p}]" : '';
+
+		$out = '';
+
+		// UA detection: stamp FASTCACHE_MOBILE env var for all subsequent rules in this block.
+		// The rule fires only when the UA matches a mobile pattern and is a no-op rewrite (^ → -).
+		if ( $platform_cache ) {
+			$out .= "\n# Mobile UA detection for platform-specific cache{$label}\n"
+				. 'RewriteCond %{HTTP_USER_AGENT} "Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini" [NC]' . "\n"
+				. "RewriteRule ^ - [E=FASTCACHE_MOBILE:1]\n";
+		}
+
+		// Helper closure: emit one cache-hit rule block (mobile or desktop variant, or unified).
+		// $uri_cond  : RewriteCond line(s) matching the URI pattern
+		// $file_id   : filename stem (without leading cache_base or trailing .html)
+		// $hit_label : E=FASTCACHE_LEVEL value
+		// $mobile_cond : 'mobile' | 'desktop' | '' (unified when platform cache is off)
+		$make_rule = function( $uri_cond, $file_stem, $hit_label, $variant ) use ( $common, $cache_base ) {
+			$out = $common;
+			if ( $variant === 'mobile' ) {
+				$out .= "RewriteCond %{ENV:FASTCACHE_MOBILE} =1\n";
+			} elseif ( $variant === 'desktop' ) {
+				$out .= "RewriteCond %{ENV:FASTCACHE_MOBILE} !1\n";
+			}
+			$out .= $uri_cond
+				. "RewriteCond %{DOCUMENT_ROOT}{$cache_base}/{$file_stem}.html -f\n"
+				. "RewriteRule ^ {$cache_base}/{$file_stem}.html [L,E=FASTCACHE_LEVEL:{$hit_label}]\n";
+			return $out;
+		};
+
+		// HOME
+		$home_uri_cond = "RewriteCond %{REQUEST_URI} " . ( $p === '' ? '^/$' : "^{$p}/$" ) . "\n";
+
+		if ( $platform_cache ) {
+			$out .= "\n# ===== HOME{$label} (mobile) =====\n"
+				. $make_rule( $home_uri_cond, '__mobile', 'HITHOME', 'mobile' );
+			$out .= "\n# ===== HOME{$label} (desktop) =====\n"
+				. $make_rule( $home_uri_cond, '_', 'HITHOME', 'desktop' );
+		} else {
+			$out .= "\n# ===== HOME{$label} =====\n"
+				. $make_rule( $home_uri_cond, '_', 'HITHOME', '' );
+		}
+
+		// Levels 1-9: each level captures one more URI segment
+		$capture_levels = [
+			1 => [ 'pattern' => $p . '/([^/]+)/',         'vars' => '%1' ],
+			2 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/', 'vars' => '%1_%2' ],
+			3 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3' ],
+			4 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4' ],
+			5 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4_%5' ],
+			6 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4_%5_%6' ],
+			7 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4_%5_%6_%7' ],
+			8 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4_%5_%6_%7_%8' ],
+			9 => [ 'pattern' => $p . '/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/]+)/', 'vars' => '%1_%2_%3_%4_%5_%6_%7_%8_%9' ],
+		];
+
+		foreach ( $capture_levels as $level => $cfg ) {
+			$uri_cond = "RewriteCond %{REQUEST_URI} ^{$cfg['pattern']}$\n";
+			if ( $platform_cache ) {
+				$out .= "\n# ===== LEVEL {$level}{$label} (mobile) =====\n"
+					. $make_rule( $uri_cond, "_{$cfg['vars']}__mobile", "HITL{$level}", 'mobile' );
+				$out .= "\n# ===== LEVEL {$level}{$label} (desktop) =====\n"
+					. $make_rule( $uri_cond, "_{$cfg['vars']}_", "HITL{$level}", 'desktop' );
+			} else {
+				$out .= "\n# ===== LEVEL {$level}{$label} =====\n"
+					. $make_rule( $uri_cond, "_{$cfg['vars']}_", "HITL{$level}", '' );
+			}
+		}
+
+		return $out;
 	}
 	
 	public static function bsTooltipContentAttribute() {

@@ -287,6 +287,26 @@ class ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h {
 			$loader->prefixLengthsPsr4 = ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h::$prefixLengthsPsr4;
 			$loader->prefixDirsPsr4 = ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h::$prefixDirsPsr4;
 			$loader->classMap = ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h::$classMap;
+
+			// If another already-loaded plugin declared Psr\Log\LoggerInterface
+			// (e.g. a bundled Monolog 3 stack requiring psr/log ^3.0), defer to
+			// that version instead of registering FastCache's bundled psr/log
+			// ^1.0 copy. Registering our own copy on top of a newer one that is
+			// already partially loaded can fatal with a "Cannot redeclare"
+			// error or a signature mismatch on Multisite, where plugin load
+			// order differs from single-site installs.
+			if ( interface_exists( 'Psr\\Log\\LoggerInterface', false ) ) {
+				unset( $loader->prefixLengthsPsr4['P']['Psr\\Log\\'] );
+				if ( empty( $loader->prefixLengthsPsr4['P'] ) ) {
+					unset( $loader->prefixLengthsPsr4['P'] );
+				}
+				unset( $loader->prefixDirsPsr4['Psr\\Log\\'] );
+				foreach ( array_keys( $loader->classMap ) as $sPsrClass ) {
+					if ( strpos( $sPsrClass, 'Psr\\Log\\' ) === 0 ) {
+						unset( $loader->classMap[ $sPsrClass ] );
+					}
+				}
+			}
 		}, null, ClassLoader::class );
 	}
 }

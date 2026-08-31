@@ -157,9 +157,18 @@ class Cache implements CacheInterface {
 				$wp_filesystem->put_contents ( FASTCACHE_CACHE_DIR . 'index.html', $index_contents, FS_CHMOD_FILE );
 			}
 
-			if (! $wp_filesystem->exists ( FASTCACHE_CACHE_DIR . 'page' )) {
-				$wp_filesystem->mkdir ( FASTCACHE_CACHE_DIR . 'page', FS_CHMOD_DIR );
-				$wp_filesystem->put_contents ( FASTCACHE_CACHE_DIR . 'page/index.html', $index_contents, FS_CHMOD_FILE );
+			// On multisite, isolate each blog under its own numeric subdirectory.
+			$blog_prefix = is_multisite() ? get_current_blog_id() . '/' : '';
+
+			if ( $blog_prefix && ! $wp_filesystem->exists ( FASTCACHE_CACHE_DIR . rtrim( $blog_prefix, '/' ) ) ) {
+				$wp_filesystem->mkdir ( FASTCACHE_CACHE_DIR . rtrim( $blog_prefix, '/' ), FS_CHMOD_DIR );
+				$wp_filesystem->put_contents ( FASTCACHE_CACHE_DIR . rtrim( $blog_prefix, '/' ) . '/index.html', $index_contents, FS_CHMOD_FILE );
+			}
+
+			$page_dir = FASTCACHE_CACHE_DIR . $blog_prefix . 'page';
+			if (! $wp_filesystem->exists ( $page_dir )) {
+				$wp_filesystem->mkdir ( $page_dir, FS_CHMOD_DIR );
+				$wp_filesystem->put_contents ( $page_dir . '/index.html', $index_contents, FS_CHMOD_FILE );
 			}
 		}
 	}
@@ -291,6 +300,15 @@ class Cache implements CacheInterface {
 			return $result;
 		}
 
+		// 'blog': delete only the current blog's cache directory (page + wpc), leaving other blogs and shared caches (css/js/images) intact.
+		if ($context == 'blog' && is_multisite()) {
+			$blog_dir = FASTCACHE_CACHE_DIR . get_current_blog_id();
+			if ($wp_filesystem->exists($blog_dir)) {
+				return (bool) $wp_filesystem->rmdir($blog_dir, true);
+			}
+			return true;
+		}
+
 		$cache_dir = dirname ( FASTCACHE_CACHE_DIR );
 		// Get list of all folders in the cache directory (.../wp-content/cache/)
 		$cache_dir_list = $wp_filesystem->dirlist ( $cache_dir, false, false );
@@ -303,7 +321,9 @@ class Cache implements CacheInterface {
 		foreach ( $cache_dir_list as $entry ) {
 			// Skip the cache if we're only deleting page cache
 			if ($context == 'page' && $entry ['name'] == 'fastcache') {
-				$wp_filesystem->rmdir ( $cache_dir . '/fastcache/page', true );
+				// On multisite delete only the current blog's page directory; on single-site delete the shared one.
+				$blog_prefix = is_multisite() ? get_current_blog_id() . '/' : '';
+				$wp_filesystem->rmdir ( $cache_dir . '/fastcache/' . $blog_prefix . 'page', true );
 
 				continue;
 			}
@@ -368,7 +388,8 @@ class Cache implements CacheInterface {
 		}
 
 		$siteUrl = site_url ();
-		$cacheDir = FASTCACHE_CACHE_DIR . 'page/';
+		$blog_prefix = is_multisite() ? get_current_blog_id() . '/' : '';
+		$cacheDir = FASTCACHE_CACHE_DIR . $blog_prefix . 'page/';
 
 		foreach ( $urls as $url ) {
 			$slug = str_ireplace ( '/', '_', str_ireplace ( $siteUrl, '', $url ) );
@@ -477,12 +498,22 @@ class Cache implements CacheInterface {
 	 */
 	private static function _getFileName($id, $page_cache = false) {
 		$params = Plugin::getPluginParams ();
-		if ($page_cache && $params->get ( 'htaccess_cache_enable', '1' )) {
-			return FASTCACHE_CACHE_DIR . 'page/' . $id . '.html';
-		} elseif ($page_cache && ! $params->get ( 'htaccess_cache_enable', '1' )) {
-			return FASTCACHE_CACHE_DIR . 'page/' . md5 ( NONCE_SALT . $id ) . '.wpc';
+		// On multisite each blog gets its own subdirectory so cache files never collide across sites.
+		$blog_prefix = is_multisite() ? get_current_blog_id() . '/' : '';
+		// Subdomain Multisite intentionally uses the SAME .html filename/content format as
+		// regular htaccess mode -- Utility::htaccessCacheManagement() is the only place that
+		// withholds it, by never writing the Apache rewrite rules for subdomain installs. So
+		// these files are always found and served by PHP (PageCache::initialize() safety net),
+		// never by a real Apache-level bypass, but their format matches getPageCacheId()'s
+		// URL-slug ID exactly, and saveCache()/_getCacheFile() store/read them as raw HTML
+		// (both key off this same setting) -- no hybrid hashed-name-with-raw-content file.
+		$htaccess_enabled = $params->get ( 'htaccess_cache_enable', '1' );
+		if ($page_cache && $htaccess_enabled) {
+			return FASTCACHE_CACHE_DIR . $blog_prefix . 'page/' . $id . '.html';
+		} elseif ($page_cache && ! $htaccess_enabled) {
+			return FASTCACHE_CACHE_DIR . $blog_prefix . 'page/' . md5 ( NONCE_SALT . $id ) . '.wpc';
 		} else {
-			return FASTCACHE_CACHE_DIR . md5 ( NONCE_SALT . $id ) . '.wpc';
+			return FASTCACHE_CACHE_DIR . $blog_prefix . md5 ( NONCE_SALT . $id ) . '.wpc';
 		}
 	}
 

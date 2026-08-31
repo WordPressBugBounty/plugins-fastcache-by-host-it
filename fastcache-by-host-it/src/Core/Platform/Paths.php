@@ -166,7 +166,12 @@ class Paths implements PathsInterface
 	{
 		if ( $bRootRelative )
 		{
-			return content_url() . '/cache/fastcache';
+			// set_url_scheme() without a second argument mirrors the current request scheme
+			// (http or https). content_url() may return http:// when WordPress does not detect
+			// SSL — common behind reverse proxies or CDN that terminate TLS without setting
+			// $_SERVER['HTTPS']. Without this, combined CSS/JS URLs embedded in cached HTML
+			// pages use http:// and trigger Mixed Content errors on HTTPS sites (Bug#34278).
+			return set_url_scheme( content_url() . '/cache/fastcache' );
 		}
 		else
 		{

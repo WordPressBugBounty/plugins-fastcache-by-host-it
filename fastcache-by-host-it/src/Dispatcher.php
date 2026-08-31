@@ -282,15 +282,32 @@ abstract class Dispatcher {
 		] );
 	}
 	public static function cronPrune() {
-		$cache_dir = FASTCACHE_CACHE_DIR . "page/*";
-		$files = glob ( $cache_dir );
+		$params       = Plugin::getPluginParams ();
+		$ttl          = ( int ) $params->get ( 'page_cache_lifetime', '86400' );
 		$current_time = time ();
-		$params = Plugin::getPluginParams ();
-		$ttl = ( int ) $params->get ( 'page_cache_lifetime', '86400' );
-		foreach ( $files as $file ) {
-			$diff = $current_time - filemtime ( $file );
-			if ($diff > $ttl || filesize ( $file ) == 0) {
-				unlink ( $file );
+
+		// Build the list of page-cache directories to prune.
+		// Single-site: FASTCACHE_CACHE_DIR/page/
+		// Multisite:   FASTCACHE_CACHE_DIR/{blog_id}/page/ for every registered site.
+		if ( is_multisite() ) {
+			$page_dirs = [];
+			foreach ( get_sites( [ 'number' => 500 ] ) as $site ) {
+				$page_dirs[] = FASTCACHE_CACHE_DIR . (int) $site->blog_id . '/page/';
+			}
+		} else {
+			$page_dirs = [ FASTCACHE_CACHE_DIR . 'page/' ];
+		}
+
+		foreach ( $page_dirs as $dir ) {
+			$files = glob( rtrim( $dir, '/' ) . '/*' );
+			if ( ! $files ) {
+				continue;
+			}
+			foreach ( $files as $file ) {
+				$diff = $current_time - filemtime ( $file );
+				if ( $diff > $ttl || filesize ( $file ) == 0 ) {
+					unlink ( $file );
+				}
 			}
 		}
 
@@ -447,6 +464,17 @@ abstract class Dispatcher {
 		if (! is_array ( $newValue )) {
 			return;
 		}
+
+		// Regenerate the .htaccess FASTCACHE block here, not via admin_action_update: the
+		// settings form posts to options.php, which WordPress's own core never routes through
+		// admin_action_{$action} -- so Admin::updateSettings() (hooked there) never actually
+		// runs on a real save. update_option_{option} is the one hook WordPress guarantees
+		// fires on every save regardless of how it was triggered, and it hands us the
+		// authoritative old/new arrays directly, with no caching involved (Bug#34278 follow-up).
+		if ( ! is_array( $oldValue ) ) {
+			$oldValue = [];
+		}
+		Utility::htaccessCacheManagement( $newValue, null, $oldValue );
 
 		$wasEnabled = ! empty ( $oldValue ['object_cache_enable'] );
 		$isEnabled = ! empty ( $newValue ['object_cache_enable'] );

@@ -180,6 +180,10 @@ class TabSettings
 					__('Exclude page cache by URL', 'fastcache'),
 					__('Enter a substring of each url that you want to exclude from the page cache. It\'s not needed to enter the complete url for the matching, but only a part of it. Add a string and hit \'Enter\'.', 'fastcache')
 				],
+				'cache_cookie_exclude' => [
+					__('Exclude page cache by cookie', 'fastcache'),
+					__('Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit \'Enter\'.', 'fastcache')
+				],
 				'enable_nonce_refresh' => [
 					__('Enable late nonce refresh', 'fastcache'),
 					__('When enabled, WordPress nonces in cached pages are replaced with placeholders and refreshed via REST API before AJAX requests. This prevents "nonce verification failed" errors when pages are cached longer than the nonce lifespan (12 hours). Works with both .htaccess static caching and PHP page caching.', 'fastcache')

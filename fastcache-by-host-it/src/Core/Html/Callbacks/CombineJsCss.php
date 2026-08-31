@@ -75,7 +75,13 @@ class CombineJsCss extends CallbackBase
 				'.com/uds',
 				'typekit.net',
 				'cdn.ampproject.org',
-				'googleadservices.com/pagead/conversion'
+				'googleadservices.com/pagead/conversion',
+				// Complianz GDPR/TCF: must not be combined/deferred or consent signals break
+				'complianz-gdpr',
+				'complianz-gdpr-premium',
+				'/tcf/build/index',
+				'/tcf-stub/build/index',
+				'/cookiebanner/js/complianz',
 		);
 		$defaultExcludesBottom = array( '.com/recaptcha/api' );
 		if(isset($isBot)) {

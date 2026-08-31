@@ -57,6 +57,13 @@ class PageCache {
 				// "index.php" come primo segmento e servono la home page per URL interne.
 				$uri = preg_replace( '#^/?index\.php/?#i', '/', $uri );
 				$sCacheId = str_ireplace ( '/', '_', $uri );
+
+				// When platform-specific cache is on, append a mobile marker so mobile and
+				// desktop visitors get separate .html files (Bug#34278 / Ticket#71450934).
+				// The htaccess rules use UA detection to serve the matching variant.
+				if ( $params->get( 'pro_cache_platform', '0' ) && function_exists( 'wp_is_mobile' ) && wp_is_mobile() ) {
+					$sCacheId .= '_mobile';
+				}
 			} else {
 				$parts = array ();
 
@@ -74,6 +81,18 @@ class PageCache {
 	}
 	public static function store($sHtml) {
 		if (self::isCachingEnabled ()) {
+			// Never cache non-200 responses: 403 from WAF/Wordfence, 404, 500, redirects, etc.
+			// http_response_code() returns the code set by PHP (default 200 for normal pages).
+			$http_status = http_response_code();
+			if ( $http_status !== false && $http_status !== 200 ) {
+				return;
+			}
+
+			// WordPress-level 404 guard (belt-and-suspenders for WP-set 404s).
+			if ( function_exists( 'is_404' ) && is_404() ) {
+				return;
+			}
+
 			// Apply late nonce refresh to prevent stale nonces in cached pages (v1.6.9)
 			if ( file_exists( dirname(__FILE__) . '/NonceRefresh.php' ) ) {
 				require_once dirname(__FILE__) . '/NonceRefresh.php';
@@ -119,13 +138,21 @@ class PageCache {
 		return false;
 	}
 	public static function isCachingEnabled() {
-		// Page cache incompatible with Multisite (htaccess rules conflict per-domain)
-		if ( is_multisite() ) {
-			return false;
-		}
+		// NOTE: subdomain Multisite is intentionally NOT blocked here. The Apache-level
+		// static bypass is already disabled for it in two other, more precise places:
+		// Cache::_getFileName() forces the .wpc (PHP-served) storage format instead of
+		// .html even when htaccess_cache_enable=1, and Utility::htaccessCacheManagement()
+		// never writes the rewrite rules into .htaccess for subdomain installs. Blocking
+		// caching wholesale here (as pre-1.7.0 did for ALL multisite, before per-blog_id
+		// isolation existed) would disable the PHP page cache too, which works correctly.
 
 		// Divi Visual Builder sessions must never be cached
 		if ( isset( $_GET['et_fb'] ) || isset( $_GET['et_pb_preview'] ) ) {
+			return false;
+		}
+
+		// Don't serve from cache if WordPress already flagged this as a 404.
+		if ( function_exists( 'is_404' ) && is_404() ) {
 			return false;
 		}
 
@@ -160,6 +187,20 @@ class PageCache {
 			
 			if ($xhrHeader || $jsonFetch || $crossOrigin) {
 				return false;
+			}
+		}
+
+		// Bypass cache when a configured cookie is present (e.g. cmplz_ for Complianz consent).
+		$cookie_exclude = (array) $params->get( 'cache_cookie_exclude', [ 'cmplz_' ] );
+		foreach ( $cookie_exclude as $cookie_prefix ) {
+			$cookie_prefix = trim( $cookie_prefix );
+			if ( $cookie_prefix === '' ) {
+				continue;
+			}
+			foreach ( array_keys( $_COOKIE ) as $cookie_name ) {
+				if ( strpos( $cookie_name, $cookie_prefix ) === 0 ) {
+					return false;
+				}
 			}
 		}
 

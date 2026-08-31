@@ -390,12 +390,6 @@ class HAdmin
 			return;
 		}
 
-		// CDN purge incompatible with Multisite (single token configured per-site)
-		if ( is_multisite() ) {
-			$this->purgeable = false;
-			return;
-		}
-
 		// Se WordPress non ha completato l'inizializzazione non possiamo verificare
 		// i permessi utente in modo sicuro (AUTH_COOKIE potrebbe non essere ancora definita,
 		// ad esempio durante il bootstrap di Multisite o in contesti REST/cron precoci)
@@ -603,7 +597,7 @@ class HAdmin
 	{
 		$regexp = [];
 		$exact = [];
-		$token = get_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS)['text-token'];
+		$token = \FastCache\Platform\Plugin::getCdnToken();
 		foreach ($purgeUrls3 as $k => $v) {
 			if (str_contains($v, "*")) {
 				$regexp[] = $v;

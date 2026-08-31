@@ -94,7 +94,12 @@ if (isset ( $options ['button-checkbox-activate-log'] )) {
 } else {
 	define ( "FASTCACHEHOST_LOGACTIVE", 0 );
 }
-require_once (ABSPATH . 'wp-includes/pluggable.php');
+// pluggable.php is already included by WordPress core in wp-settings.php;
+// re-requiring it here on Multisite can trigger fatal errors on admin pages
+// when cookie constants (AUTH_COOKIE, SECURE_AUTH_COOKIE) are not yet defined.
+if ( ! function_exists( 'is_user_logged_in' ) ) {
+	require_once( ABSPATH . 'wp-includes/pluggable.php' );
+}
 
 /**
  * The core plugin class that is used to define internationalization,

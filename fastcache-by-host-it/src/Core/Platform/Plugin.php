@@ -54,20 +54,52 @@ class Plugin implements PluginInterface
 	}
 
 	/**
+	 * Returns the CDN token for the current site.
+	 *
+	 * In multisite each subsite has its own CDN account and token (per-site setting).
+	 * Centralizes the read so all callers use the same path.
+	 *
+	 * @return string
+	 */
+	public static function getCdnToken(): string
+	{
+		$settings = get_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, [] );
+		return isset( $settings['text-token'] ) ? (string) $settings['text-token'] : '';
+	}
+
+	/**
 	 *
 	 * @return Settings
 	 */
+	/**
+	 * Request-lifetime cache for getPluginParams(). A class property (rather than a
+	 * function-local static) so resetPluginParamsCache() can invalidate it from outside.
+	 */
+	private static $paramsCache = null;
+
 	public static function getPluginParams()
 	{
-		static $params = null;
-
-		if ( is_null( $params ) )
+		if ( is_null( self::$paramsCache ) )
 		{
 			$options = get_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
-			$params  = Settings::getInstance( $options );
+			self::$paramsCache = Settings::getInstance( $options );
 		}
 
-		return $params;
+		return self::$paramsCache;
+	}
+
+	/**
+	 * Force the next getPluginParams() call to re-read from the database instead of
+	 * returning the snapshot cached earlier in this same PHP request. Needed right before
+	 * regenerating the .htaccess block during a settings save: if anything earlier in the
+	 * request already called getPluginParams() (very likely, it's used throughout the
+	 * plugin), the cache would otherwise still hold the pre-save values even though
+	 * update_option() already persisted the new ones -- producing .htaccess rules one save
+	 * behind the setting actually being toggled (Bug#34278 follow-up).
+	 */
+	public static function resetPluginParamsCache()
+	{
+		self::$paramsCache = null;
 	}
 
 	public static function activate()

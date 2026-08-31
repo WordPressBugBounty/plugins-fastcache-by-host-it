@@ -331,6 +331,11 @@ class Setting
 
 		echo Html::_('select', 'page_cache_lifetime', '86400', $aOptions);
 	}
+	public static function cache_cookie_exclude()
+	{
+		$default_cookie_exclude = [ 'cmplz_' ];
+		echo Html::_('multiselect', 'cache_cookie_exclude', $default_cookie_exclude, '', 'value');
+	}
 	public static function cache_exclude()
 	{
 		$default_cache_exclude = [

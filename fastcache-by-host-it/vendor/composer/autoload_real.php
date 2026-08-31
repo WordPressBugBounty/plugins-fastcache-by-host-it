@@ -48,7 +48,12 @@ class ComposerAutoloaderInitFastCache
             }
         }
 
-        $loader->register(true);
+        // Do not prepend: prepending would make FastCache's autoloader win
+        // every classloading race against other plugins' autoloaders (e.g.
+        // for Psr\Log\*), which on Multisite can shadow a newer, required
+        // version (such as psr/log ^3.0 for Monolog 3) with our bundled
+        // psr/log ^1.0 copy and cause a fatal error.
+        $loader->register(false);
 
         if ($useStaticLoader) {
             $includeFiles = Composer\Autoload\ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h::$files;

@@ -125,7 +125,9 @@ class Utility extends Controller
 			wp_die(__('Not authorized'));
 		}
 		
-		if ( Cache::deleteCache() )
+		// In multisite, delete only the current blog's cache; on single-site delete all.
+		$deleteContext = is_multisite() ? 'blog' : 'both';
+		if ( Cache::deleteCache($deleteContext) )
 		{
 			$this->setMessage( __( 'Cache deleted successfully!', 'fastcache' ), 'success' );
 			if(Plugin::getPluginParams()->get('clear_server_cache', 0)) {

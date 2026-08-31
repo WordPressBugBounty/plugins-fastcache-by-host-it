@@ -174,24 +174,50 @@ class LightImages {
 			}
 		}
 		
-		$urlparts = parse_url($imagePath);
-		// Dose this URL contain a host name?
-		if (!empty($urlparts["host"])) {
-			// is it local?
-			if (substr($imagePath, 0, strlen(Uri::root())) == Uri::root()) {
-				// This is a local url
-				// Remove the URL
-				$imagePath = substr($imagePath, strlen(Uri::root()));
+		if ( is_multisite() ) {
+			// Uri::base()/root() derive their base/root path from $_SERVER['SCRIPT_NAME'],
+			// which for WordPress is always the single front controller at the network root
+			// (/index.php) regardless of which subsite is being viewed -- they can never
+			// resolve to a subsite's own path prefix (e.g. '/sito1/'). The legacy branch
+			// below (single-site only, untouched) mishandles this in two different ways
+			// depending on whether $src was absolute or root-relative, both silently folding
+			// the subsite's URL path segment into the filesystem path where no such
+			// directory exists, so realpath() always fails and optimization is skipped.
+			// Resolved directly here with WordPress-native, multisite-aware functions
+			// instead, handling both absolute and root-relative forms in one pass.
+			$siteHomePath = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+			$siteHomePath = $siteHomePath ? $siteHomePath : '/';
+
+			$imagePathForMatch = $imagePath;
+			$imgUrlParts = parse_url( $imagePath );
+			if ( ! empty( $imgUrlParts['host'] ) ) {
+				// Absolute URL (http://host/sito1/...): match against its path component only.
+				$imagePathForMatch = isset( $imgUrlParts['path'] ) ? $imgUrlParts['path'] : '';
 			}
-		}
-		
-		if (isset($imagePath[0]) && $imagePath[0] == "/") {
-			$root = Uri::base(true);
-			if (substr($imagePath, 0, strlen($root)) == $root) {
-				$imagePath = dirname($_SERVER["SCRIPT_FILENAME"]) . substr($imagePath, strlen($root));
+
+			if ( strpos( $imagePathForMatch, $siteHomePath ) === 0 ) {
+				$imagePath = rtrim( ABSPATH, '/\\' ) . '/' . ltrim( substr( $imagePathForMatch, strlen( $siteHomePath ) ), '/' );
 			}
 		} else {
-			$imagePath = $this->rootDir . $imagePath;
+			$urlparts = parse_url($imagePath);
+			// Dose this URL contain a host name?
+			if (!empty($urlparts["host"])) {
+				// is it local?
+				if (substr($imagePath, 0, strlen(Uri::root())) == Uri::root()) {
+					// This is a local url
+					// Remove the URL
+					$imagePath = substr($imagePath, strlen(Uri::root()));
+				}
+			}
+
+			if (isset($imagePath[0]) && $imagePath[0] == "/") {
+				$root = Uri::base(true);
+				if (substr($imagePath, 0, strlen($root)) == $root) {
+					$imagePath = dirname($_SERVER["SCRIPT_FILENAME"]) . substr($imagePath, strlen($root));
+				}
+			} else {
+				$imagePath = $this->rootDir . $imagePath;
+			}
 		}
 		
 		if (realpath($imagePath) === false) {
@@ -296,11 +322,12 @@ class LightImages {
 				$filename = ($path_parts ['filename']) . '_' . sha1 ( $src ) . "." . $new_ext;
 			}
 		} elseif ($imagesAlgo == 'none') {
+			$blog_prefix = ( is_multisite() && function_exists( 'get_current_blog_id' ) ) ? get_current_blog_id() . '_' : '';
 			if ($srcSet) {
 				$srcset_path_parts = pathinfo ( $originalSource );
-				$filename = ($srcset_path_parts ['filename']) . "_" . (4 - $srcSetIteration) . "x." . $new_ext;
+				$filename = $blog_prefix . ($srcset_path_parts ['filename']) . "_" . (4 - $srcSetIteration) . "x." . $new_ext;
 			} else {
-				$filename = ($path_parts ['filename']) . "." . $new_ext;
+				$filename = $blog_prefix . ($path_parts ['filename']) . "." . $new_ext;
 			}
 		}
 		
@@ -651,22 +678,22 @@ class LightImages {
 		
 		$this->excludedExts = $this->params->get('img_exts_excluded', []);
 		$this->oFileRetriever = FileRetriever::getInstance ();
-
+		
 		$rootConfigFile = dirname(__FILE__, 3) . '/root.php';
 		$configuredRoot = null;
-
+		
 		if (is_readable($rootConfigFile)) {
 			include $rootConfigFile;
 			if (isset($FASTCACHE_ROOT) && is_string($FASTCACHE_ROOT) && $FASTCACHE_ROOT !== '') {
 				$configuredRoot = $FASTCACHE_ROOT;
 			}
 		}
-
+		
 		// Fallback to WordPress root if root.php is missing/unreadable/invalid.
 		if ($configuredRoot === null) {
 			$configuredRoot = defined('ABSPATH') ? ABSPATH : dirname(__FILE__, 5);
 		}
-
+		
 		$this->rootDir = rtrim($configuredRoot, '/\\') . DIRECTORY_SEPARATOR;
 		$this->oContainer   = new Container();
 		$this->oApplication = Application::getInstance( 'FastCacheApplication', $this->oContainer );

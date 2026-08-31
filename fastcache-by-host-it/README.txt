@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.6.18
+Stable Tag: 1.7.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -93,6 +93,26 @@ FastCache è progettato per operare come **unico plugin di caching**.
 
 Il plugin include inoltre impostazioni dedicate per WooCommerce, che consentono di mantenere cacheabili le pagine compatibili senza compromettere il corretto funzionamento del carrello e delle sessioni utente.
 
+### Supporto WordPress Multisite
+
+A partire dalla versione 1.7.0, FastCache supporta ufficialmente **WordPress Multisite**, sia in modalità **subdirectory** (`tuosito.it/sito2/`) che **subdomain** (`sito2.tuosito.it`).
+
+Il plugin si attiva **una sola volta a livello di rete** (Network Admin → Plugin → Attiva network), rendendolo disponibile su tutti i subsite. Ogni subsite configura poi le proprie impostazioni FastCache in autonomia dal proprio pannello di amministrazione — esattamente come su un'installazione singola: token CDN, esclusioni cache, cache specifica per piattaforma mobile/desktop e tutte le altre opzioni sono indipendenti tra un subsite e l'altro. Non è richiesta né prevista, in questa versione, una configurazione centralizzata a livello di rete.
+
+Cosa viene isolato automaticamente per ciascun subsite:
+
+- cache di pagina, con directory dedicate per ogni sito,
+- cache immagini ottimizzate, anche con l'algoritmo di hashing disattivato,
+- cache oggetti,
+- pulizia programmata della cache scaduta (cron),
+- purge e comunicazione con la CDN, tramite il token proprio di ciascun subsite.
+
+**Modalità subdirectory**: la cache di pagina beneficia del bypass Apache completo tramite `.htaccess`, esattamente come su installazione singola — le pagine vengono servite come file statici senza mai eseguire WordPress, con isolamento del percorso per ciascun subsite.
+
+**Modalità subdomain**: poiché Apache non può distinguere i singoli sottodomini leggendo solo il percorso della richiesta, il bypass diretto via `.htaccess` non è disponibile; la cache di pagina resta comunque pienamente attiva e isolata per dominio, servita da un livello di sicurezza a livello PHP con overhead minimo rispetto al bypass Apache puro.
+
+*Nota per chi gestisce più subsite in modalità subdirectory con impostazioni di cache htaccess differenti tra loro (es. cache mobile/desktop attiva solo su alcuni siti): la generazione del file `.htaccess` condiviso a livello di rete può temporaneamente riflettere le impostazioni dell'ultimo subsite salvato anziché quelle specifiche di ciascuno. Un allineamento più granulare per-subsite è pianificato per una release successiva.*
+
 == Installation ==
 È consigliato utilizzare l’installer di default di WordPress.
 In alternativa:
@@ -131,6 +151,16 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.0
+Supporto ufficiale WordPress Multisite (subdirectory mode). La cache di pagina è ora isolata per subsite tramite directory dedicate per blog_id, così come la cache immagini ottimizzate (hash_images_algo=none), la cache oggetti e la pulizia programmata (cron prune). Ogni subsite configura il proprio token CDN dal proprio pannello impostazioni FastCache, come su installazione singola; il purge CDN utilizza gli URL generati dalle funzioni WordPress, già isolati per subsite. In subdomain mode le regole Apache non vengono generate (Apache non può distinguere i siti dal solo REQUEST_URI), ma la cache di pagina resta attiva: i file vengono generati nello stesso formato .html della cache htaccess standard e serviti a ogni richiesta dal livello di sicurezza PHP, correttamente isolati per dominio tramite blog_id. La gestione centralizzata a livello di rete (Network Admin) è prevista per una release successiva.
+Aggiunta l'opzione "Escludi cache pagina per cookie" per bypassare la cache in presenza di specifici cookie (es. cmplz_ di Complianz), in modo che i segnali di consenso GDPR/TCF vengano sempre inoltrati correttamente ai network pubblicitari; gli script di Complianz/TCF sono inoltre esclusi dalla combinazione/differimento JS per non comprometterne il funzionamento (Ticket#71449869).
+Risolto un bug per cui FastCache poteva salvare in cache pagine di errore (es. blocco 403 di Wordfence, pagine 404) e servirle staticamente al posto del contenuto corretto: ora vengono cachate solo le risposte con status HTTP 200 (Bug#34270).
+Introdotto il supporto alla cache separata per dispositivi mobile e desktop nella modalità htaccess (opzione "Cache specifica della piattaforma"): in precedenza il primo visitatore generava un unico file .html statico che Apache serviva a tutti indipendentemente dal dispositivo, con il risultato che gli utenti desktop potevano ricevere il layout mobile e viceversa. Ora le regole htaccess rilevano il tipo di dispositivo tramite User-Agent e servono file distinti (_mobile.html per mobile, _.html per desktop), garantendo che ogni visitatore riceva sempre la versione corretta della pagina. Quando l'opzione è attiva, FastCache invia inoltre l'header Vary: User-Agent affinché anche la CDN distingua correttamente le due varianti invece di servire la prima versione ricevuta a tutti i dispositivi; l'header non viene inviato sui siti che non usano questa opzione, per non frammentare inutilmente la cache CDN (Bug#34278, Ticket#71450934).
+Risolto un bug per cui i file CSS e JavaScript combinati da FastCache venivano referenziati con URL in http:// anche su siti HTTPS, causando errori Mixed Content nei browser. Il problema si presentava su installazioni dietro CDN o reverse proxy che terminano TLS prima del server web, in quanto WordPress non rilevava correttamente la connessione sicura e generava URL con schema errato; tali URL venivano poi scritti nei file .html statici e permanevano fino allo svuotamento manuale della cache. Risolto normalizzando lo schema dell'URL in fase di generazione della cache, in modo che sia sempre coerente con lo schema reale della richiesta (Bug#34278, Ticket#71450934).
+
+1.6.19
+Corretti errori fatali (HTTP 500) su WordPress Multisite con FastCache attivato a livello di rete. Rimossa la richiesta prematura di wp-includes/pluggable.php in Main.php, che su alcune configurazioni multisite avveniva prima che WordPress definisse le costanti dei cookie di autenticazione (AUTH_COOKIE, SECURE_AUTH_COOKIE), causando errore fatale nelle pagine di amministrazione. Corretto inoltre un possibile conflitto tra la libreria psr/log inclusa nel plugin (v1) e versioni più recenti richieste da altri plugin (es. Monolog 3, che richiede psr/log v3): l'autoloader di FastCache ora evita di sovrascrivere un'interfaccia Psr\Log\LoggerInterface già caricata da un altro plugin e non ha più priorità forzata (prepend) nella catena di autoload, riducendo il rischio di conflitti di caricamento classi tra plugin su installazioni multisite.
+
 1.6.18
 Compatibilità Divi Visual Builder: aggiunto bypass completo di FastCache per le sessioni del Divi Builder (parametri ?et_fb=1 e ?et_pb_preview). Nelle richieste con questi parametri vengono disabilitati sia il combiner JS/CSS che la page cache, evitando che i bundle consolidati rompano la sequenza di inizializzazione di Divi e blocchino il caricamento del Visual Builder.
 

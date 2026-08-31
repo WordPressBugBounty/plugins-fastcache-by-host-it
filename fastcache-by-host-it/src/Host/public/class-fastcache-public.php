@@ -181,11 +181,6 @@ class HPublic {
 		return $content;
 	}
 	public function send_headers() {
-		// CDN headers incompatible with Multisite (single token per site)
-		if ( is_multisite() ) {
-			return;
-		}
-
 		global $post;
 		$enable = 0;
 		$pt = 'post';
@@ -195,13 +190,10 @@ class HPublic {
 			
 			$settings = get_option ( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
 			$enable = 0;
-			$token = "";
 			if (isset ( $settings ['fastcache-enable'] )) {
 				$enable = $settings ['fastcache-enable'];
 			}
-			if (isset ( $settings ['text-token'] )) {
-				$token = $settings ['text-token'];
-			}
+			$token = \FastCache\Platform\Plugin::getCdnToken();
 			/*
 			 * se ho un ttl impostato per un certo posttype e se è superiore a "0"
 			 * allora lo uso come valore di ttl
@@ -255,6 +247,16 @@ class HPublic {
 				$ttl = 0;
 			} else {
 				Header ( 'X-HST-CACHE-Enabled: true', true );
+
+				// When platform-specific caching is on, the origin serves a different body
+				// for mobile vs desktop for the same URL. Without Vary: User-Agent the CDN
+				// has no way to know that and may serve one variant to every device
+				// (Bug#34278 / Ticket#71450934). Sent only when the option is enabled: on
+				// every other site Vary: User-Agent would needlessly fragment the CDN cache
+				// by browser/OS string with zero benefit, since the response never varies.
+				if ( \FastCache\Platform\Plugin::getPluginParams()->get( 'pro_cache_platform', '0' ) ) {
+					self::addVaryHeader ( 'User-Agent' );
+				}
 			}
 		
 			// if(!$settings ['enable-ttl']) {
@@ -266,6 +268,46 @@ class HPublic {
 		} else {
 			Header ( 'X-HST-CACHE-Enabled: false', true );
 		}
+	}
+	/**
+	 * Add a field to the Vary header without clobbering one another plugin/WP core
+	 * may already have sent (e.g. Vary: Cookie), and without emitting a duplicate
+	 * Vary line if it's already present.
+	 *
+	 * Reads every Vary line already sent this request (not just the first one),
+	 * merges their fields with $field, de-duplicates, and re-sends a single
+	 * Vary line. Header(..., true) replaces ALL previously sent Vary headers
+	 * with the one we send, so any not folded into $parts here would be lost.
+	 * Does nothing if $field is already present, to avoid an unnecessary
+	 * duplicate header() call.
+	 *
+	 * @param string $field HTTP header name to vary the cache on, e.g. 'User-Agent'
+	 */
+	private static function addVaryHeader( $field ) {
+		$parts = [ ];
+		foreach ( headers_list () as $h ) {
+			if ( stripos ( $h, 'Vary:' ) !== 0 ) {
+				continue;
+			}
+			$value = trim ( substr ( $h, 5 ) );
+			if ( $value === '' ) {
+				continue;
+			}
+			foreach ( explode ( ',', $value ) as $v ) {
+				$v = trim ( $v );
+				if ( $v !== '' && ! in_array ( $v, $parts, true ) ) {
+					$parts [] = $v;
+				}
+			}
+		}
+
+		if ( in_array ( $field, $parts, true ) ) {
+			return; // Already present, nothing to send.
+		}
+
+		$parts [] = $field;
+
+		Header ( 'Vary: ' . implode ( ', ', $parts ), true );
 	}
 	private function ttlExcludedUrls() {
 		$options = get_option ( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
@@ -316,7 +358,7 @@ class HPublic {
 		if (! wp_verify_nonce ( $_POST ['nonce'], 'ajax-nonce' )) {
 			die ( __ ( 'Some security checks failed, we recommend contacting plugin support!' ) );
 		}
-		$token = get_option ( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS ) ['text-token'];
+		$token = \FastCache\Platform\Plugin::getCdnToken();
 		$method = "exact";
 		$url = FASTCACHEHOST_HOST_ENDPOINTCACHE . "testcache";
 		$params = array (
@@ -605,12 +647,11 @@ class HPublic {
 		if (! isset ( $_POST ['nonce'] ) || ! wp_verify_nonce ( $_POST ['nonce'], 'ajax-nonce' )) {
 			die ( __ ( 'Some security checks failed, we recommend contacting plugin support!' ) );
 		}
-		$settings = get_option ( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
-		if (! isset ( $settings ['text-token'] ) || trim ( $settings ['text-token'] ) == "") {
+		$token = \FastCache\Platform\Plugin::getCdnToken();
+		if ( $token === '' ) {
 			echo "KO";
 			exit ();
 		}
-		$token = $settings ['text-token'];
 		if (isset ( $_POST ) && isset ( $_POST ['param'] ) && trim ( $_POST ['param'] ) != "") {
 			$param = sanitize_text_field ( $_POST ['param'] );
 		} else {
