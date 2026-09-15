@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FastCache by host.it\n"
-"POT-Creation-Date: 2026-05-13 14:30+0100\n"
-"PO-Revision-Date: 2026-05-13 14:30+0100\n"
+"POT-Creation-Date: 2026-09-15 15:30+0200\n"
+"PO-Revision-Date: 2026-09-15 15:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -2622,13 +2622,33 @@ msgstr "ATTENZIONE! HOST Caching richiede che l'utente in uso abbia i diritti di
 msgid "WARNING! HOST Caching requires the user to have \"manage_options\" rights."
 msgstr "ATTENZIONE! HOST Caching richiede che l'utente in uso abbia i diritti di \"manage_options\" attivi."
 
-#: src/Admin/Settings/TabSettings.php:184
+#: src/Admin/Settings/TabSettings.php:188
 msgid "Enable late nonce refresh"
 msgstr "Abilita aggiornamento nonce ritardato"
 
-#: src/Admin/Settings/TabSettings.php:185
+#: src/Admin/Settings/TabSettings.php:189
 msgid "When enabled, WordPress nonces in cached pages are replaced with placeholders and refreshed via REST API before AJAX requests. This prevents \"nonce verification failed\" errors when pages are cached longer than the nonce lifespan (12 hours). Works with both .htaccess static caching and PHP page caching."
 msgstr "Se abilitato, i nonce di WordPress nelle pagine cachate vengono sostituiti con placeholder e aggiornati tramite REST API prima delle richieste AJAX. Ciò previene errori di \"verifica nonce non riuscita\" quando le pagine vengono cachate più a lungo della durata del nonce (12 ore). Funziona sia con il caching statico .htaccess che con il caching di pagina PHP."
+
+#: src/Admin/Settings/TabSettings.php:184
+msgid "Exclude page cache by cookie"
+msgstr "Escludi cache pagina per cookie"
+
+#: src/Admin/Settings/TabSettings.php:185
+msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit 'Enter'."
+msgstr "Inserisci il nome (o il prefisso) di ogni cookie la cui presenza nel browser deve escludere completamente la cache della pagina. È utile per i plugin GDPR e di gestione del consenso (ad esempio cmplz_ per Complianz), affinché i segnali di consenso vengano inoltrati correttamente alle reti pubblicitarie. Aggiungi una stringa e premi 'Invio'."
+
+#: src/Core/Compatibility/Divi.php:214
+msgid "FastCache disabled Divi static CSS file generation and cleared the page cache to keep HTML and styles consistent."
+msgstr "FastCache ha disabilitato la generazione dei file CSS statici di Divi e svuotato la cache delle pagine per mantenere coerenti HTML e stili."
+
+#: src/Core/Compatibility/Divi.php:216
+msgid "FastCache disabled Divi static CSS file generation and cleared the local page cache. On Multisite, complete the site CDN cache purge from the Host.it control panel."
+msgstr "FastCache ha disabilitato la generazione dei file CSS statici di Divi e svuotato la cache locale delle pagine. In multisite, completa la pulizia della cache CDN del sito dal pannello Host.it."
+
+#: src/Core/Compatibility/Divi.php:218
+msgid "FastCache could not complete the Divi compatibility configuration or cache purge. The check will be retried; see the PHP error log for details."
+msgstr "FastCache non ha completato la configurazione di compatibilità con Divi o la pulizia della cache. Il controllo verrà ripetuto; consulta il log degli errori PHP per i dettagli."
 
 #~ msgid "Cache files: %s"
 #~ msgstr "File di cache: %s"

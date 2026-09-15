@@ -59,7 +59,7 @@ class LinkBuilder
 	 *
 	 * @param   Parser  $oProcessor
 	 */
-	public function __construct( Processor $oProcessor = null )
+	public function __construct( ?Processor $oProcessor = null )
 	{
 		$this->oProcessor    = $oProcessor;
 		$this->oParams       = $this->oProcessor->oParams;
@@ -420,5 +420,3 @@ class LinkBuilder
 		}
 	}
 }
-
-

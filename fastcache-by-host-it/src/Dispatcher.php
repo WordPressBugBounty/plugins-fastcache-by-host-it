@@ -13,6 +13,7 @@ namespace FastCache;
  *          If LICENSE file missing, see <http://www.gnu.org/licenses/>.
  */
 use FastCache\Core\Admin\Tasks;
+use FastCache\Core\Compatibility\Divi;
 use FastCache\Core\Helper;
 use FastCache\Core\Logger;
 use FastCache\Core\Optimize;
@@ -55,6 +56,7 @@ abstract class Dispatcher {
 	}
 	public static function init() {
 		self::$oParams = Plugin::getPluginParams ();
+		Divi::register();
 		self::runActivationRoutines ();
 		$active_plugins = ( array ) get_option ( 'active_plugins', [ ] );
 

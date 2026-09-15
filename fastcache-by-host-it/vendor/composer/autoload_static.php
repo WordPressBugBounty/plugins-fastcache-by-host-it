@@ -44,6 +44,7 @@ class ComposerStaticInitFastCachef5333689cg54h68c04081b08634g46h {
 			)
 	);
 	public static $classMap = array (
+			'FastCache\\Core\\Compatibility\\Divi' => __DIR__ . '/../..' . '/src/Core/Compatibility/Divi.php',
 			'FastCacheFramework\\Application\\Application' => __DIR__ . '/..' . '/fastcache/framework/src/Application/Application.php',
 			'FastCacheFramework\\Application\\Cli' => __DIR__ . '/..' . '/fastcache/framework/src/Application/Cli.php',
 			'FastCacheFramework\\Application\\Configuration' => __DIR__ . '/..' . '/fastcache/framework/src/Application/Configuration.php',

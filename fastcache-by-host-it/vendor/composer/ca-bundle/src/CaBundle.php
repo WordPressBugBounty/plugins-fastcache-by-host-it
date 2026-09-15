@@ -64,7 +64,7 @@ class CaBundle
      * @param  LoggerInterface $logger optional logger for information about which CA files were loaded
      * @return string          path to a CA bundle file or directory
      */
-    public static function getSystemCaRootBundlePath(LoggerInterface $logger = null)
+    public static function getSystemCaRootBundlePath(?LoggerInterface $logger = null)
     {
         if (self::$caPath !== null) {
             return self::$caPath;
@@ -158,7 +158,7 @@ class CaBundle
      *
      * @return bool
      */
-    public static function validateCaFile($filename, LoggerInterface $logger = null)
+    public static function validateCaFile($filename, ?LoggerInterface $logger = null)
     {
         static $warned = false;
 
@@ -338,7 +338,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function caFileUsable($certFile, LoggerInterface $logger = null)
+    private static function caFileUsable($certFile, ?LoggerInterface $logger = null)
     {
         return $certFile
             && static::isFile($certFile, $logger)
@@ -351,7 +351,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function caDirUsable($certDir, LoggerInterface $logger = null)
+    private static function caDirUsable($certDir, ?LoggerInterface $logger = null)
     {
         return $certDir
             && static::isDir($certDir, $logger)
@@ -364,7 +364,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function isFile($certFile, LoggerInterface $logger = null)
+    private static function isFile($certFile, ?LoggerInterface $logger = null)
     {
         $isFile = @is_file($certFile);
         if (!$isFile && $logger) {
@@ -379,7 +379,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function isDir($certDir, LoggerInterface $logger = null)
+    private static function isDir($certDir, ?LoggerInterface $logger = null)
     {
         $isDir = @is_dir($certDir);
         if (!$isDir && $logger) {
@@ -394,7 +394,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function isReadable($certFileOrDir, LoggerInterface $logger = null)
+    private static function isReadable($certFileOrDir, ?LoggerInterface $logger = null)
     {
         $isReadable = @is_readable($certFileOrDir);
         if (!$isReadable && $logger) {
@@ -409,7 +409,7 @@ EOT;
      * @param  LoggerInterface|null $logger
      * @return bool
      */
-    private static function glob($pattern, LoggerInterface $logger = null)
+    private static function glob($pattern, ?LoggerInterface $logger = null)
     {
         $certs = glob($pattern);
         if ($certs === false) {

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+	'FastCache\\Core\\Compatibility\\Divi' => $baseDir . '/src/Core/Compatibility/Divi.php',
     'FastCacheFramework\\Application\\Application' => $vendorDir . '/fastcache/framework/src/Application/Application.php',
     'FastCacheFramework\\Application\\Cli' => $vendorDir . '/fastcache/framework/src/Application/Cli.php',
     'FastCacheFramework\\Application\\Configuration' => $vendorDir . '/fastcache/framework/src/Application/Configuration.php',

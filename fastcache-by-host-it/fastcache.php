@@ -16,7 +16,7 @@
  * Plugin Name:       FastCache by host.it
  * Plugin URI:        https://fastcache.host.it/wordpress/
  * Description:       Abilita il tuo sito Wordpress alla prima vera CDN realizzata PER Wordpress e configurata AD-HOC per il tuo sito. Il massimo della velocità senza difficoltà di setup.
- * Version:           1.7.0
+ * Version:           1.7.1
  * Author:            Host.it
  * Author URI:        https://fastcache.host.it/
  * License:           GPL-2.0+
@@ -44,7 +44,7 @@ if (! (PHP_VERSION_ID >= 70200)) {
 
 define ( '_WP_EXEC', '1' );
 define ( '_FASTCACHE_EXEC', 1 );
-define ( 'FASTCACHE_VERSION', '1.7.0' );
+define ( 'FASTCACHE_VERSION', '1.7.1' );
 define ( 'FASTCACHE_FILE_PATH', __FILE__ );
 
 define ( 'FASTCACHE_URL', plugin_dir_url ( FASTCACHE_FILE_PATH ) );

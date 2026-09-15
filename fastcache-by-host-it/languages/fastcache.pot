@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: FastCache by host.it\n"
-"POT-Creation-Date: 2026-05-13 14:30+0100\n"
-"PO-Revision-Date: 2026-05-13 14:30+0100\n"
+"POT-Creation-Date: 2026-09-15 15:30+0200\n"
+"PO-Revision-Date: 2026-09-15 15:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3487,12 +3487,32 @@ msgstr ""
 msgid "WARNING! HOST Caching requires the user to have \"manage_options\" rights."
 msgstr ""
 
-#: src/Admin/Settings/TabSettings.php:184
+#: src/Admin/Settings/TabSettings.php:188
 msgid "Enable late nonce refresh"
 msgstr ""
 
-#: src/Admin/Settings/TabSettings.php:185
+#: src/Admin/Settings/TabSettings.php:189
 msgid "When enabled, WordPress nonces in cached pages are replaced with placeholders and refreshed via REST API before AJAX requests. This prevents \"nonce verification failed\" errors when pages are cached longer than the nonce lifespan (12 hours). Works with both .htaccess static caching and PHP page caching."
+msgstr ""
+
+#: src/Admin/Settings/TabSettings.php:184
+msgid "Exclude page cache by cookie"
+msgstr ""
+
+#: src/Admin/Settings/TabSettings.php:185
+msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit 'Enter'."
+msgstr ""
+
+#: src/Core/Compatibility/Divi.php:214
+msgid "FastCache disabled Divi static CSS file generation and cleared the page cache to keep HTML and styles consistent."
+msgstr ""
+
+#: src/Core/Compatibility/Divi.php:216
+msgid "FastCache disabled Divi static CSS file generation and cleared the local page cache. On Multisite, complete the site CDN cache purge from the Host.it control panel."
+msgstr ""
+
+#: src/Core/Compatibility/Divi.php:218
+msgid "FastCache could not complete the Divi compatibility configuration or cache purge. The check will be retried; see the PHP error log for details."
 msgstr ""
 
 #. Author URI of the plugin/theme

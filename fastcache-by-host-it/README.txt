@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.0
+Stable Tag: 1.7.1
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.1
+Aggiunta la gestione automatica della compatibilità con Divi ed Elegant Themes: quando FastCache è attivo, la generazione dei file CSS statici di Divi viene disabilitata per evitare che le pagine HTML in cache continuino a referenziare risorse CSS eliminate o rigenerate separatamente dal tema. Il controllo viene registrato soltanto quando è configurato il tema Divi, anche tramite child theme, oppure il plugin Divi Builder; viene eseguito in contesto amministrativo autorizzato e invalida in modo sicuro la cache pagina interessata. Aggiunte protezioni per multisite, purge CDN, errori del filesystem e tentativi ripetuti. Corretti i deprecated PHP 8.5 che potevano produrre un avviso durante la chiusura dell'output buffer di ottimizzazione.
+
 1.7.0
 Supporto ufficiale WordPress Multisite (subdirectory mode). La cache di pagina è ora isolata per subsite tramite directory dedicate per blog_id, così come la cache immagini ottimizzate (hash_images_algo=none), la cache oggetti e la pulizia programmata (cron prune). Ogni subsite configura il proprio token CDN dal proprio pannello impostazioni FastCache, come su installazione singola; il purge CDN utilizza gli URL generati dalle funzioni WordPress, già isolati per subsite. In subdomain mode le regole Apache non vengono generate (Apache non può distinguere i siti dal solo REQUEST_URI), ma la cache di pagina resta attiva: i file vengono generati nello stesso formato .html della cache htaccess standard e serviti a ogni richiesta dal livello di sicurezza PHP, correttamente isolati per dominio tramite blog_id. La gestione centralizzata a livello di rete (Network Admin) è prevista per una release successiva.
 Aggiunta l'opzione "Escludi cache pagina per cookie" per bypassare la cache in presenza di specifici cookie (es. cmplz_ di Complianz), in modo che i segnali di consenso GDPR/TCF vengano sempre inoltrati correttamente ai network pubblicitari; gli script di Complianz/TCF sono inoltre esclusi dalla combinazione/differimento JS per non comprometterne il funzionamento (Ticket#71449869).
