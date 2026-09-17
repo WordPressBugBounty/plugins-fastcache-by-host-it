@@ -190,8 +190,13 @@ class PageCache {
 			}
 		}
 
-		// Bypass cache when a configured cookie is present (e.g. cmplz_ for Complianz consent).
-		$cookie_exclude = (array) $params->get( 'cache_cookie_exclude', [ 'cmplz_' ] );
+		// Bypass cache when a configured cookie is present (e.g. cmplz_ for Complianz consent,
+		// or a WooCommerce session cookie so a visitor with items in their cart never gets the
+		// shared static cache generated for a guest with an empty cart -- Bug#34406). These are
+		// the same cookie names already hardcoded into the htaccess-level exclusion pattern in
+		// Utility::buildSiteHtaccessRules(); this keeps the PHP-level cache path consistent
+		// with it instead of only relying on the Apache bypass to catch them.
+		$cookie_exclude = (array) $params->get( 'cache_cookie_exclude', [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ] );
 		foreach ( $cookie_exclude as $cookie_prefix ) {
 			$cookie_prefix = trim( $cookie_prefix );
 			if ( $cookie_prefix === '' ) {

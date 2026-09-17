@@ -128,7 +128,12 @@ class Setting
 			'31536000' => __('No expiration', 'fastcache')
 		];
 
-		echo Html::_('select', 'cache_lifetime', '300', $aOptions);
+		// Default aligned with page_cache_lifetime's own default (1 day): they were
+		// previously mismatched (this dropdown pre-selected 5 min while the code's own
+		// fallback -- Cache::getLifetime() -- already defaulted to 86400), which likely
+		// contributed to sites ending up with a dangerously low value here without
+		// anyone deliberately choosing it.
+		echo Html::_('select', 'cache_lifetime', '86400', $aOptions);
 	}
 	public static function html_minify_level()
 	{
@@ -333,7 +338,9 @@ class Setting
 	}
 	public static function cache_cookie_exclude()
 	{
-		$default_cookie_exclude = [ 'cmplz_' ];
+		// Same defaults as PageCache::isCachingEnabled(); WooCommerce session cookies added
+		// for Bug#34406 (mini-cart shows stale/empty state on cached pages).
+		$default_cookie_exclude = [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ];
 		echo Html::_('multiselect', 'cache_cookie_exclude', $default_cookie_exclude, '', 'value');
 	}
 	public static function cache_exclude()

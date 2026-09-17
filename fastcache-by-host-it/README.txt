@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.1
+Stable Tag: 1.7.2
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,10 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.2
+Risolto un bug per cui un visitatore con articoli nel carrello WooCommerce poteva ricevere la stessa cache di pagina statica condivisa generata per un visitatore ospite con carrello vuoto, mostrando il mini-carrello (es. widget ShopEngine) sempre vuoto e non cliccabile su pagine cacheate come home o catalogo, finché la cache non veniva svuotata manualmente. L'opzione "Escludi cache pagina per cookie" ora include di default anche i cookie di sessione WooCommerce (woocommerce_items_in_cart, woocommerce_cart_hash, wp_woocommerce_session_), oltre a cmplz_, così un visitatore con sessione carrello attiva riceve sempre una pagina generata al momento invece della cache condivisa (Bug#34406).
+Chiarito il funzionamento dell'opzione "Cache lifetime" (durata cache file CSS/JS combinati): un valore basso qui non influisce solo sui file combinati, ma può far scattare più di frequente anche la pulizia interna della cache di pagina, indipendentemente dal valore impostato in "Page cache lifetime". Aggiunto un avviso esplicito nel pannello impostazioni sotto il campo, e allineato il valore preselezionato di default da 5 minuti a 1 giorno, coerente con "Page cache lifetime", per evitare configurazioni rischiose su siti ad alto traffico non scelte deliberatamente.
+
 1.7.1
 Aggiunta la gestione automatica della compatibilità con Divi ed Elegant Themes: quando FastCache è attivo, la generazione dei file CSS statici di Divi viene disabilitata per evitare che le pagine HTML in cache continuino a referenziare risorse CSS eliminate o rigenerate separatamente dal tema. Il controllo viene registrato soltanto quando è configurato il tema Divi, anche tramite child theme, oppure il plugin Divi Builder; viene eseguito in contesto amministrativo autorizzato e invalida in modo sicuro la cache pagina interessata. Aggiunte protezioni per multisite, purge CDN, errori del filesystem e tentativi ripetuti. Corretti i deprecated PHP 8.5 che potevano produrre un avviso durante la chiusura dell'output buffer di ottimizzazione.
 
