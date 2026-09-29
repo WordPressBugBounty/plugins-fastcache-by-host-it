@@ -176,6 +176,14 @@ class TabSettings
 					__('Platform specific cache', 'fastcache'),
 					__('Page caching can be different for mobile and desktop devices. Enable this option if you need to serve different contents through 2 separate cache.', 'fastcache')
 				],
+				'related_purge_auto_listing' => [
+					__('Auto-purge post listing pages', 'fastcache'),
+					__('When enabled, FastCache automatically invalidates WordPress pages that list posts (for example Divi Blog / Theme Builder listings, Gutenberg Query Loop, Elementor Posts) when a post is published, updated or trashed. Pages are detected when they are cached and via known content markers. Recommended: keep enabled. Disable only if you need stricter manual control.', 'fastcache')
+				],
+				'related_purge_extra_urls' => [
+					__('Extra listing URLs to purge', 'fastcache'),
+					__('Optional fallback. One URL or path per line (e.g. /necrologi/). Added on top of automatic detection. Use only if a listing page is never visited/cached and is not detected automatically. Lines starting with # are ignored.', 'fastcache')
+				],
 				'cache_exclude' => [
 					__('Exclude page cache by URL', 'fastcache'),
 					__('Enter a substring of each url that you want to exclude from the page cache. It\'s not needed to enter the complete url for the matching, but only a part of it. Add a string and hit \'Enter\'.', 'fastcache')

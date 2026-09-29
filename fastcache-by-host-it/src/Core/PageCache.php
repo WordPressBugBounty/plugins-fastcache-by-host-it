@@ -105,6 +105,12 @@ class PageCache {
 				$sHtml = str_replace ( '</body>', $tag, $sHtml );
 			}
 
+			// Learn listing pages (Divi TB / Query Loop / etc.) for automatic related purge.
+			if (file_exists(dirname(__FILE__) . '/ListingPagesIndex.php')) {
+				require_once dirname(__FILE__) . '/ListingPagesIndex.php';
+				ListingPagesIndex::maybeRegisterFromHtml($sHtml);
+			}
+
 			Cache::saveCache ( $sHtml, self::getPageCacheId (), true );
 		}
 	}

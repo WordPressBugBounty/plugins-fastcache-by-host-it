@@ -282,7 +282,30 @@ class HAdmin
 				'purge_post'
 			), 10, 2);
 		}
+		// Keep auto-listing index in sync when pages leave publish
+		add_action('transition_post_status', array($this, 'syncListingIndexOnPageTransition'), 20, 3);
 		$this->canPurge();
+	}
+
+	/**
+	 * @param string   $newStatus
+	 * @param string   $oldStatus
+	 * @param \WP_Post $post
+	 * @return void
+	 */
+	public function syncListingIndexOnPageTransition($newStatus, $oldStatus, $post)
+	{
+		if (!is_object($post) || !isset($post->post_type) || $post->post_type !== 'page') {
+			return;
+		}
+		$indexFile = FASTCACHE_DIR . 'src/Core/ListingPagesIndex.php';
+		if (!file_exists($indexFile)) {
+			return;
+		}
+		require_once $indexFile;
+		if (class_exists('\\FastCache\\Core\\ListingPagesIndex')) {
+			\FastCache\Core\ListingPagesIndex::onPageStatusChange((int) $post->ID);
+		}
 	}
 	public function msgErroreManageOption()
 	{
@@ -349,6 +372,8 @@ class HAdmin
 		$this->addHomeRootToPurge();
 		$this->addAmpToPurge($postId);
 		$this->addSitemapToPurge();
+		$this->addAutoListingUrlsToPurge($postId);
+		$this->addExtraListingUrlsToPurge($postId);
 		$this->purgeUrls = apply_filters('fastcache_host_v_purge_urls', $this->purgeUrls, $postId);
 		if ($this->purgeable === true) {
 			// Purge filesystem (htaccess) cache for affected URLs
@@ -500,6 +525,155 @@ class HAdmin
 	{
 		// anche tutti i link relativi alle SITEMAP
 		array_push($this->purgeUrls, get_home_url() . "/*map*xml*");
+	}
+
+	/**
+	 * Add automatically discovered listing page URLs (Divi Theme Builder, Query Loop, …).
+	 *
+	 * @param int $postId
+	 * @return void
+	 */
+	private function addAutoListingUrlsToPurge($postId)
+	{
+		// Only for standard posts / custom types that typically appear in listings.
+		// Skip pages/attachments/nav menus — those are not “articles in a blog list”.
+		$postType = get_post_type($postId);
+		if ($postType === 'page' || $postType === 'attachment' || $postType === 'nav_menu_item') {
+			return;
+		}
+
+		$indexFile = FASTCACHE_DIR . 'src/Core/ListingPagesIndex.php';
+		if (!file_exists($indexFile)) {
+			return;
+		}
+		require_once $indexFile;
+		if (!class_exists('\\FastCache\\Core\\ListingPagesIndex')) {
+			return;
+		}
+
+		$urls = \FastCache\Core\ListingPagesIndex::getListingUrls();
+		if (!is_array($urls) || empty($urls)) {
+			return;
+		}
+
+		foreach ($urls as $url) {
+			$normalized = $this->normalizeExtraPurgeUrl($url);
+			if ($normalized === false) {
+				continue;
+			}
+			$this->purgeUrls[] = $normalized;
+			$alt = (substr($normalized, -1) === '/')
+				? untrailingslashit($normalized)
+				: trailingslashit($normalized);
+			if ($alt !== $normalized) {
+				$this->purgeUrls[] = $alt;
+			}
+		}
+	}
+
+	/**
+	 * Add optional custom listing URLs (settings + filter) to the related purge set.
+	 * Default is empty: no behaviour change for sites that do not configure this.
+	 *
+	 * @param int $postId
+	 * @return void
+	 */
+	private function addExtraListingUrlsToPurge($postId)
+	{
+		$options = get_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, array());
+		$raw = '';
+		if (is_array($options) && isset($options['related_purge_extra_urls'])) {
+			$raw = $options['related_purge_extra_urls'];
+		}
+
+		$candidates = array();
+		if (is_array($raw)) {
+			$candidates = $raw;
+		} elseif (is_string($raw) && $raw !== '') {
+			$candidates = preg_split('/\r\n|\r|\n/', $raw);
+		}
+
+		$urls = array();
+		foreach ($candidates as $line) {
+			if (!is_string($line)) {
+				continue;
+			}
+			$line = trim($line);
+			if ($line === '' || strpos($line, '#') === 0) {
+				continue;
+			}
+			$normalized = $this->normalizeExtraPurgeUrl($line);
+			if ($normalized !== false) {
+				$urls[] = $normalized;
+			}
+		}
+
+		/**
+		 * Filter extra listing URLs purged on related purge (publish / update / trash).
+		 *
+		 * @param string[] $urls   Absolute same-site URLs.
+		 * @param int      $postId Post that triggered the purge.
+		 */
+		$urls = apply_filters('fastcache_related_purge_extra_urls', $urls, $postId);
+		if (!is_array($urls)) {
+			return;
+		}
+
+		foreach ($urls as $url) {
+			if (!is_string($url) || $url === '') {
+				continue;
+			}
+			$normalized = $this->normalizeExtraPurgeUrl($url);
+			if ($normalized === false) {
+				continue;
+			}
+			$this->purgeUrls[] = $normalized;
+			// Trailing-slash twin: FS cache keys differ with/without final slash.
+			$alt = (substr($normalized, -1) === '/')
+				? untrailingslashit($normalized)
+				: trailingslashit($normalized);
+			if ($alt !== $normalized) {
+				$this->purgeUrls[] = $alt;
+			}
+		}
+	}
+
+	/**
+	 * Normalize a configured extra purge entry to an absolute same-site URL.
+	 * Rejects empty values and off-site hosts (no external purge / SSRF surface).
+	 *
+	 * @param string $url
+	 * @return string|false
+	 */
+	private function normalizeExtraPurgeUrl($url)
+	{
+		$url = trim((string) $url);
+		if ($url === '') {
+			return false;
+		}
+
+		// Relative path: /necrologi/ or necrologi/
+		if (strpos($url, '://') === false && strpos($url, '//') !== 0) {
+			$path = '/' . ltrim($url, '/');
+			return home_url($path);
+		}
+
+		$parsed = wp_parse_url($url);
+		if ($parsed === false || empty($parsed['host'])) {
+			return false;
+		}
+
+		$homeHost = wp_parse_url(home_url(), PHP_URL_HOST);
+		if (!$homeHost || strcasecmp($parsed['host'], (string) $homeHost) !== 0) {
+			return false;
+		}
+
+		$path = isset($parsed['path']) ? $parsed['path'] : '/';
+		if ($path === '') {
+			$path = '/';
+		}
+
+		return home_url($path);
 	}
 
 	/**

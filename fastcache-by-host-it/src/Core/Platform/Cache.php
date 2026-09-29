@@ -405,11 +405,13 @@ class Cache implements CacheInterface {
 					}
 				}
 			} else {
-				// Exact URL
-				$file = $cacheDir . $slug . '.html';
-				if ($wp_filesystem->exists ( $file )) {
-					$wp_filesystem->delete ( $file );
-					$deleted [] = $file;
+				// Exact URL (+ platform-specific mobile twin when pro_cache_platform is on)
+				$candidates = [ $cacheDir . $slug . '.html', $cacheDir . $slug . '_mobile.html' ];
+				foreach ( $candidates as $file ) {
+					if ($wp_filesystem->exists ( $file )) {
+						$wp_filesystem->delete ( $file );
+						$deleted [] = $file;
+					}
 				}
 			}
 		}

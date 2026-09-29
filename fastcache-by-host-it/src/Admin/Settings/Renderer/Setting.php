@@ -343,6 +343,16 @@ class Setting
 		$default_cookie_exclude = [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ];
 		echo Html::_('multiselect', 'cache_cookie_exclude', $default_cookie_exclude, '', 'value');
 	}
+	public static function related_purge_auto_listing()
+	{
+		echo Html::_('radio', 'related_purge_auto_listing', '1');
+	}
+
+	public static function related_purge_extra_urls()
+	{
+		echo Html::_('textarea', 'related_purge_extra_urls', '', '6', '50');
+	}
+
 	public static function cache_exclude()
 	{
 		$default_cache_exclude = [
