@@ -14,6 +14,8 @@ class ObjectCache
         'deletes' => 0
     ];
     private $nonPersistentGroups = [];
+    private $globalGroups = [];
+    private $blogId = 1;
     private $memoryCache = [];
     private $defaultTTL = 3600;
     private $excludeLoggedIn = true;
@@ -53,6 +55,9 @@ class ObjectCache
             return;
         }
         $this->isInitializing = true;
+
+        // Blog context before any key is built (Multisite + switch_to_blog).
+        $this->blogId = $this->resolveBlogId();
 
         // Determine request-level exclusion FIRST (before adapter, using only $_SERVER/$_COOKIE)
         $this->requestExcluded = $this->determineRequestExclusion();
@@ -254,29 +259,119 @@ class ObjectCache
     ];
 
     /**
-     * Check if a specific cache group is non-persistent, OR if the entire request is excluded.
+     * Resolve current blog ID without assuming Multisite APIs are loaded yet.
      */
-    private function shouldSkipPersistence($group)
+    private function resolveBlogId()
     {
-        // Request-level exclusion (calculated once in init)
-        if ($this->requestExcluded) {
+        if (function_exists('get_current_blog_id')) {
+            $blogId = (int) get_current_blog_id();
+            if ($blogId > 0) {
+                return $blogId;
+            }
+        }
+
+        if (isset($GLOBALS['blog_id'])) {
+            $blogId = (int) $GLOBALS['blog_id'];
+            if ($blogId > 0) {
+                return $blogId;
+            }
+        }
+
+        return 1;
+    }
+
+    /**
+     * Switch cache key namespace to another blog (Multisite).
+     * Clears runtime cache for non-global groups so blog-specific data cannot leak.
+     */
+    public function switchToBlog($blog_id)
+    {
+        $blog_id = (int) $blog_id;
+        if ($blog_id < 1) {
+            return false;
+        }
+
+        if ($this->blogId === $blog_id) {
             return true;
         }
 
-        // Hardcoded: user-specific groups that must NEVER be persisted to a shared backend.
-        // This is a security guarantee — not user-configurable.
+        $this->blogId = $blog_id;
+
+        foreach (array_keys($this->memoryCache) as $group) {
+            if (!$this->isGlobalGroup($group)) {
+                unset($this->memoryCache[$group]);
+            }
+        }
+
+        $this->log('SWITCH_BLOG', (string) $blog_id, 'all');
+        return true;
+    }
+
+    /**
+     * Mark groups as global (shared across blogs; no blog_id in persistent key).
+     */
+    public function addGlobalGroups(array $groups)
+    {
+        foreach ($groups as $group) {
+            $group = (string) $group;
+            if ($group === '' || in_array($group, $this->globalGroups, true)) {
+                continue;
+            }
+            $this->globalGroups[] = $group;
+        }
+    }
+
+    /**
+     * Mark groups as non-persistent (runtime API used by WordPress core and plugins).
+     */
+    public function addNonPersistentGroups(array $groups)
+    {
+        foreach ($groups as $group) {
+            $group = (string) $group;
+            if ($group === '' || in_array($group, $this->nonPersistentGroups, true)) {
+                continue;
+            }
+            $this->nonPersistentGroups[] = $group;
+        }
+    }
+
+    private function isGlobalGroup($group)
+    {
+        return in_array((string) $group, $this->globalGroups, true);
+    }
+
+    private function isNonPersistentGroup($group)
+    {
+        $group = (string) $group;
+
         if (in_array($group, self::$alwaysNonPersistentGroups, true)) {
             return true;
         }
 
-        // User-configured non-persistent groups
+        if (in_array($group, $this->nonPersistentGroups, true)) {
+            return true;
+        }
+
+        // Settings may list substrings (legacy); keep substring match for configured entries.
         foreach ($this->nonPersistentGroups as $nonPersistentGroup) {
-        	if (str_contains($group, $nonPersistentGroup)) {
-        		return true;
-        	}
+            if ($nonPersistentGroup !== '' && str_contains($group, $nonPersistentGroup)) {
+                return true;
+            }
         }
 
         return false;
+    }
+
+    /**
+     * Check if a specific cache group is non-persistent, OR if the entire request is excluded.
+     */
+    private function shouldSkipPersistence($group)
+    {
+        if ($this->requestExcluded) {
+            return true;
+        }
+
+        return $this->isNonPersistentGroup($group);
     }
 
     public function get($key, $group = 'default', $force = false, &$found = null)
@@ -380,10 +475,8 @@ class ObjectCache
         }
 
         // Skip persistent delete for non-persistent GROUPS only
-        foreach ($this->nonPersistentGroups as $nonPersistentGroup) {
-        	if (str_contains($group, $nonPersistentGroup)) {
-        		return true;
-        	}
+        if ($this->isNonPersistentGroup($group)) {
+            return true;
         }
 
         // CRITICAL: delete() must ALWAYS propagate to the persistent backend,
@@ -515,7 +608,13 @@ class ObjectCache
 
     private function buildKey($key, $group)
     {
-        return $group . ':' . $key;
+        // Global groups are network-wide (users, site-options, …).
+        // Blog-specific groups are prefixed with blog_id for Multisite isolation.
+        if ($this->isGlobalGroup($group)) {
+            return $group . ':' . $key;
+        }
+
+        return $this->blogId . ':' . $group . ':' . $key;
     }
 
     private function log($operation, $id, $group, $details = '')

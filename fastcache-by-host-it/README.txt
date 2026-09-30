@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.3
+Stable Tag: 1.7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.4
+Object Cache: conformità API WordPress per Multisite con isolamento chiavi per blog_id, supporto a wp_cache_switch_to_blog(), wp_cache_add_global_groups() e wp_cache_add_non_persistent_groups() a runtime. Il drop-in object-cache.php rileva automaticamente lo slug del plugin (fastcache / fastcache-by-host-it) e si aggiorna da solo quando la versione sorgente è più recente. Rimosso il badge BETA dal tab Object cache in amministrazione. Aggiornato DropinManager con ensureCurrent() per allineare il drop-in installato dopo gli aggiornamenti del plugin.
+
 1.7.3
 Related purge automatico delle pagine che elencano i post (es. /necrologi/ con Divi Theme Builder, Gutenberg Query Loop, Elementor Posts): FastCache le riconosce quando vengono messe in cache (marker HTML come et_pb_post / wp-block-post) e le invalida alla publish/update/trash insieme al set related. Opzione "Auto-purge post listing pages" (default attiva) e fallback manuale "Extra listing URLs to purge". Filtri `fastcache_auto_listing_urls` e `fastcache_related_purge_extra_urls`. Il purge selettivo filesystem elimina anche la variante `_mobile.html` quando è attiva la cache specifica per piattaforma.
 

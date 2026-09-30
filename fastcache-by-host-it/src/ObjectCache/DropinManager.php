@@ -15,6 +15,27 @@ class DropinManager
         return FASTCACHE_DIR . '/src/ObjectCache/object-cache-dropin.php';
     }
 
+    /**
+     * Parse Version: header from drop-in file contents (first 1KB is enough).
+     */
+    private static function parseVersion($contents)
+    {
+        if (preg_match('/Version:\s*([0-9.]+)/', (string) $contents, $matches)) {
+            return $matches[1];
+        }
+        return '0';
+    }
+
+    public static function getSourceVersion()
+    {
+        $source = self::getSourceDropinPath();
+        if (!file_exists($source)) {
+            return '0';
+        }
+        $contents = @file_get_contents($source, false, null, 0, 1024);
+        return self::parseVersion($contents);
+    }
+
     public static function getStatus()
     {
         $target = self::getDropinPath();
@@ -23,11 +44,13 @@ class DropinManager
         $isOurs = false;
         $isForeign = false;
         $foreignInfo = [];
+        $installedVersion = '0';
 
         if ($exists) {
             $contents = file_get_contents($target, false, null, 0, 1024); // Read first 1KB
             if (strpos($contents, 'FastCache Object Cache Drop-In') !== false) {
                 $isOurs = true;
+                $installedVersion = self::parseVersion($contents);
             } else {
                 $isForeign = true;
                 if (preg_match('/Plugin Name:\s*([^\r\n]+)/', $contents, $matches)) {
@@ -38,13 +61,30 @@ class DropinManager
             }
         }
 
+        $sourceVersion = self::getSourceVersion();
+
         return [
             'dropin_exists' => $exists,
             'is_ours' => $isOurs,
             'is_foreign' => $isForeign,
             'foreign_info' => $foreignInfo,
+            'installed_version' => $installedVersion,
+            'source_version' => $sourceVersion,
+            'needs_update' => $isOurs && version_compare($installedVersion, $sourceVersion, '<'),
             'wp_content_writable' => is_writable(WP_CONTENT_DIR)
         ];
+    }
+
+    /**
+     * Refresh installed drop-in when our source is newer (e.g. after plugin update).
+     */
+    public static function ensureCurrent()
+    {
+        $status = self::getStatus();
+        if (!empty($status['needs_update'])) {
+            return self::update();
+        }
+        return true;
     }
 
     public static function install()
@@ -52,6 +92,9 @@ class DropinManager
         $status = self::getStatus();
 
         if ($status['is_ours']) {
+            if (!empty($status['needs_update'])) {
+                return self::update();
+            }
             return true;
         }
 
@@ -135,7 +178,8 @@ class DropinManager
         $status = self::getStatus();
         if ($status['is_ours']) {
             self::uninstall();
-            self::install();
+            return self::install();
         }
+        return true;
     }
 }

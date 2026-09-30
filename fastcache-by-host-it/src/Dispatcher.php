@@ -170,6 +170,7 @@ abstract class Dispatcher {
 		// Object Cache: register invalidation hooks if enabled
 		$objCacheSettings = get_option ( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, [ ] );
 		if (! empty ( $objCacheSettings ['object_cache_enable'] )) {
+			\FastCache\ObjectCache\DropinManager::ensureCurrent ();
 			\FastCache\ObjectCache\Invalidation::register ();
 		}
 

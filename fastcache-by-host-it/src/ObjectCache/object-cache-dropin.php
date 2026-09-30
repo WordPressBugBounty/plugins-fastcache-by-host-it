@@ -2,7 +2,7 @@
 /*
 Plugin Name: FastCache Object Cache Drop-In
 Description: Object Cache drop-in provided by FastCache plugin. Enable/Disable this via FastCache settings.
-Version: 1.0.0
+Version: 1.1.1
 Author: Host.it
 */
 
@@ -22,19 +22,39 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', $content_dir . DIRECTORY_SEPARATOR . 'plugins' );
 }
 
-if (!defined('FASTCACHE_FILE_PATH')) {
-	// Discover plugin path
-	$fastcacheRoot = trailingslashit(WP_PLUGIN_DIR) . 'fastcache-by-host-it/';
-	$fastcacheFile = $fastcacheRoot . 'fastcache.php';
-	
-	if (file_exists($fastcacheFile)) {
-		// Just ensure constants are loaded without re-initing the whole plugin hook tree
-		if (!defined('FASTCACHE_OBJECTCACHE_DIR')) {
-			define('FASTCACHE_OBJECTCACHE_DIR', $fastcacheRoot);
+if (!defined('FASTCACHE_OBJECTCACHE_DIR')) {
+	// Discover plugin dir: WP.org slug, local/docker slug, or directory that contains ObjectCache.
+	$pluginDir = rtrim( WP_PLUGIN_DIR, '/\\' ) . DIRECTORY_SEPARATOR;
+	$candidates = array(
+		$pluginDir . 'fastcache-by-host-it' . DIRECTORY_SEPARATOR,
+		$pluginDir . 'fastcache' . DIRECTORY_SEPARATOR,
+	);
+	$fastcacheRoot = '';
+	foreach ( $candidates as $root ) {
+		if ( is_readable( $root . 'src/ObjectCache/ObjectCache.php' ) ) {
+			$fastcacheRoot = $root;
+			break;
 		}
-	} else {
+	}
+	if ( $fastcacheRoot === '' && is_dir( $pluginDir ) ) {
+		$entries = @scandir( $pluginDir );
+		if ( is_array( $entries ) ) {
+			foreach ( $entries as $entry ) {
+				if ( $entry === '.' || $entry === '..' ) {
+					continue;
+				}
+				$root = $pluginDir . $entry . DIRECTORY_SEPARATOR;
+				if ( is_readable( $root . 'src/ObjectCache/ObjectCache.php' ) ) {
+					$fastcacheRoot = $root;
+					break;
+				}
+			}
+		}
+	}
+	if ( $fastcacheRoot === '' ) {
 		return;
 	}
+	define( 'FASTCACHE_OBJECTCACHE_DIR', $fastcacheRoot );
 }
 
 // Ensure the Composer autoloader is available or the ObjectCache class exists
@@ -227,15 +247,27 @@ function wp_cache_set_multiple(array $data, $group = '', $expire = 0)
 
 function wp_cache_switch_to_blog($blog_id)
 {
-    return true;
+    global $wp_object_cache;
+    if (!$wp_object_cache) {
+        return false;
+    }
+    return $wp_object_cache->switchToBlog($blog_id);
 }
 
 function wp_cache_add_global_groups($groups)
 {
-    // Handle via non-persistent groups if needed
+    global $wp_object_cache;
+    if (!$wp_object_cache) {
+        return;
+    }
+    $wp_object_cache->addGlobalGroups((array) $groups);
 }
 
 function wp_cache_add_non_persistent_groups($groups)
 {
-    // Handled directly via settings configuration in FastCache
+    global $wp_object_cache;
+    if (!$wp_object_cache) {
+        return;
+    }
+    $wp_object_cache->addNonPersistentGroups((array) $groups);
 }

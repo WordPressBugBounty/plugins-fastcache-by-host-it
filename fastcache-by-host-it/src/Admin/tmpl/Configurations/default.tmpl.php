@@ -67,7 +67,7 @@ $hiddenContainsGF   = $oParams->get( 'hidden_containsgf', '' );
 				<li class="w-full px-4">
                     <a class=" fastcache-objectcache-tab block px-4 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-white hover:text-blue-400! transition-colors [&.active]:bg-blue-400/30 [&.active]:text-blue-400! [&.active]:shadow-sm text-decoration-none" href="#fastcache-objectcache-tab" data-tab-toggle="tab">
                         <div>
-                            <div class="tab-item">{{__('Object cache', 'fastcache')}} <span class="fc-beta-pill">BETA</span></div>
+                            <div class="tab-item">{{__('Object cache', 'fastcache')}}</div>
                         </div>
                     </a>
                 </li>
