@@ -70,7 +70,10 @@ HTML;
 	
 	public static function registerOptions()
 	{
-		register_setting( 'fastcacheOptionsPage', FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, [ 'type' => 'array' ] );
+		register_setting( 'fastcacheOptionsPage', FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, [
+			'type'              => 'array',
+			'sanitize_callback' => [ __CLASS__, 'sanitizeSettings' ],
+		] );
 		
 		// Controlla se esistono i vecchi settings
 		$old_settings = get_option('fastcache-host-settings');
@@ -78,12 +81,32 @@ HTML;
 		// Se esistono vecchi settings e non esistono ancora i nuovi
 		if ($old_settings !== false && get_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS) === false) {
 			
-			// Copia i settings nel nuovo formato
-			update_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $old_settings);
+			// Copia i settings nel nuovo formato (pass through sanitizeSettings for cookie allow-list)
+			update_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, self::sanitizeSettings( $old_settings ));
 			
 			// Elimina i vecchi settings
 			delete_option('fastcache-host-settings');
 		}
+	}
+
+	/**
+	 * Sanitize FastCache settings before persistence via the Settings API.
+	 *
+	 * Strictly allow-lists cache_cookie_exclude entries so newlines / Apache
+	 * metacharacters cannot reach .htaccess RewriteCond generation (SEC-20).
+	 * Other keys are passed through unchanged to avoid behavioural regressions.
+	 *
+	 * @param mixed $input Raw settings from options.php or migration.
+	 * @return array
+	 */
+	public static function sanitizeSettings( $input ) {
+		if ( ! is_array( $input ) ) {
+			return [];
+		}
+		if ( array_key_exists( 'cache_cookie_exclude', $input ) ) {
+			$input['cache_cookie_exclude'] = Utility::sanitizeCookieExcludeList( $input['cache_cookie_exclude'] );
+		}
+		return $input;
 	}
 	
 	/**

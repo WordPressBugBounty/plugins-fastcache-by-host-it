@@ -202,12 +202,10 @@ class PageCache {
 		// the same cookie names already hardcoded into the htaccess-level exclusion pattern in
 		// Utility::buildSiteHtaccessRules(); this keeps the PHP-level cache path consistent
 		// with it instead of only relying on the Apache bypass to catch them.
-		$cookie_exclude = (array) $params->get( 'cache_cookie_exclude', [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ] );
+		$cookie_exclude = Utility::sanitizeCookieExcludeList(
+			$params->get( 'cache_cookie_exclude', [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ] )
+		);
 		foreach ( $cookie_exclude as $cookie_prefix ) {
-			$cookie_prefix = trim( $cookie_prefix );
-			if ( $cookie_prefix === '' ) {
-				continue;
-			}
 			foreach ( array_keys( $_COOKIE ) as $cookie_name ) {
 				if ( strpos( $cookie_name, $cookie_prefix ) === 0 ) {
 					return false;

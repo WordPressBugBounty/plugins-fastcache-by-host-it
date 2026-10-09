@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.4
+Stable Tag: 1.7.5
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.5
+Sicurezza: correzione injection di direttive Apache in `.htaccess` tramite `fastcache_settings[cache_cookie_exclude][]` (CWE-74). I valori cookie di esclusione sono ora validati con allow-list (`[A-Za-z0-9_-]+`) in `register_setting` sanitize_callback, nell'import JSON e, in difesa in profondità, prima dell'interpolazione in `RewriteCond` (con `preg_quote`). Richiede privilegi amministratore; impatto rilevante soprattutto in Multisite subdirectory e con `DISALLOW_FILE_MODS`.
+
 1.7.4
 Object Cache: conformità API WordPress per Multisite con isolamento chiavi per blog_id, supporto a wp_cache_switch_to_blog(), wp_cache_add_global_groups() e wp_cache_add_non_persistent_groups() a runtime. Il drop-in object-cache.php rileva automaticamente lo slug del plugin (fastcache / fastcache-by-host-it) e si aggiorna da solo quando la versione sorgente è più recente. Rimosso il badge BETA dal tab Object cache in amministrazione. Aggiornato DropinManager con ensureCurrent() per allineare il drop-in installato dopo gli aggiornamenti del plugin.
 

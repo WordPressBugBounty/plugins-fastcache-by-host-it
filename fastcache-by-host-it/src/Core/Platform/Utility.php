@@ -506,6 +506,46 @@ class Utility implements UtilityInterface {
 	}
 
 	/**
+	 * Allow-list a single cookie name/prefix for settings storage and Apache RewriteCond use.
+	 *
+	 * Rejects newlines and any character outside [A-Za-z0-9_-] so values cannot break out of
+	 * the RewriteCond capture group or inject Apache directives into .htaccess (CWE-74 / SEC-20).
+	 *
+	 * @param mixed $cookie Raw cookie name or prefix.
+	 * @return string Sanitized value, or empty string if invalid.
+	 */
+	public static function sanitizeCookieExcludeValue( $cookie ) {
+		if ( ! is_string( $cookie ) && ! is_numeric( $cookie ) ) {
+			return '';
+		}
+		$cookie = trim( (string) $cookie );
+		if ( $cookie === '' || preg_match( '/[\r\n\0]/', $cookie ) ) {
+			return '';
+		}
+		if ( ! preg_match( '/^[A-Za-z0-9_-]+$/', $cookie ) ) {
+			return '';
+		}
+		return $cookie;
+	}
+
+	/**
+	 * Sanitize a list of cookie exclude values (deduplicated, invalid entries dropped).
+	 *
+	 * @param mixed $list Raw list (array or scalar).
+	 * @return string[]
+	 */
+	public static function sanitizeCookieExcludeList( $list ) {
+		$out = [];
+		foreach ( (array) $list as $cookie ) {
+			$clean = self::sanitizeCookieExcludeValue( $cookie );
+			if ( $clean !== '' && ! in_array( $clean, $out, true ) ) {
+				$out[] = $clean;
+			}
+		}
+		return $out;
+	}
+
+	/**
 	 * Generate Level 0-9 rewrite rules for one site.
 	 *
 	 * @param string $cache_base   Web-root-relative path to the site's page cache dir,
@@ -517,13 +557,14 @@ class Utility implements UtilityInterface {
 		$cookie_pattern = 'wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_';
 
 		// Append admin-configured cookie exclusions (e.g. cmplz_ for Complianz/GDPR plugins).
+		// Defense-in-depth: never trust DB/options values here — sanitize + preg_quote before
+		// interpolating into RewriteCond (SEC-20 / Wordfence CWE-74).
 		$params        = Plugin::getPluginParams();
-		$extra_cookies = $params->get( 'cache_cookie_exclude', [ 'cmplz_' ] );
-		foreach ( (array) $extra_cookies as $cookie ) {
-			$cookie = trim( $cookie );
-			if ( $cookie !== '' ) {
-				$cookie_pattern .= '|' . $cookie;
-			}
+		$extra_cookies = self::sanitizeCookieExcludeList(
+			$params->get( 'cache_cookie_exclude', [ 'cmplz_' ] )
+		);
+		foreach ( $extra_cookies as $cookie ) {
+			$cookie_pattern .= '|' . preg_quote( $cookie, null );
 		}
 
 		// When "Cache specifica della piattaforma" is on, generate separate mobile/desktop

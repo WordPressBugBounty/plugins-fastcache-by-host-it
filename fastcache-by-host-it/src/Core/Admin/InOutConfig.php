@@ -13,6 +13,8 @@
 
 namespace FastCache\Core\Admin;
 
+use FastCache\Platform\Utility;
+
 // No direct access
 defined('_FASTCACHE_EXEC') or die('Restricted access');
 
@@ -70,6 +72,14 @@ class InOutConfig
 
         if (!self::validate($settings)) {
             return false;
+        }
+
+        // Import bypasses register_setting sanitize_callback — apply the same
+        // cookie allow-list used by Admin::sanitizeSettings / Utility sink (SEC-20).
+        if (isset($settings['cache_cookie_exclude'])) {
+            $settings['cache_cookie_exclude'] = Utility::sanitizeCookieExcludeList(
+                $settings['cache_cookie_exclude']
+            );
         }
 
         return update_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $settings);
