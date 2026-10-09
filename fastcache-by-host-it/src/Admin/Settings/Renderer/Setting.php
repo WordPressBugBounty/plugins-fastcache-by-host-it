@@ -338,9 +338,8 @@ class Setting
 	}
 	public static function cache_cookie_exclude()
 	{
-		// Same defaults as PageCache::isCachingEnabled(); WooCommerce session cookies added
-		// for Bug#34406 (mini-cart shows stale/empty state on cached pages).
-		$default_cookie_exclude = [ 'cmplz_', 'woocommerce_items_in_cart', 'woocommerce_cart_hash', 'wp_woocommerce_session_' ];
+		// Same default as PageCache::isCachingEnabled(); WooCommerce session cookies are always excluded there.
+		$default_cookie_exclude = [ 'cmplz_' ];
 		echo Html::_('multiselect', 'cache_cookie_exclude', $default_cookie_exclude, '', 'value');
 	}
 	public static function related_purge_auto_listing()

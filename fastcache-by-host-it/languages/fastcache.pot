@@ -29,6 +29,18 @@ msgstr ""
 msgid "FAQ"
 msgstr ""
 
+#: src/Admin.php:137
+msgid "Some values of the \"Exclude page cache by cookie\" option were removed because they contain characters that are not allowed (only letters, numbers, hyphen, underscore and dot are accepted). Removed values:"
+msgstr ""
+
+#: src/Admin.php:139
+msgid "If you still need to exclude that cookie, enter a valid name or prefix."
+msgstr ""
+
+#: src/Admin.php:140
+msgid "Dismiss this notice"
+msgstr ""
+
 #: src/Admin.php:257
 msgid "<span class=\"ab-icon dashicons-performance\"></span>FastCache"
 msgstr ""
@@ -3500,7 +3512,7 @@ msgid "Exclude page cache by cookie"
 msgstr ""
 
 #: src/Admin/Settings/TabSettings.php:185
-msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit 'Enter'."
+msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Only letters, numbers, hyphen, underscore and dot are allowed. WooCommerce session cookies are always excluded automatically. Add a string and hit 'Enter'."
 msgstr ""
 
 #: src/Core/Compatibility/Divi.php:214

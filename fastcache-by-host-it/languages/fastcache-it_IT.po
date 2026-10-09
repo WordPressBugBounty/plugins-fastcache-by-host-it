@@ -35,6 +35,18 @@ msgstr "Documenti PDF"
 msgid "On-site support"
 msgstr "Supporto sul posto"
 
+#: src/Admin.php:137
+msgid "Some values of the \"Exclude page cache by cookie\" option were removed because they contain characters that are not allowed (only letters, numbers, hyphen, underscore and dot are accepted). Removed values:"
+msgstr "Alcuni valori dell'opzione \"Escludi cache pagina per cookie\" sono stati rimossi perché contengono caratteri non consentiti (sono ammessi solo lettere, numeri, trattino, underscore e punto). Valori rimossi:"
+
+#: src/Admin.php:139
+msgid "If you still need to exclude that cookie, enter a valid name or prefix."
+msgstr "Se devi ancora escludere quel cookie, inserisci un nome o un prefisso valido."
+
+#: src/Admin.php:140
+msgid "Dismiss this notice"
+msgstr "Nascondi questo avviso"
+
 #: src/Admin.php:240
 msgid "<span class=\"ab-icon dashicons-admin-settings\"></span>FastCache settings"
 msgstr "<span class=\"ab-icon dashicons-admin-settings\"></span>Impostazioni di FastCache"
@@ -2635,8 +2647,8 @@ msgid "Exclude page cache by cookie"
 msgstr "Escludi cache pagina per cookie"
 
 #: src/Admin/Settings/TabSettings.php:185
-msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit 'Enter'."
-msgstr "Inserisci il nome (o il prefisso) di ogni cookie la cui presenza nel browser deve escludere completamente la cache della pagina. È utile per i plugin GDPR e di gestione del consenso (ad esempio cmplz_ per Complianz), affinché i segnali di consenso vengano inoltrati correttamente alle reti pubblicitarie. Aggiungi una stringa e premi 'Invio'."
+msgid "Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Only letters, numbers, hyphen, underscore and dot are allowed. WooCommerce session cookies are always excluded automatically. Add a string and hit 'Enter'."
+msgstr "Inserisci il nome (o il prefisso) di ogni cookie la cui presenza nel browser deve escludere completamente la cache della pagina. È utile per i plugin GDPR e di gestione del consenso (ad esempio cmplz_ per Complianz), affinché i segnali di consenso vengano inoltrati correttamente alle reti pubblicitarie. Sono ammessi solo lettere, numeri, trattino, underscore e punto. I cookie di sessione WooCommerce sono sempre esclusi automaticamente. Aggiungi una stringa e premi 'Invio'."
 
 #: src/Core/Compatibility/Divi.php:214
 msgid "FastCache disabled Divi static CSS file generation and cleared the page cache to keep HTML and styles consistent."

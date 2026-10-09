@@ -508,8 +508,10 @@ class Utility implements UtilityInterface {
 	/**
 	 * Allow-list a single cookie name/prefix for settings storage and Apache RewriteCond use.
 	 *
-	 * Rejects newlines and any character outside [A-Za-z0-9_-] so values cannot break out of
+	 * Rejects newlines and any character outside [A-Za-z0-9_.-] so values cannot break out of
 	 * the RewriteCond capture group or inject Apache directives into .htaccess (CWE-74 / SEC-20).
+	 * The dot is allowed because real cookie names use it (e.g. _pk_id.) and preg_quote() escapes it
+	 * at the RewriteCond sink.
 	 *
 	 * @param mixed $cookie Raw cookie name or prefix.
 	 * @return string Sanitized value, or empty string if invalid.
@@ -522,10 +524,38 @@ class Utility implements UtilityInterface {
 		if ( $cookie === '' || preg_match( '/[\r\n\0]/', $cookie ) ) {
 			return '';
 		}
-		if ( ! preg_match( '/^[A-Za-z0-9_-]+$/', $cookie ) ) {
+		if ( ! preg_match( '/\A[A-Za-z0-9_.-]+\z/', $cookie ) ) {
 			return '';
 		}
 		return $cookie;
+	}
+
+	/**
+	 * Split a list of cookie exclude values into valid entries and rejected ones.
+	 *
+	 * @param mixed $list Raw list (array or scalar).
+	 * @return array{clean: string[], dropped: string[]} Deduplicated valid values, and printable labels of rejected non-empty entries.
+	 */
+	public static function splitCookieExcludeList( $list ) {
+		$clean   = [];
+		$dropped = [];
+		foreach ( (array) $list as $raw ) {
+			if ( ! is_scalar( $raw ) ) {
+				continue;
+			}
+			$label = trim( (string) $raw );
+			if ( $label === '' ) {
+				continue;
+			}
+			$value = self::sanitizeCookieExcludeValue( $raw );
+			if ( $value === '' ) {
+				$label     = preg_replace( '/[\x00-\x1F\x7F]+/', ' ', $label );
+				$dropped[] = function_exists( 'mb_substr' ) ? mb_substr( $label, 0, 60 ) : substr( $label, 0, 60 );
+			} elseif ( ! in_array( $value, $clean, true ) ) {
+				$clean[] = $value;
+			}
+		}
+		return [ 'clean' => $clean, 'dropped' => array_values( array_unique( $dropped ) ) ];
 	}
 
 	/**
@@ -535,14 +565,26 @@ class Utility implements UtilityInterface {
 	 * @return string[]
 	 */
 	public static function sanitizeCookieExcludeList( $list ) {
-		$out = [];
-		foreach ( (array) $list as $cookie ) {
-			$clean = self::sanitizeCookieExcludeValue( $cookie );
-			if ( $clean !== '' && ! in_array( $clean, $out, true ) ) {
-				$out[] = $clean;
-			}
+		$split = self::splitCookieExcludeList( $list );
+		return $split['clean'];
+	}
+
+	/**
+	 * Remember rejected cookie values so an admin notice can tell the user what was removed.
+	 *
+	 * @param string[] $dropped Printable labels returned by splitCookieExcludeList().
+	 * @return void
+	 */
+	public static function recordDroppedCookies( array $dropped ) {
+		if ( empty( $dropped ) ) {
+			return;
 		}
-		return $out;
+		$existing = get_option( 'fastcache_dropped_cookies', [] );
+		$existing = is_array( $existing ) ? $existing : [];
+		$merged   = array_values( array_unique( array_merge( $existing, $dropped ) ) );
+		if ( $merged !== $existing ) {
+			update_option( 'fastcache_dropped_cookies', $merged, false );
+		}
 	}
 
 	/**
@@ -557,7 +599,7 @@ class Utility implements UtilityInterface {
 		$cookie_pattern = 'wordpress_logged_in|comment_author_|woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_';
 
 		// Append admin-configured cookie exclusions (e.g. cmplz_ for Complianz/GDPR plugins).
-		// Defense-in-depth: never trust DB/options values here — sanitize + preg_quote before
+		// Defense-in-depth: never trust DB/options values here: sanitize + preg_quote before
 		// interpolating into RewriteCond (SEC-20 / Wordfence CWE-74).
 		$params        = Plugin::getPluginParams();
 		$extra_cookies = self::sanitizeCookieExcludeList(
@@ -593,7 +635,7 @@ class Utility implements UtilityInterface {
 		$out = '';
 
 		// UA detection: stamp FASTCACHE_MOBILE env var for all subsequent rules in this block.
-		// The rule fires only when the UA matches a mobile pattern and is a no-op rewrite (^ → -).
+		// The rule fires only when the UA matches a mobile pattern and is a no-op rewrite (^ -> -).
 		if ( $platform_cache ) {
 			$out .= "\n# Mobile UA detection for platform-specific cache{$label}\n"
 				. 'RewriteCond %{HTTP_USER_AGENT} "Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini" [NC]' . "\n"

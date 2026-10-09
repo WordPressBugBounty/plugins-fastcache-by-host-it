@@ -139,6 +139,51 @@ class Plugin implements PluginInterface
 		$postedSettings ['htaccess_cache_enable'] = 'auto';
 		Utility::htaccessCacheManagement($postedSettings, $enable);
 	}
+	const UPGRADE_VERSION = '1.7.6';
+
+	/**
+	 * One-time upgrade routine, run from admin_init. The WordPress updater still executes the
+	 * previous version's code, so this cannot run at update time: it runs on the first admin request after it.
+	 */
+	public static function maybeUpgrade()
+	{
+		if ( version_compare( (string) get_option( 'fastcache_upgrade_version', '0' ), self::UPGRADE_VERSION, '>=' ) ) {
+			return;
+		}
+
+		// add_option() fails when the key exists, so only one request runs the upgrade at a time.
+		if ( ! add_option( 'fastcache_upgrade_lock', time(), '', 'no' ) ) {
+			if ( time() - (int) get_option( 'fastcache_upgrade_lock', 0 ) < 120 ) {
+				return;
+			}
+			update_option( 'fastcache_upgrade_lock', time(), false );
+		}
+
+		$settings = get_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
+		if ( is_array( $settings ) ) {
+			// Re-sanitize the stored cookie exclusions and keep track of what was rejected, for the admin notice.
+			if ( isset( $settings['cache_cookie_exclude'] ) ) {
+				$split = Utility::splitCookieExcludeList( $settings['cache_cookie_exclude'] );
+				if ( $split['clean'] !== (array) $settings['cache_cookie_exclude'] ) {
+					$settings['cache_cookie_exclude'] = $split['clean'];
+					update_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $settings );
+					self::resetPluginParamsCache();
+				}
+				Utility::recordDroppedCookies( $split['dropped'] );
+			}
+
+			// Rewrite an existing FastCache .htaccess block from the sanitized settings, purging anything injected by older versions.
+			$htaccess = Paths::rootPath() . '/.htaccess';
+			$enabled  = ! isset( $settings['htaccess_cache_enable'] ) || (int) $settings['htaccess_cache_enable'] == 1;
+			if ( $enabled && is_readable( $htaccess ) && false !== strpos( (string) file_get_contents( $htaccess ), '## BEGIN HTACCESS PAGE CACHING - FASTCACHE' ) ) {
+				self::setHtaccessCacheEnableSwitch( true );
+			}
+		}
+
+		update_option( 'fastcache_upgrade_version', self::UPGRADE_VERSION );
+		delete_option( 'fastcache_upgrade_lock' );
+	}
+
 	public static function hookToLicense($action){
 		// check if lic.host.it/index.html is reachable and reply with text/html "OK"
 		// with 1 second of timeout

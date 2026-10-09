@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.5
+Stable Tag: 1.7.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,13 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.6
+Sicurezza: il gestore del salvataggio impostazioni agganciato a `admin_action_update` ora richiede il permesso `manage_options`, la presenza dei dati FastCache nella richiesta e un nonce valido prima di modificare il blocco FastCache in `.htaccess`. In precedenza qualunque utente autenticato, anche con ruolo Subscriber, poteva aggiungere o rimuovere il blocco senza nonce (broken access control, CSRF).
+Corretto un bug per cui il salvataggio di una qualunque altra pagina impostazioni di WordPress (ad esempio Lettura o Generali) rimuoveva il blocco FastCache da `.htaccess`, disattivando di fatto la cache statica mentre il pannello continuava a mostrarla attiva.
+Corretto Bug#34406 anche per i siti che avevano già salvato le impostazioni: i cookie di sessione WooCommerce (`woocommerce_items_in_cart`, `woocommerce_cart_hash`, `wp_woocommerce_session_`) sono ora sempre esclusi dalla cache di pagina, indipendentemente dalla lista salvata in "Escludi cache pagina per cookie", che resta valida per i cookie aggiuntivi.
+Esclusione cookie: i nomi con il punto (ad esempio `_pk_id.`) sono di nuovo accettati, il punto viene gestito in sicurezza con escape nelle regole `.htaccess`. I valori che contengono altri caratteri non ammessi vengono comunque rimossi, ora con un avviso nell'area amministrativa che elenca cosa è stato scartato (salvataggio, importazione configurazione e aggiornamento del plugin).
+Percorso di aggiornamento: alla prima richiesta di amministrazione dopo l'aggiornamento le esclusioni cookie già salvate vengono ripulite e il blocco FastCache esistente in `.htaccess` viene rigenerato dalle impostazioni sanitizzate, eliminando qualunque direttiva eventualmente iniettata dalle versioni precedenti. Nessuna impostazione valida viene modificata.
+
 1.7.5
 Sicurezza: correzione injection di direttive Apache in `.htaccess` tramite `fastcache_settings[cache_cookie_exclude][]` (CWE-74). I valori cookie di esclusione sono ora validati con allow-list (`[A-Za-z0-9_-]+`) in `register_setting` sanitize_callback, nell'import JSON e, in difesa in profondità, prima dell'interpolazione in `RewriteCond` (con `preg_quote`). Richiede privilegi amministratore; impatto rilevante soprattutto in Multisite subdirectory e con `DISALLOW_FILE_MODS`.
 

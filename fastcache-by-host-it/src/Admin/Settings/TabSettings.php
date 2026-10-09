@@ -190,7 +190,7 @@ class TabSettings
 				],
 				'cache_cookie_exclude' => [
 					__('Exclude page cache by cookie', 'fastcache'),
-					__('Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Add a string and hit \'Enter\'.', 'fastcache')
+					__('Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Only letters, numbers, hyphen, underscore and dot are allowed. WooCommerce session cookies are always excluded automatically. Add a string and hit \'Enter\'.', 'fastcache')
 				],
 				'enable_nonce_refresh' => [
 					__('Enable late nonce refresh', 'fastcache'),

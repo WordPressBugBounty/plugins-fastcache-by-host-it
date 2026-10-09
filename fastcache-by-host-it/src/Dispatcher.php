@@ -75,9 +75,21 @@ abstract class Dispatcher {
 					'FastCache\\Admin',
 					'addAdminMenu'
 			] );
-			add_action ( 'admin_init', [ 
+			add_action ( 'admin_init', [
 					'FastCache\\Admin',
 					'registerOptions'
+			] );
+			add_action ( 'admin_init', [
+					'FastCache\\Platform\\Plugin',
+					'maybeUpgrade'
+			], 20 );
+			add_action ( 'admin_init', [
+					'FastCache\\Admin',
+					'handleDroppedCookiesNotice'
+			] );
+			add_action ( 'admin_notices', [
+					'FastCache\\Admin',
+					'showDroppedCookiesNotice'
 			] );
 			add_filter ( 'plugin_action_links', [ 
 					'FastCache\\Admin',

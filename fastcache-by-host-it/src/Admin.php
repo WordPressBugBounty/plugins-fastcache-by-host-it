@@ -104,9 +104,40 @@ HTML;
 			return [];
 		}
 		if ( array_key_exists( 'cache_cookie_exclude', $input ) ) {
-			$input['cache_cookie_exclude'] = Utility::sanitizeCookieExcludeList( $input['cache_cookie_exclude'] );
+			$split = Utility::splitCookieExcludeList( $input['cache_cookie_exclude'] );
+			$input['cache_cookie_exclude'] = $split['clean'];
+			Utility::recordDroppedCookies( $split['dropped'] );
 		}
 		return $input;
+	}
+
+	public static function handleDroppedCookiesNotice()
+	{
+		if ( empty( $_GET['fastcache_dismiss_cookies'] ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		check_admin_referer( 'fastcache_dismiss_cookies' );
+		delete_option( 'fastcache_dropped_cookies' );
+		wp_safe_redirect( remove_query_arg( [ 'fastcache_dismiss_cookies', '_wpnonce' ] ) );
+		exit;
+	}
+
+	public static function showDroppedCookiesNotice()
+	{
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		$dropped = get_option( 'fastcache_dropped_cookies', [] );
+		if ( empty( $dropped ) || ! is_array( $dropped ) ) {
+			return;
+		}
+		$url = wp_nonce_url( add_query_arg( 'fastcache_dismiss_cookies', '1' ), 'fastcache_dismiss_cookies' );
+
+		echo '<div class="notice notice-warning"><p><strong>FastCache:</strong> '
+			. esc_html__( 'Some values of the "Exclude page cache by cookie" option were removed because they contain characters that are not allowed (only letters, numbers, hyphen, underscore and dot are accepted). Removed values:', 'fastcache' )
+			. ' <code>' . esc_html( implode( ', ', $dropped ) ) . '</code>. '
+			. esc_html__( 'If you still need to exclude that cookie, enter a valid name or prefix.', 'fastcache' )
+			. ' <a href="' . esc_url( $url ) . '">' . esc_html__( 'Dismiss this notice', 'fastcache' ) . '</a></p></div>';
 	}
 	
 	/**
@@ -326,8 +357,17 @@ HTML;
 
 	public static function updateSettings()
 	{
+		// admin_action_update fires for any logged-in user and for every settings form: require capability, FastCache payload and nonce.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		if ( empty( $_POST[FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS] ) || ! is_array( $_POST[FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS] ) ) {
+			return;
+		}
+		check_admin_referer( 'fastcacheOptionsPage-options' );
+
 		$postedSettings = $_POST[FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS];
-		
+
 		// Manage settings for activation
 		Utility::htaccessCacheManagement($postedSettings);
 	}
