@@ -139,7 +139,7 @@ class Plugin implements PluginInterface
 		$postedSettings ['htaccess_cache_enable'] = 'auto';
 		Utility::htaccessCacheManagement($postedSettings, $enable);
 	}
-	const UPGRADE_VERSION = '1.7.6';
+	const UPGRADE_VERSION = '1.7.7';
 
 	/**
 	 * One-time upgrade routine, run from admin_init. The WordPress updater still executes the
@@ -178,6 +178,13 @@ class Plugin implements PluginInterface
 			if ( $enabled && is_readable( $htaccess ) && false !== strpos( (string) file_get_contents( $htaccess ), '## BEGIN HTACCESS PAGE CACHING - FASTCACHE' ) ) {
 				self::setHtaccessCacheEnableSwitch( true );
 			}
+		}
+
+		// Drop the page cache so it is rebuilt (Bug#34278): on https sites it may hold http:// assets written by an http request
+		// (blocked by browsers), and with platform specific cache on it may hold pages generated for the wrong device, because
+		// older versions did not purge the cache when that option was switched.
+		if ( 0 === stripos( (string) get_option( 'home' ), 'https://' ) || ( is_array( $settings ) && ! empty( $settings['pro_cache_platform'] ) ) ) {
+			Cache::deletePageCacheDir();
 		}
 
 		update_option( 'fastcache_upgrade_version', self::UPGRADE_VERSION );

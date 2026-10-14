@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.6
+Stable Tag: 1.7.7
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,10 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.7
+Corretto Bug#34278 (pagine bianche per Mixed Content): la cache di pagina è condivisa tra http e https, ma gli URL dei CSS/JS combinati seguivano lo schema della richiesta che rigenerava la pagina. Se un sito configurato su https veniva raggiunto in http (senza redirect o dietro un proxy che non imposta HTTPS), nel file di cache finivano risorse `http://` poi servite a tutti i visitatori https e bloccate dal browser. Ora gli URL del proprio dominio vengono salvati con lo schema configurato in Impostazioni > Generali (solo se indirizzo WordPress e sito sono entrambi https). Al primo accesso amministrativo dopo l'aggiornamento la cache di pagina dei siti https viene svuotata per eliminare i file già compromessi.
+Corretto Bug#34278 (cache "Cache specifica della piattaforma"): attivando o disattivando l'opzione la cache di pagina non veniva svuotata, quindi i file creati prima (anche da visitatori mobile) continuavano a essere serviti ai visitatori desktop. Ora la cache di pagina viene svuotata a ogni cambio dell'opzione e, per i siti che la usano, anche al primo accesso amministrativo dopo l'aggiornamento.
+
 1.7.6
 Sicurezza: il gestore del salvataggio impostazioni agganciato a `admin_action_update` ora richiede il permesso `manage_options`, la presenza dei dati FastCache nella richiesta e un nonce valido prima di modificare il blocco FastCache in `.htaccess`. In precedenza qualunque utente autenticato, anche con ruolo Subscriber, poteva aggiungere o rimuovere il blocco senza nonce (broken access control, CSRF).
 Corretto un bug per cui il salvataggio di una qualunque altra pagina impostazioni di WordPress (ad esempio Lettura o Generali) rimuoveva il blocco FastCache da `.htaccess`, disattivando di fatto la cache statica mentre il pannello continuava a mostrarla attiva.

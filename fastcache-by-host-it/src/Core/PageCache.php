@@ -99,6 +99,9 @@ class PageCache {
 				$sHtml = NonceRefresh::processCacheContent( $sHtml );
 			}
 
+			// The cache file is shared by http and https requests: store own-origin URLs with the configured scheme (Bug#34278).
+			$sHtml = self::normalizeOwnOriginScheme( $sHtml );
+
 			if (FASTCACHE_DEBUG) {
 				$now = date ( 'l, F d, Y h:i:s A' );
 				$tag = '<!-- Cached by FastCache on ' . $now . ' GMT --> </body>';
@@ -113,6 +116,40 @@ class PageCache {
 
 			Cache::saveCache ( $sHtml, self::getPageCacheId (), true );
 		}
+	}
+
+	/**
+	 * Apache and the PHP cache serve the same file to http and https requests, but WordPress builds content_url()
+	 * and similar URLs from the scheme of the request that generated the page. When a site configured on https is
+	 * reached over plain http (no redirect, proxy not setting HTTPS), the regenerated file used to contain http://
+	 * assets that were then served to every https visitor: browsers block them as mixed content and the page stays
+	 * blank (Bug#34278). Own-origin http:// URLs, plain and JSON-escaped, are rewritten to https://.
+	 * Nothing is changed unless both home and siteurl are on https with the default port.
+	 *
+	 * @param   string  $sHtml  Final html about to be saved in the page cache
+	 *
+	 * @return string
+	 */
+	public static function normalizeOwnOriginScheme( $sHtml ) {
+		$hosts = [ ];
+
+		foreach ( [ 'home', 'siteurl' ] as $option ) {
+			$parts = wp_parse_url( (string) get_option( $option ) );
+
+			if ( empty( $parts['host'] ) || empty( $parts['scheme'] ) || strtolower( $parts['scheme'] ) !== 'https' || ! empty( $parts['port'] ) ) {
+				return $sHtml;
+			}
+
+			$hosts[ strtolower( $parts['host'] ) ] = preg_quote( $parts['host'], '#' );
+		}
+
+		$sNormalized = preg_replace(
+			'#http:(\\\\?/\\\\?/)(' . implode( '|', $hosts ) . ')(?![A-Za-z0-9-]|\.[A-Za-z0-9]|:[0-9])#i',
+			'https:$1$2',
+			$sHtml
+		);
+
+		return $sNormalized === null ? $sHtml : $sNormalized;
 	}
 	public static function isExcluded($params) {
 		// Lista di URL WooCommerce standard (inglese + italiano)

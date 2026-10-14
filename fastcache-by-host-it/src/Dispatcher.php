@@ -491,6 +491,14 @@ abstract class Dispatcher {
 		}
 		Utility::htaccessCacheManagement( $newValue, null, $oldValue );
 
+		// Pages cached before switching "Cache specifica della piattaforma" were generated for the other layout of the option:
+		// without a purge, desktop visitors keep receiving files created by mobile ones, and the other way round (Bug#34278).
+		$oldPlatform = ! empty( $oldValue['pro_cache_platform'] ) ? 1 : 0;
+		$newPlatform = ! empty( $newValue['pro_cache_platform'] ) ? 1 : 0;
+		if ( $oldPlatform !== $newPlatform ) {
+			Cache::deletePageCacheDir();
+		}
+
 		$wasEnabled = ! empty ( $oldValue ['object_cache_enable'] );
 		$isEnabled = ! empty ( $newValue ['object_cache_enable'] );
 

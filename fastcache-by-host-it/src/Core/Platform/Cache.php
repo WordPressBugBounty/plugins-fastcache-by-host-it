@@ -265,6 +265,28 @@ class Cache implements CacheInterface {
 	}
 
 	/**
+	 * Deletes only the page cache of the current site, leaving combined css/js and images untouched.
+	 *
+	 * @return bool
+	 */
+	public static function deletePageCacheDir() {
+		$wp_filesystem = self::getWpFileSystem ();
+
+		if ($wp_filesystem === false) {
+			return false;
+		}
+
+		// On multisite each blog has its own page directory.
+		$page_dir = FASTCACHE_CACHE_DIR . (is_multisite () ? get_current_blog_id () . '/' : '') . 'page';
+
+		if (! $wp_filesystem->exists ( $page_dir )) {
+			return true;
+		}
+
+		return ( bool ) $wp_filesystem->rmdir ( $page_dir, true );
+	}
+
+	/**
 	 *
 	 * @param string $context
 	 *
