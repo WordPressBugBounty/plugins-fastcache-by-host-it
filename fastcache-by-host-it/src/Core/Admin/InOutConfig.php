@@ -75,11 +75,16 @@ class InOutConfig
         }
 
         // Import bypasses register_setting sanitize_callback: apply the same
-        // cookie allow-list used by Admin::sanitizeSettings / Utility sink (SEC-20).
+        // allow-lists used by Admin::sanitizeSettings / Utility sink (SEC-20).
         if (isset($settings['cache_cookie_exclude'])) {
 			$split = Utility::splitCookieExcludeList($settings['cache_cookie_exclude']);
 			$settings['cache_cookie_exclude'] = $split['clean'];
 			Utility::recordDroppedCookies($split['dropped']);
+        }
+        if (isset($settings['cache_query_ignore'])) {
+			$split = Utility::splitIgnoredQueryArgList($settings['cache_query_ignore']);
+			$settings['cache_query_ignore'] = $split['clean'];
+			Utility::recordDroppedQueryArgs($split['dropped']);
         }
 
         return update_option(FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $settings);

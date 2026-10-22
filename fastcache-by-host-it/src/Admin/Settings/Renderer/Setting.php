@@ -342,6 +342,15 @@ class Setting
 		$default_cookie_exclude = [ 'cmplz_' ];
 		echo Html::_('multiselect', 'cache_cookie_exclude', $default_cookie_exclude, '', 'value');
 	}
+	public static function cache_query_ignore()
+	{
+		$default = \FastCache\Platform\Utility::defaultIgnoredTrackingQueryArgs();
+		echo Html::_('multiselect', 'cache_query_ignore', $default, '', 'value');
+	}
+	public static function cache_warmup_on_publish()
+	{
+		echo Html::_('radio', 'cache_warmup_on_publish', '1');
+	}
 	public static function related_purge_auto_listing()
 	{
 		echo Html::_('radio', 'related_purge_auto_listing', '1');

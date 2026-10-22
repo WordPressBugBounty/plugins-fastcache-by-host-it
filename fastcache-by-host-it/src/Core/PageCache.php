@@ -51,6 +51,8 @@ class PageCache {
 				$siteUrl = site_url ();
 
 				$uri = str_ireplace ( $siteUrl, '', Uri::getInstance ()->toString () );
+				// Drop marketing QS (fbclid, utm_*, …) so PHP writes the same file Apache serves (1.7.8).
+				$uri = Utility::stripIgnoredQueryArgsFromUri( $uri );
 				// Normalizza: rimuovi index.php dall'inizio della URI per evitare che
 				// la home page venga cachata come _index.php_.html invece di _.html.
 				// Senza questa normalizzazione le regole htaccess Level 1-7 catturano
@@ -68,7 +70,7 @@ class PageCache {
 				$parts = array ();
 
 				$parts [] = Browser::getInstance ()->getFontHash ();
-				$parts [] = Uri::getInstance ()->toString ();
+				$parts [] = Utility::stripIgnoredQueryArgsFromUri( Uri::getInstance ()->toString () );
 
 				// Add a value to the array that will be used to determine the page cache id
 				$parts = apply_filters ( 'fastcache_get_page_cache_id', $parts );
@@ -231,6 +233,13 @@ class PageCache {
 			if ($xhrHeader || $jsonFetch || $crossOrigin) {
 				return false;
 			}
+		}
+
+		// Real query args (search, filters, …) must not share/create page-cache files.
+		// Tracking-only QS (fbclid, utm_*, …) are treated as empty (1.7.8 / Ticket#71455933).
+		$qs = isset( $_SERVER['QUERY_STRING'] ) ? (string) $_SERVER['QUERY_STRING'] : '';
+		if ( ! Utility::isIgnoredTrackingQueryString( $qs ) ) {
+			return false;
 		}
 
 		// WooCommerce session cookies are always excluded (same names as the htaccess pattern), so saved settings cannot drop them (Bug#34406).

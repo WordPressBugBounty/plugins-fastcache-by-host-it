@@ -92,8 +92,8 @@ HTML;
 	/**
 	 * Sanitize FastCache settings before persistence via the Settings API.
 	 *
-	 * Strictly allow-lists cache_cookie_exclude entries so newlines / Apache
-	 * metacharacters cannot reach .htaccess RewriteCond generation (SEC-20).
+	 * Strictly allow-lists cache_cookie_exclude and cache_query_ignore entries so
+	 * newlines / Apache metacharacters cannot reach .htaccess RewriteCond generation (SEC-20).
 	 * Other keys are passed through unchanged to avoid behavioural regressions.
 	 *
 	 * @param mixed $input Raw settings from options.php or migration.
@@ -107,6 +107,11 @@ HTML;
 			$split = Utility::splitCookieExcludeList( $input['cache_cookie_exclude'] );
 			$input['cache_cookie_exclude'] = $split['clean'];
 			Utility::recordDroppedCookies( $split['dropped'] );
+		}
+		if ( array_key_exists( 'cache_query_ignore', $input ) ) {
+			$split = Utility::splitIgnoredQueryArgList( $input['cache_query_ignore'] );
+			$input['cache_query_ignore'] = $split['clean'];
+			Utility::recordDroppedQueryArgs( $split['dropped'] );
 		}
 		return $input;
 	}
@@ -137,6 +142,35 @@ HTML;
 			. esc_html__( 'Some values of the "Exclude page cache by cookie" option were removed because they contain characters that are not allowed (only letters, numbers, hyphen, underscore and dot are accepted). Removed values:', 'fastcache' )
 			. ' <code>' . esc_html( implode( ', ', $dropped ) ) . '</code>. '
 			. esc_html__( 'If you still need to exclude that cookie, enter a valid name or prefix.', 'fastcache' )
+			. ' <a href="' . esc_url( $url ) . '">' . esc_html__( 'Dismiss this notice', 'fastcache' ) . '</a></p></div>';
+	}
+
+	public static function handleDroppedQueryArgsNotice()
+	{
+		if ( empty( $_GET['fastcache_dismiss_query_args'] ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		check_admin_referer( 'fastcache_dismiss_query_args' );
+		delete_option( 'fastcache_dropped_query_args' );
+		wp_safe_redirect( remove_query_arg( [ 'fastcache_dismiss_query_args', '_wpnonce' ] ) );
+		exit;
+	}
+
+	public static function showDroppedQueryArgsNotice()
+	{
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		$dropped = get_option( 'fastcache_dropped_query_args', [] );
+		if ( empty( $dropped ) || ! is_array( $dropped ) ) {
+			return;
+		}
+		$url = wp_nonce_url( add_query_arg( 'fastcache_dismiss_query_args', '1' ), 'fastcache_dismiss_query_args' );
+
+		echo '<div class="notice notice-warning"><p><strong>FastCache:</strong> '
+			. esc_html__( 'Some values of the "Ignore query strings (tracking)" option were removed because they contain characters that are not allowed (only letters, numbers and underscore are accepted). Removed values:', 'fastcache' )
+			. ' <code>' . esc_html( implode( ', ', $dropped ) ) . '</code>. '
+			. esc_html__( 'If you still need to ignore that parameter, enter a valid name.', 'fastcache' )
 			. ' <a href="' . esc_url( $url ) . '">' . esc_html__( 'Dismiss this notice', 'fastcache' ) . '</a></p></div>';
 	}
 	

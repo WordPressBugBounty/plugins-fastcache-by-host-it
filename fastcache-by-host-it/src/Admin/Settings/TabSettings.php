@@ -192,6 +192,14 @@ class TabSettings
 					__('Exclude page cache by cookie', 'fastcache'),
 					__('Enter the name (or prefix) of each cookie whose presence in the browser should bypass the page cache entirely. Useful for GDPR/consent plugins (e.g. cmplz_ for Complianz) so that consent signals are forwarded correctly to ad networks. Only letters, numbers, hyphen, underscore and dot are allowed. WooCommerce session cookies are always excluded automatically. Add a string and hit \'Enter\'.', 'fastcache')
 				],
+				'cache_query_ignore' => [
+					__('Ignore query strings (tracking)', 'fastcache'),
+					__('Tracking/marketing parameters (e.g. fbclid, gclid) that must not create separate page-cache files. Requests with only these parameters are served the same HTML as the clean URL. Do not add parameters that change page content (search, filters, pagination). Only letters, numbers and underscore are allowed. The utm_* prefix is always ignored. Add a string and hit \'Enter\'.', 'fastcache')
+				],
+				'cache_warmup_on_publish' => [
+					__('Warm up cache after publish', 'fastcache'),
+					__('After publishing or updating a public post, FastCache requests the post permalink and the home page so guests get a cache hit immediately. Soft-fails if the server cannot reach itself (firewall/auth).', 'fastcache')
+				],
 				'enable_nonce_refresh' => [
 					__('Enable late nonce refresh', 'fastcache'),
 					__('When enabled, WordPress nonces in cached pages are replaced with placeholders and refreshed via REST API before AJAX requests. This prevents "nonce verification failed" errors when pages are cached longer than the nonce lifespan (12 hours). Works with both .htaccess static caching and PHP page caching.', 'fastcache')

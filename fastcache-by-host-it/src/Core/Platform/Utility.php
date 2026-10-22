@@ -588,6 +588,263 @@ class Utility implements UtilityInterface {
 	}
 
 	/**
+	 * Default marketing/analytics query arg names ignored for page-cache keys (RF-02 MVP).
+	 * The utm_* prefix is always ignored in code (not stored in this list).
+	 *
+	 * @return string[]
+	 */
+	public static function defaultIgnoredTrackingQueryArgs() {
+		return [
+			'fbclid',
+			'fb_action_ids',
+			'fb_action_types',
+			'fb_source',
+			'fbadid',
+			'gclid',
+			'gbraid',
+			'wbraid',
+			'gad_source',
+			'gad_campaignid',
+			'gadid',
+			'_ga',
+			'_gl',
+			'msclkid',
+			'mc_cid',
+			'mc_eid',
+			'campaignid',
+			'adgroupid',
+			'adid',
+			'gclsrc',
+			'srsltid',
+			'epik',
+			'_hsenc',
+			'_hsmi',
+			'_ke',
+			'_kx',
+			'dclid',
+		];
+	}
+
+	/**
+	 * Allow-list a single query-arg name for settings storage and Apache RewriteCond use.
+	 *
+	 * Rejects newlines and any character outside [A-Za-z0-9_] so values cannot break out of
+	 * the RewriteCond alternation or inject Apache directives into .htaccess (CWE-74 / SEC-20).
+	 * No wildcards from admin: utm_* is hard-coded in the htaccess builder.
+	 *
+	 * @param mixed $arg Raw query argument name.
+	 * @return string Sanitized lowercase value, or empty string if invalid.
+	 */
+	public static function sanitizeIgnoredQueryArgValue( $arg ) {
+		if ( ! is_string( $arg ) && ! is_numeric( $arg ) ) {
+			return '';
+		}
+		$arg = trim( (string) $arg );
+		if ( $arg === '' || preg_match( '/[\r\n\0]/', $arg ) ) {
+			return '';
+		}
+		if ( ! preg_match( '/\A[A-Za-z0-9_]+\z/', $arg ) ) {
+			return '';
+		}
+		return strtolower( $arg );
+	}
+
+	/**
+	 * Split a list of ignored query-arg names into valid entries and rejected ones.
+	 *
+	 * @param mixed $list Raw list (array or scalar).
+	 * @return array{clean: string[], dropped: string[]}
+	 */
+	public static function splitIgnoredQueryArgList( $list ) {
+		$clean   = [];
+		$dropped = [];
+		foreach ( (array) $list as $raw ) {
+			if ( ! is_scalar( $raw ) ) {
+				continue;
+			}
+			$label = trim( (string) $raw );
+			if ( $label === '' ) {
+				continue;
+			}
+			$value = self::sanitizeIgnoredQueryArgValue( $raw );
+			if ( $value === '' ) {
+				$label     = preg_replace( '/[\x00-\x1F\x7F]+/', ' ', $label );
+				$dropped[] = function_exists( 'mb_substr' ) ? mb_substr( $label, 0, 60 ) : substr( $label, 0, 60 );
+			} elseif ( ! in_array( $value, $clean, true ) ) {
+				$clean[] = $value;
+			}
+		}
+		return [ 'clean' => $clean, 'dropped' => array_values( array_unique( $dropped ) ) ];
+	}
+
+	/**
+	 * Sanitize a list of ignored query-arg names (deduplicated, invalid entries dropped).
+	 *
+	 * @param mixed $list Raw list (array or scalar).
+	 * @return string[]
+	 */
+	public static function sanitizeIgnoredQueryArgList( $list ) {
+		$split = self::splitIgnoredQueryArgList( $list );
+		return $split['clean'];
+	}
+
+	/**
+	 * Remember rejected query-arg values so an admin notice can tell the user what was removed.
+	 *
+	 * @param string[] $dropped Printable labels returned by splitIgnoredQueryArgList().
+	 * @return void
+	 */
+	public static function recordDroppedQueryArgs( array $dropped ) {
+		if ( empty( $dropped ) ) {
+			return;
+		}
+		$existing = get_option( 'fastcache_dropped_query_args', [] );
+		$existing = is_array( $existing ) ? $existing : [];
+		$merged   = array_values( array_unique( array_merge( $existing, $dropped ) ) );
+		if ( $merged !== $existing ) {
+			update_option( 'fastcache_dropped_query_args', $merged, false );
+		}
+	}
+
+	/**
+	 * Marketing / analytics query args that must not bust the static page cache.
+	 * Exact names from option (or defaults) plus filter; utm_* handled separately.
+	 *
+	 * @return string[]
+	 */
+	public static function ignoredTrackingQueryArgs() {
+		$all = Plugin::getPluginParams()->toArray();
+		// Key present (including empty array) → respect stored value; absent → seed defaults.
+		$raw  = array_key_exists( 'cache_query_ignore', $all )
+			? $all['cache_query_ignore']
+			: self::defaultIgnoredTrackingQueryArgs();
+		$args = self::sanitizeIgnoredQueryArgList( $raw );
+		if ( function_exists( 'apply_filters' ) ) {
+			$args = apply_filters( 'fastcache_ignored_query_args', $args );
+			$args = self::sanitizeIgnoredQueryArgList( $args );
+		}
+		return $args;
+	}
+
+	/**
+	 * Alternation suitable for Apache RewriteCond query-arg names (includes hard-coded utm_*).
+	 * Exact names are preg_quoted (SEC-20); utm_ token is a code constant, not from options.
+	 *
+	 * @return string
+	 */
+	public static function htaccessIgnoredQueryArgAlternation() {
+		$quoted = [];
+		foreach ( self::ignoredTrackingQueryArgs() as $name ) {
+			$quoted[] = preg_quote( $name, null );
+		}
+		$quoted[] = 'utm_[A-Za-z0-9_]+';
+		$quoted   = array_values( array_unique( array_filter( $quoted ) ) );
+		return implode( '|', $quoted );
+	}
+
+	/**
+	 * True when QUERY_STRING is empty or contains only ignored tracking args.
+	 *
+	 * @param string $query_string Raw QUERY_STRING (no leading ?).
+	 * @return bool
+	 */
+	public static function isIgnoredTrackingQueryString( $query_string ) {
+		$query_string = (string) $query_string;
+		if ( $query_string === '' ) {
+			return true;
+		}
+		parse_str( $query_string, $params );
+		if ( ! is_array( $params ) || $params === [] ) {
+			return true;
+		}
+		$exact = array_fill_keys( self::ignoredTrackingQueryArgs(), true );
+		foreach ( array_keys( $params ) as $key ) {
+			$key = (string) $key;
+			if ( isset( $exact[ strtolower( $key ) ] ) ) {
+				continue;
+			}
+			if ( stripos( $key, 'utm_' ) === 0 ) {
+				continue;
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Strip ignored tracking query args from a URI (path + optional query).
+	 *
+	 * @param string $uri Absolute or site-relative URI.
+	 * @return string
+	 */
+	public static function stripIgnoredQueryArgsFromUri( $uri ) {
+		$uri = (string) $uri;
+		$parts = parse_url( $uri );
+		if ( $parts === false || empty( $parts['query'] ) ) {
+			return $uri;
+		}
+		parse_str( $parts['query'], $params );
+		if ( ! is_array( $params ) ) {
+			return $uri;
+		}
+		$exact = array_fill_keys( self::ignoredTrackingQueryArgs(), true );
+		foreach ( array_keys( $params ) as $key ) {
+			$key_l = strtolower( (string) $key );
+			if ( isset( $exact[ $key_l ] ) || stripos( (string) $key, 'utm_' ) === 0 ) {
+				unset( $params[ $key ] );
+			}
+		}
+		$rebuild = '';
+		if ( isset( $parts['scheme'] ) && isset( $parts['host'] ) ) {
+			$rebuild = $parts['scheme'] . '://' . $parts['host'];
+			if ( ! empty( $parts['port'] ) ) {
+				$rebuild .= ':' . $parts['port'];
+			}
+		}
+		$rebuild .= isset( $parts['path'] ) ? $parts['path'] : '';
+		if ( $params !== [] ) {
+			$rebuild .= '?' . http_build_query( $params );
+		}
+		if ( ! empty( $parts['fragment'] ) ) {
+			$rebuild .= '#' . $parts['fragment'];
+		}
+		return $rebuild;
+	}
+
+	/**
+	 * Delete page-cache files whose basename still contains a query-string marker (?).
+	 * Used on upgrade 1.7.8 to remove pollution from pre-ignore tracking QS filenames.
+	 *
+	 * @return int Number of files removed.
+	 */
+	public static function cleanupPollutedPageCacheFiles() {
+		if ( ! defined( 'FASTCACHE_CACHE_DIR' ) || ! is_dir( FASTCACHE_CACHE_DIR ) ) {
+			return 0;
+		}
+		$removed = 0;
+		try {
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator( FASTCACHE_CACHE_DIR, \FilesystemIterator::SKIP_DOTS )
+			);
+		} catch ( \Exception $e ) {
+			return 0;
+		}
+		foreach ( $iterator as $file ) {
+			if ( ! $file->isFile() ) {
+				continue;
+			}
+			$name = $file->getFilename();
+			// Filenames that embedded QUERY_STRING (e.g. _slug_?fbclid=….html).
+			if ( strpos( $name, '?' ) !== false && preg_match( '/\.(html|wpc)$/i', $name ) ) {
+				if ( @unlink( $file->getPathname() ) ) {
+					$removed++;
+				}
+			}
+		}
+		return $removed;
+	}
+
+	/**
 	 * Generate Level 0-9 rewrite rules for one site.
 	 *
 	 * @param string $cache_base   Web-root-relative path to the site's page cache dir,
@@ -622,9 +879,13 @@ class Utility implements UtilityInterface {
 			$exclude_conds .= 'RewriteCond %{REQUEST_URI} !^' . preg_quote( $excl, null ) . '/ [NC]' . "\n";
 		}
 
+		// Empty QS OR tracking-only QS (fbclid/utm_*/gclid/…): serve the same static file.
+		// Without this, Facebook/Ads traffic bypasses page cache and saturates PHP-FPM (Ticket#71455933).
+		$qs_names = self::htaccessIgnoredQueryArgAlternation();
 		$common = "RewriteCond %{REQUEST_METHOD} ^GET$ [NC]\n"
 			. "RewriteCond %{HTTP_X_REQUESTED_WITH} !^XMLHttpRequest$ [NC]\n"
-			. "RewriteCond %{QUERY_STRING} ^$\n"
+			. "RewriteCond %{QUERY_STRING} ^$ [OR]\n"
+			. "RewriteCond %{QUERY_STRING} ^(?:{$qs_names})=[^&]*(?:&(?:{$qs_names})=[^&]*)*$ [NC]\n"
 			. "RewriteCond %{HTTP_COOKIE} !({$cookie_pattern}) [NC]\n"
 			. "RewriteCond %{REQUEST_URI} !^{$p}/(wp-admin|wp-login|wp-json) [NC]\n"
 			. $exclude_conds;

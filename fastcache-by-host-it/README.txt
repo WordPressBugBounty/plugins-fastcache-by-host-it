@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.7
+Stable Tag: 1.7.8
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,12 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.8
+Nuovo: i parametri di tracking/marketing (fbclid, utm_*, gclid, msclkid, …) vengono ignorati nella chiave della page cache (.htaccess e PHP): le richieste con solo questi parametri ricevono lo stesso HTML dell’URL pulita, senza redirect (allineamento a WP Rocket / LiteSpeed Cache). Opzione "Ignore query strings (tracking)" in Page Cache; il prefisso utm_* è sempre ignorato. I valori sono sanitizzati con allow-list e preg_quote come per cache_cookie_exclude (SEC-20 / CWE-74), anche in import e migrazione.
+Nuovo: opzione "Warm up cache after publish" (default attiva): dopo publish/update di un post pubblico FastCache richiede permalink e home per preriscaldare la cache.
+Fix: non vengono più creati file di page cache il cui nome contiene query string di tracking; in upgrade i file già inquinati con "?" nel filename vengono rimossi e il blocco FastCache in .htaccess viene rigenerato.
+Ticket#71455933.
+
 1.7.7
 Corretto Bug#34278 (pagine bianche per Mixed Content): la cache di pagina è condivisa tra http e https, ma gli URL dei CSS/JS combinati seguivano lo schema della richiesta che rigenerava la pagina. Se un sito configurato su https veniva raggiunto in http (senza redirect o dietro un proxy che non imposta HTTPS), nel file di cache finivano risorse `http://` poi servite a tutti i visitatori https e bloccate dal browser. Ora gli URL del proprio dominio vengono salvati con lo schema configurato in Impostazioni > Generali (solo se indirizzo WordPress e sito sono entrambi https). Al primo accesso amministrativo dopo l'aggiornamento la cache di pagina dei siti https viene svuotata per eliminare i file già compromessi.
 Corretto Bug#34278 (cache "Cache specifica della piattaforma"): attivando o disattivando l'opzione la cache di pagina non veniva svuotata, quindi i file creati prima (anche da visitatori mobile) continuavano a essere serviti ai visitatori desktop. Ora la cache di pagina viene svuotata a ogni cambio dell'opzione e, per i siti che la usano, anche al primo accesso amministrativo dopo l'aggiornamento.

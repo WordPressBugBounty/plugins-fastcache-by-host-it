@@ -139,7 +139,7 @@ class Plugin implements PluginInterface
 		$postedSettings ['htaccess_cache_enable'] = 'auto';
 		Utility::htaccessCacheManagement($postedSettings, $enable);
 	}
-	const UPGRADE_VERSION = '1.7.7';
+	const UPGRADE_VERSION = '1.7.8';
 
 	/**
 	 * One-time upgrade routine, run from admin_init. The WordPress updater still executes the
@@ -160,19 +160,43 @@ class Plugin implements PluginInterface
 		}
 
 		$settings = get_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS );
+		$settings_changed = false;
 		if ( is_array( $settings ) ) {
 			// Re-sanitize the stored cookie exclusions and keep track of what was rejected, for the admin notice.
 			if ( isset( $settings['cache_cookie_exclude'] ) ) {
 				$split = Utility::splitCookieExcludeList( $settings['cache_cookie_exclude'] );
 				if ( $split['clean'] !== (array) $settings['cache_cookie_exclude'] ) {
 					$settings['cache_cookie_exclude'] = $split['clean'];
-					update_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $settings );
-					self::resetPluginParamsCache();
+					$settings_changed = true;
 				}
 				Utility::recordDroppedCookies( $split['dropped'] );
 			}
 
-			// Rewrite an existing FastCache .htaccess block from the sanitized settings, purging anything injected by older versions.
+			// Seed ignored tracking query args (1.7.8) if absent; re-sanitize if present.
+			if ( ! array_key_exists( 'cache_query_ignore', $settings ) ) {
+				$settings['cache_query_ignore'] = Utility::defaultIgnoredTrackingQueryArgs();
+				$settings_changed = true;
+			} else {
+				$split = Utility::splitIgnoredQueryArgList( $settings['cache_query_ignore'] );
+				if ( $split['clean'] !== (array) $settings['cache_query_ignore'] ) {
+					$settings['cache_query_ignore'] = $split['clean'];
+					$settings_changed = true;
+				}
+				Utility::recordDroppedQueryArgs( $split['dropped'] );
+			}
+
+			if ( ! array_key_exists( 'cache_warmup_on_publish', $settings ) ) {
+				$settings['cache_warmup_on_publish'] = '1';
+				$settings_changed = true;
+			}
+
+			if ( $settings_changed ) {
+				update_option( FASTCACHEHOST_HOST_PLUGINNAME_SETTINGS, $settings );
+				self::resetPluginParamsCache();
+			}
+
+			// Rewrite an existing FastCache .htaccess block from the sanitized settings
+			// (cookie allow-list + ignored QS RewriteCond for 1.7.8).
 			$htaccess = Paths::rootPath() . '/.htaccess';
 			$enabled  = ! isset( $settings['htaccess_cache_enable'] ) || (int) $settings['htaccess_cache_enable'] == 1;
 			if ( $enabled && is_readable( $htaccess ) && false !== strpos( (string) file_get_contents( $htaccess ), '## BEGIN HTACCESS PAGE CACHING - FASTCACHE' ) ) {
@@ -180,11 +204,18 @@ class Plugin implements PluginInterface
 			}
 		}
 
+		// Remove page-cache files polluted with tracking QS in the filename (pre-1.7.8).
+		Utility::cleanupPollutedPageCacheFiles();
+
 		// Drop the page cache so it is rebuilt (Bug#34278): on https sites it may hold http:// assets written by an http request
 		// (blocked by browsers), and with platform specific cache on it may hold pages generated for the wrong device, because
 		// older versions did not purge the cache when that option was switched.
-		if ( 0 === stripos( (string) get_option( 'home' ), 'https://' ) || ( is_array( $settings ) && ! empty( $settings['pro_cache_platform'] ) ) ) {
-			Cache::deletePageCacheDir();
+		// Keep this for upgrades that still carry the 1.7.7 condition when upgrading from older builds.
+		$from = (string) get_option( 'fastcache_upgrade_version', '0' );
+		if ( version_compare( $from, '1.7.7', '<' ) ) {
+			if ( 0 === stripos( (string) get_option( 'home' ), 'https://' ) || ( is_array( $settings ) && ! empty( $settings['pro_cache_platform'] ) ) ) {
+				Cache::deletePageCacheDir();
+			}
 		}
 
 		update_option( 'fastcache_upgrade_version', self::UPGRADE_VERSION );

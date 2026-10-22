@@ -386,6 +386,61 @@ class HAdmin
 			if (function_exists('wp_cache_flush')) {
 				wp_cache_flush();
 			}
+
+			// Warm home + permalink so guests hit cache after publish (1.7.8).
+			$this->warmupAfterPurge( (int) $postId );
+		}
+	}
+
+	/**
+	 * HTTP GET warm-up of permalink + home after a successful purge on publish/update.
+	 *
+	 * @param int $postId Post ID that was purged.
+	 * @return void
+	 */
+	private function warmupAfterPurge( $postId ) {
+		$params = \FastCache\Platform\Plugin::getPluginParams();
+		$enabled = (string) $params->get( 'cache_warmup_on_publish', '1' ) === '1';
+		if ( function_exists( 'apply_filters' ) ) {
+			$enabled = (bool) apply_filters( 'fastcache_warmup_enabled', $enabled, $postId );
+		}
+		if ( ! $enabled ) {
+			return;
+		}
+
+		$post = get_post( $postId );
+		if ( ! $post || $post->post_status !== 'publish' || $post->post_type === 'nav_menu_item' || $post->post_type === 'revision' ) {
+			return;
+		}
+
+		$urls = [];
+		$permalink = get_permalink( $postId );
+		if ( is_string( $permalink ) && $permalink !== '' ) {
+			$urls[] = $permalink;
+		}
+		$home = home_url( '/' );
+		if ( is_string( $home ) && $home !== '' ) {
+			$urls[] = $home;
+		}
+		if ( function_exists( 'apply_filters' ) ) {
+			$urls = apply_filters( 'fastcache_warmup_urls', $urls, $postId );
+		}
+		$urls = array_values( array_unique( array_filter( (array) $urls, function ( $u ) {
+			return is_string( $u ) && $u !== '' && ( strpos( $u, 'http://' ) === 0 || strpos( $u, 'https://' ) === 0 );
+		} ) ) );
+
+		$ua = 'FastCache-Warmup/' . ( defined( 'FASTCACHE_VERSION' ) ? FASTCACHE_VERSION : '1.7.8' );
+		foreach ( $urls as $url ) {
+			$response = wp_remote_get( $url, [
+				'timeout'     => 45,
+				'redirection' => 3,
+				'sslverify'   => true,
+				'cookies'     => [],
+				'headers'     => [ 'User-Agent' => $ua ],
+			] );
+			if ( is_wp_error( $response ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'FastCache warmup failed for ' . $url . ': ' . $response->get_error_message() );
+			}
 		}
 	}
 	private function user_can_access_plugin(): bool {

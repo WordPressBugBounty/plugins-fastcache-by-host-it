@@ -87,9 +87,17 @@ abstract class Dispatcher {
 					'FastCache\\Admin',
 					'handleDroppedCookiesNotice'
 			] );
+			add_action ( 'admin_init', [
+					'FastCache\\Admin',
+					'handleDroppedQueryArgsNotice'
+			] );
 			add_action ( 'admin_notices', [
 					'FastCache\\Admin',
 					'showDroppedCookiesNotice'
+			] );
+			add_action ( 'admin_notices', [
+					'FastCache\\Admin',
+					'showDroppedQueryArgsNotice'
 			] );
 			add_filter ( 'plugin_action_links', [ 
 					'FastCache\\Admin',
