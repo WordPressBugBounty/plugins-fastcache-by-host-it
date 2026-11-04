@@ -44,6 +44,14 @@ class HAdmin
 	private $prefix = "hostcache_";
 	private $customFields = [];
 	/**
+	 * Cron hook of the second, delayed purge of a post (see scheduleDelayedPurge()).
+	 */
+	const DELAYED_PURGE_HOOK = 'fastcache_delayed_post_purge';
+	/**
+	 * True while the delayed purge itself runs, so it does not schedule another one.
+	 */
+	private $inDelayedPurge = false;
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
@@ -284,6 +292,8 @@ class HAdmin
 		}
 		// Keep auto-listing index in sync when pages leave publish
 		add_action('transition_post_status', array($this, 'syncListingIndexOnPageTransition'), 20, 3);
+		// Second purge a moment after the last save, registered here because HAdmin is built on every request, cron included
+		add_action(self::DELAYED_PURGE_HOOK, array($this, 'runDelayedPurge'), 10, 1);
 		$this->canPurge();
 	}
 
@@ -389,7 +399,65 @@ class HAdmin
 
 			// Warm home + permalink so guests hit cache after publish (1.7.8).
 			$this->warmupAfterPurge( (int) $postId );
+
+			$this->scheduleDelayedPurge($postId);
 		}
+	}
+
+	/**
+	 * Schedule a second purge of the post a little after its last save.
+	 *
+	 * The purge above runs while the post is still being saved: SEO data (Yoast primary category, title, description,
+	 * indexable) and terms may not be final yet. A visitor, bot or the warm-up requesting the page in that window gets it
+	 * cached with the transitional values, and nothing purges it again (Bug#34693: canonical pointing to the wrong category).
+	 * Every save pushes the purge back, so it runs the configured delay after the last one. The delayed run purges again
+	 * and warms up again, now with the final data.
+	 *
+	 * @param int $postId
+	 * @return void
+	 */
+	private function scheduleDelayedPurge($postId)
+	{
+		if ($this->inDelayedPurge || ! is_numeric($postId) || get_post_status($postId) !== 'publish') {
+			return;
+		}
+
+		/**
+		 * Seconds between the last save of a post and its second purge. Return 0 to disable it.
+		 *
+		 * @param int $delay  Default 60.
+		 * @param int $postId Post being purged.
+		 */
+		$delay = (int) apply_filters('fastcache_delayed_purge_seconds', 60, (int) $postId);
+		if ($delay <= 0) {
+			return;
+		}
+
+		$args = array((int) $postId);
+		$next = wp_next_scheduled(self::DELAYED_PURGE_HOOK, $args);
+		if ($next !== false) {
+			wp_unschedule_event($next, self::DELAYED_PURGE_HOOK, $args);
+		}
+		wp_schedule_single_event(time() + $delay, self::DELAYED_PURGE_HOOK, $args);
+	}
+
+	/**
+	 * WP-Cron callback of the delayed purge: same purge (and warm-up) as a save, run once the post data is complete.
+	 *
+	 * @param int $postId
+	 * @return void
+	 */
+	public function runDelayedPurge($postId)
+	{
+		$post = get_post((int) $postId);
+		if (! $post || $post->post_status !== 'publish') {
+			return;
+		}
+
+		$this->inDelayedPurge = true;
+		$this->purgeUrls = array();
+		$this->purge_post((int) $postId, $post, true);
+		$this->inDelayedPurge = false;
 	}
 
 	/**
