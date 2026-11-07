@@ -52,6 +52,12 @@ class HAdmin
 	 */
 	private $inDelayedPurge = false;
 	/**
+	 * Urls waiting for the warm-up of the current request: warmupAfterPurge() fills it, runWarmupQueue() requests each
+	 * url once at shutdown (Bug#34751: bulk saves of technical records used to trigger hundreds of blocking requests).
+	 */
+	private static $warmupQueue = [];
+	private static $warmupHooked = false;
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
@@ -422,6 +428,11 @@ class HAdmin
 			return;
 		}
 
+		// Technical records without a public page (Elementor global classes, ...) cannot have a stale page to fix
+		if (! $this->isVisitablePostType(get_post_type($postId))) {
+			return;
+		}
+
 		/**
 		 * Seconds between the last save of a post and its second purge. Return 0 to disable it.
 		 *
@@ -481,6 +492,11 @@ class HAdmin
 			return;
 		}
 
+		// Technical records without a public page (Elementor global classes, templates, ...) have nothing to warm up.
+		if ( ! $this->isVisitablePostType( $post->post_type ) ) {
+			return;
+		}
+
 		$urls = [];
 		$permalink = get_permalink( $postId );
 		if ( is_string( $permalink ) && $permalink !== '' ) {
@@ -497,8 +513,64 @@ class HAdmin
 			return is_string( $u ) && $u !== '' && ( strpos( $u, 'http://' ) === 0 || strpos( $u, 'https://' ) === 0 );
 		} ) ) );
 
+		// Queue instead of requesting now: every url is requested once per PHP request, after the last purge of the
+		// request, and without keeping the saving user waiting (see runWarmupQueue()).
+		foreach ( $urls as $url ) {
+			self::$warmupQueue[ $url ] = true;
+		}
+		if ( ! self::$warmupHooked ) {
+			self::$warmupHooked = true;
+			add_action( 'shutdown', array( __CLASS__, 'runWarmupQueue' ), 20 );
+		}
+	}
+
+	/**
+	 * Whether a post type has pages visitors can open, so it makes sense to warm up and to purge again later.
+	 * Filter fastcache_warmup_skip_post_types adds or removes types from the default list of skipped ones.
+	 *
+	 * @param string $postType
+	 * @return bool
+	 */
+	private function isVisitablePostType( $postType ) {
+		if ( function_exists( 'is_post_type_viewable' ) && ! is_post_type_viewable( $postType ) ) {
+			return false;
+		}
+		$skip = apply_filters( 'fastcache_warmup_skip_post_types', array( 'elementor_library' ) );
+
+		return ! ( is_array( $skip ) && in_array( $postType, $skip, true ) );
+	}
+
+	/**
+	 * Shutdown callback: request the queued warm-up urls once each.
+	 * The response is already sent when it runs; where PHP allows it the connection is closed first, so the editor
+	 * never waits for these requests. Capped in number of urls and in time, so a bulk save cannot keep a worker busy.
+	 *
+	 * @return void
+	 */
+	public static function runWarmupQueue() {
+		$urls = array_keys( self::$warmupQueue );
+		self::$warmupQueue = [];
+		if ( empty( $urls ) ) {
+			return;
+		}
+
+		$max = (int) apply_filters( 'fastcache_warmup_max_urls', 10 );
+		if ( $max > 0 ) {
+			$urls = array_slice( $urls, 0, $max );
+		}
+		$deadline = time() + max( 1, (int) apply_filters( 'fastcache_warmup_time_budget', 25 ) );
+
+		if ( function_exists( 'fastcgi_finish_request' ) ) {
+			fastcgi_finish_request();
+		} elseif ( function_exists( 'litespeed_finish_request' ) ) {
+			litespeed_finish_request();
+		}
+
 		$ua = 'FastCache-Warmup/' . ( defined( 'FASTCACHE_VERSION' ) ? FASTCACHE_VERSION : '1.7.8' );
 		foreach ( $urls as $url ) {
+			if ( time() > $deadline ) {
+				break;
+			}
 			$response = wp_remote_get( $url, [
 				'timeout'     => 45,
 				'redirection' => 3,
