@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.10
+Stable Tag: 1.7.11
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.11
+Corretto il rallentamento del salvataggio con object cache attiva: a ogni pubblicazione o aggiornamento di un articolo veniva svuotata l'intera object cache, con il backend File System cancellando tutti i file durante la richiesta di salvataggio (su un test con 20.000 file il salvataggio passava da circa 2 a circa 18 secondi). Ora lo svuotamento totale resta solo sul pulsante manuale e sulla cancellazione completa della cache; l'invalidazione delle singole voci è quella già gestita da WordPress e da FastCache. Chi ha bisogno del vecchio comportamento può usare il filtro `fastcache_flush_object_cache_on_purge`.
+
 1.7.10
 Corretto Bug#34751: il warm-up dopo la pubblicazione ora salta i tipi di contenuto senza pagina pubblica (classi globali Elementor v4, template), richiede ogni indirizzo una sola volta per richiesta, con un massimo di 10 indirizzi e 25 secondi, e viene eseguito a fine richiesta senza far attendere il salvataggio. Lo stesso controllo vale per lo svuotamento ritardato di Bug#34693. Nuovi filtri: `fastcache_warmup_skip_post_types`, `fastcache_warmup_max_urls`, `fastcache_warmup_time_budget`.
 

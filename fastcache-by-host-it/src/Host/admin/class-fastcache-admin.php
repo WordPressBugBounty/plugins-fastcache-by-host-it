@@ -398,8 +398,12 @@ class HAdmin
 			// Purge CDN cache only if CDN is enabled
 			$this->purgeCdnCache();
 
-			// Flush Object Cache if enabled to avoid stale data issues
-			if (function_exists('wp_cache_flush')) {
+			// Object cache: no full flush on every save (1.7.10). WordPress already invalidates
+			// the affected entries (clean_post_cache, last_changed, ...) and FastCache's
+			// Invalidation class mirrors it on the persistent backend. With the file backend a full
+			// flush deletes every cache file inside the save request and made saving very slow.
+			// Sites that really need the old behaviour can return true from this filter.
+			if (apply_filters('fastcache_flush_object_cache_on_purge', false, (int) $postId) && function_exists('wp_cache_flush')) {
 				wp_cache_flush();
 			}
 
