@@ -524,8 +524,350 @@ class LightImages {
 				$node->setAttribute('srcset', $sNewSrcsetAttribute);				
 			}
 		}
-		
+
 		return true;
+	}
+
+	/**
+	 * After per-image processing: rewrite native WP/Woo srcset even if a single src conversion failed.
+	 * Skipped when Create srcset replaced the native attribute, or for optimizeSingleImage().
+	 */
+	private function maybeRewriteAllNativeSrcsets( $nodes ) {
+		if ( $this->disableSrcSet || $this->params->get( 'img_processing_srcset', 0 ) ) {
+			return;
+		}
+		if ( ! $this->shouldRewriteNativeSrcsetToNextGen() ) {
+			return;
+		}
+		foreach ( $nodes as $node ) {
+			$this->rewriteNativeSrcsetAttributes( $node );
+		}
+	}
+
+	/**
+	 * WebP/AVIF conversion applies to native srcset unless Create srcset replaces it.
+	 * Kill-switch img_processing_webp_srcset defaults to on when the option is absent.
+	 */
+	private function shouldRewriteNativeSrcsetToNextGen() {
+		$enabled = $this->params->get( 'img_processing_webp_srcset', '1' );
+		if ( $enabled === 0 || $enabled === '0' || $enabled === false ) {
+			return false;
+		}
+
+		$fastCacheBrowser = Browser::getInstance()->getBrowser();
+		$excludeSafari = $this->params->get( 'exclude_light_images_safari', 1 ) && $fastCacheBrowser == 'Safari';
+		if ( $excludeSafari || $fastCacheBrowser == 'IE' ) {
+			return false;
+		}
+
+		$webp = (bool) $this->params->get( 'convert_all_images_to_webp', 0 ) && function_exists( 'imagewebp' );
+		$avif = (bool) $this->params->get( 'convert_all_images_to_avif', 0 )
+			&& version_compare( PHP_VERSION, '8.1', '>=' )
+			&& function_exists( 'imageavif' )
+			&& $fastCacheBrowser != 'Edge'
+			&& $fastCacheBrowser != 'Opera Mini';
+
+		return $webp || $avif;
+	}
+
+	/**
+	 * Rewrite srcset / data-srcset URLs to next-gen cache copies without changing descriptors.
+	 */
+	private function rewriteNativeSrcsetAttributes( $node ) {
+		foreach ( array( 'srcset', 'data-srcset' ) as $attr ) {
+			if ( ! $node->hasAttribute( $attr ) ) {
+				continue;
+			}
+			$value = trim( (string) $node->getAttribute( $attr ) );
+			if ( $value === '' || strpos( $value, 'data:image' ) === 0 ) {
+				continue;
+			}
+			$rewritten = $this->rewriteSrcsetValueToNextGen( $value );
+			if ( $rewritten !== null && $rewritten !== $value ) {
+				$node->setAttribute( $attr, $rewritten );
+			}
+		}
+	}
+
+	/**
+	 * @return string|null Rewritten srcset, or null if unchanged / empty.
+	 */
+	private function rewriteSrcsetValueToNextGen( $srcsetValue ) {
+		$entries = preg_split( '/\s*,\s*/', $srcsetValue );
+		if ( ! is_array( $entries ) || empty( $entries ) ) {
+			return null;
+		}
+
+		$out = array();
+		$changed = false;
+
+		foreach ( $entries as $entry ) {
+			$entry = trim( $entry );
+			if ( $entry === '' ) {
+				continue;
+			}
+			if ( ! preg_match( '/^(\S+)(\s+.+)?$/', $entry, $m ) ) {
+				$out[] = $entry;
+				continue;
+			}
+			$url = $m[1];
+			$descriptor = isset( $m[2] ) ? $m[2] : '';
+			$newUrl = $this->optimizeUrlToNextGenCache( $url );
+			if ( $newUrl && $newUrl !== $url ) {
+				$changed = true;
+				$out[] = $newUrl . $descriptor;
+			} else {
+				$out[] = $entry;
+			}
+		}
+
+		if ( ! $changed || empty( $out ) ) {
+			return null;
+		}
+
+		return implode( ', ', $out );
+	}
+
+	/**
+	 * Resolve an image URL (absolute, root-relative, or relative) to a local filesystem path.
+	 * Prefers WordPress URL→path mapping so CLI / odd SCRIPT_FILENAME contexts still work.
+	 *
+	 * @param string $src
+	 * @return string|false Absolute realpath, or false.
+	 */
+	private function resolveImageFilesystemPath( $src ) {
+		$imagePath = urldecode( (string) $src );
+		if ( $imagePath === '' ) {
+			return false;
+		}
+
+		// 1) wp-content / uploads mapping (scheme-agnostic).
+		$mapPairs = array();
+		if ( defined( 'WP_CONTENT_DIR' ) && function_exists( 'content_url' ) ) {
+			$mapPairs[] = array( content_url(), WP_CONTENT_DIR );
+		}
+		if ( function_exists( 'wp_upload_dir' ) ) {
+			$upload = wp_upload_dir();
+			if ( ! empty( $upload['baseurl'] ) && ! empty( $upload['basedir'] ) ) {
+				$mapPairs[] = array( $upload['baseurl'], $upload['basedir'] );
+			}
+		}
+		if ( defined( 'ABSPATH' ) && function_exists( 'home_url' ) ) {
+			$mapPairs[] = array( home_url( '/' ), rtrim( ABSPATH, '/\\' ) . '/' );
+			$mapPairs[] = array( site_url( '/' ), rtrim( ABSPATH, '/\\' ) . '/' );
+		}
+
+		foreach ( $mapPairs as $pair ) {
+			list( $baseUrl, $baseDir ) = $pair;
+			$variants = array_unique(
+				array(
+					$baseUrl,
+					function_exists( 'set_url_scheme' ) ? set_url_scheme( $baseUrl, 'http' ) : $baseUrl,
+					function_exists( 'set_url_scheme' ) ? set_url_scheme( $baseUrl, 'https' ) : $baseUrl,
+				)
+			);
+			foreach ( $variants as $variant ) {
+				if ( $variant !== '' && strpos( $imagePath, $variant ) === 0 ) {
+					$candidate = rtrim( $baseDir, '/\\' ) . '/' . ltrim( substr( $imagePath, strlen( $variant ) ), '/' );
+					$real      = realpath( $candidate );
+					if ( $real !== false ) {
+						return $real;
+					}
+				}
+			}
+		}
+
+		// 2) Root-relative path under ABSPATH / site home path (multisite-aware).
+		$pathOnly = $imagePath;
+		$parts    = parse_url( $imagePath );
+		if ( ! empty( $parts['path'] ) && ( ! empty( $parts['host'] ) || ( isset( $imagePath[0] ) && $imagePath[0] === '/' ) ) ) {
+			$pathOnly = $parts['path'];
+		}
+		if ( defined( 'ABSPATH' ) && isset( $pathOnly[0] ) && $pathOnly[0] === '/' ) {
+			$siteHomePath = function_exists( 'home_url' ) ? wp_parse_url( home_url( '/' ), PHP_URL_PATH ) : '/';
+			$siteHomePath = $siteHomePath ? $siteHomePath : '/';
+			if ( strpos( $pathOnly, $siteHomePath ) === 0 ) {
+				$rel  = ltrim( substr( $pathOnly, strlen( $siteHomePath ) ), '/' );
+				$real = realpath( rtrim( ABSPATH, '/\\' ) . '/' . $rel );
+				if ( $real !== false ) {
+					return $real;
+				}
+			}
+			$real = realpath( rtrim( ABSPATH, '/\\' ) . $pathOnly );
+			if ( $real !== false ) {
+				return $real;
+			}
+		}
+
+		// 3) Legacy FastCache resolution (front-end Apache requests).
+		if ( is_multisite() ) {
+			$siteHomePath = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+			$siteHomePath = $siteHomePath ? $siteHomePath : '/';
+			$imagePathForMatch = $imagePath;
+			$imgUrlParts       = parse_url( $imagePath );
+			if ( ! empty( $imgUrlParts['host'] ) ) {
+				$imagePathForMatch = isset( $imgUrlParts['path'] ) ? $imgUrlParts['path'] : '';
+			}
+			if ( strpos( $imagePathForMatch, $siteHomePath ) === 0 ) {
+				$candidate = rtrim( ABSPATH, '/\\' ) . '/' . ltrim( substr( $imagePathForMatch, strlen( $siteHomePath ) ), '/' );
+				$real      = realpath( $candidate );
+				if ( $real !== false ) {
+					return $real;
+				}
+			}
+		} else {
+			try {
+				$urlparts = parse_url( $imagePath );
+				if ( ! empty( $urlparts['host'] ) ) {
+					$root = Uri::root();
+					if ( $root && substr( $imagePath, 0, strlen( $root ) ) == $root ) {
+						$imagePath = substr( $imagePath, strlen( $root ) );
+					}
+				}
+				if ( isset( $imagePath[0] ) && $imagePath[0] == '/' ) {
+					$root = Uri::base( true );
+					if ( $root && substr( $imagePath, 0, strlen( $root ) ) == $root ) {
+						$imagePath = dirname( $_SERVER['SCRIPT_FILENAME'] ) . substr( $imagePath, strlen( $root ) );
+					}
+				} else {
+					$imagePath = $this->rootDir . $imagePath;
+				}
+			} catch ( \Throwable $e ) {
+				return false;
+			}
+		}
+
+		$real = realpath( $imagePath );
+		return $real !== false ? $real : false;
+	}
+
+	/**
+	 * Convert a single image URL to a next-gen file in the FastCache images cache.
+	 * Preserves natural pixel dimensions of that file (no percentage resize).
+	 *
+	 * @param string $srcUrl
+	 * @return string|false Cache URL on success, false to keep the original.
+	 */
+	private function optimizeUrlToNextGenCache( $srcUrl ) {
+		$src = preg_replace( '/\?.*/', '', (string) $srcUrl );
+		$src = preg_replace( '/\#.*/', '', $src );
+		if ( $src === '' || strpos( $src, 'data:image' ) === 0 ) {
+			return false;
+		}
+
+		$extCheck = strtolower( (string) pathinfo( parse_url( $src, PHP_URL_PATH ) ?: $src, PATHINFO_EXTENSION ) );
+		if ( in_array( $extCheck, array( 'webp', 'avif', 'svg' ), true ) ) {
+			return false;
+		}
+
+		$imgFilesExcluded = $this->params->get( 'img_files_excluded', array() );
+		foreach ( (array) $imgFilesExcluded as $excludedImg ) {
+			if ( $excludedImg !== '' && strpos( $src, $excludedImg ) !== false ) {
+				return false;
+			}
+		}
+
+		$imagePath = $this->resolveImageFilesystemPath( $src );
+		if ( $imagePath === false ) {
+			return false;
+		}
+		$path_parts = pathinfo( parse_url( $src, PHP_URL_PATH ) ?: $src );
+		if ( ! isset( $path_parts['extension'] ) ) {
+			return false;
+		}
+		$fileExtension = strtolower( $path_parts['extension'] );
+		if ( ! in_array( $fileExtension, array( 'jpeg', 'jpg', 'png', 'gif' ), true ) ) {
+			return false;
+		}
+		if ( isset( $this->excludedExts ) && in_array( $fileExtension, (array) $this->excludedExts, true ) ) {
+			return false;
+		}
+
+		$fastCacheBrowser = Browser::getInstance()->getBrowser();
+		$excludeSafari = $this->params->get( 'exclude_light_images_safari', 1 ) && $fastCacheBrowser == 'Safari';
+		$new_ext = $fileExtension === 'png' ? 'png' : 'jpg';
+		if ( $fileExtension === 'gif' ) {
+			if ( ! (bool) $this->params->get( 'img_support_gif', 0 ) ) {
+				return false;
+			}
+			$new_ext = 'png';
+		}
+		if ( $this->params->get( 'convert_all_images_to_webp', 0 ) && function_exists( 'imagewebp' ) && $fastCacheBrowser != 'IE' && ! $excludeSafari ) {
+			$new_ext = 'webp';
+		}
+		if ( $this->params->get( 'convert_all_images_to_avif', 0 ) && version_compare( PHP_VERSION, '8.1', '>=' ) && function_exists( 'imageavif' ) && $fastCacheBrowser != 'IE' && $fastCacheBrowser != 'Edge' && $fastCacheBrowser != 'Opera Mini' && ! $excludeSafari ) {
+			$new_ext = 'avif';
+		}
+		if ( ! in_array( $new_ext, array( 'webp', 'avif' ), true ) ) {
+			return false;
+		}
+
+		$cache_path = FASTCACHE_CACHE_DIR . 'images';
+		$cache_path_http = function_exists( 'content_url' )
+			? rtrim( content_url( 'cache/fastcache/images' ), '/' )
+			: ( rtrim( Uri::root( true ), '/' ) . '/wp-content/cache/fastcache/images' );
+		if ( ! File::folderExists( $cache_path ) ) {
+			File::folderCreate( $cache_path );
+		}
+
+		$imagesAlgo = $this->params->get( 'hash_images_algo', 'full' );
+		$blog_prefix = ( is_multisite() && function_exists( 'get_current_blog_id' ) ) ? get_current_blog_id() . '_' : '';
+		if ( $imagesAlgo == 'partial' ) {
+			$filename = ( $path_parts['filename'] ) . '_' . sha1( $src ) . '.' . $new_ext;
+		} elseif ( $imagesAlgo == 'none' ) {
+			$filename = $blog_prefix . ( $path_parts['filename'] ) . '.' . $new_ext;
+		} else {
+			$filename = sha1( $src ) . '.' . $new_ext;
+		}
+		// Distinguish srcset candidates from the primary src conversion of a different URL.
+		$filename = 'ss_' . $filename;
+
+		$full_path_filename = $cache_path . '/' . $filename;
+		if ( @is_file( $full_path_filename ) && @filesize( $full_path_filename ) > 0 && @filemtime( $full_path_filename ) > @filemtime( $imagePath ) ) {
+			return $cache_path_http . '/' . $filename;
+		}
+
+		// Always use local GD for next-gen srcset entries (remote lossless path does not emit WebP/AVIF).
+		list( $image, $image_file_size ) = $this->fetchImageData( $imagePath );
+		if ( $image === false ) {
+			return false;
+		}
+
+		$imageWidth = imagesx( $image );
+		$imageHeight = imagesy( $image );
+		if ( $imageWidth < 1 || $imageHeight < 1 ) {
+			return false;
+		}
+
+		$quality = (int) $this->params->get( 'img_quality', 70 );
+		$result = @imagecreatetruecolor( $imageWidth, $imageHeight );
+		if ( $result == false ) {
+			return false;
+		}
+		imagealphablending( $result, false );
+		$transparent = imagecolorallocatealpha( $result, 0, 0, 0, 127 );
+		imagefill( $result, 0, 0, $transparent );
+		imagesavealpha( $result, true );
+		imagealphablending( $result, true );
+
+		if ( ! @imagecopyresampled( $result, $image, 0, 0, 0, 0, $imageWidth, $imageHeight, $imageWidth, $imageHeight ) ) {
+			return false;
+		}
+
+		$save = false;
+		if ( $new_ext === 'webp' ) {
+			$save = @imagewebp( $result, $full_path_filename, $quality );
+		} elseif ( $new_ext === 'avif' ) {
+			$save = @imageavif( $result, $full_path_filename, $quality );
+		}
+		if ( ! $save || ! @is_file( $full_path_filename ) || @filesize( $full_path_filename ) === 0 ) {
+			if ( @is_file( $full_path_filename ) ) {
+				@unlink( $full_path_filename );
+			}
+			return false;
+		}
+
+		return $cache_path_http . '/' . $filename;
 	}
 	
 	private function fetchImageData($file) {
@@ -578,9 +920,11 @@ class LightImages {
 			
 			$dom->load($sOptimizedHtml);
 			
-			foreach ($dom->find('img') as $element) {
+			$imgElements = $dom->find('img');
+			foreach ($imgElements as $element) {
 				$this->processImageNodes($element);
 			}
+			$this->maybeRewriteAllNativeSrcsets($imgElements);
 			
 			if ($this->params->get('img_processing_simplehtmldom_entity_decode', 0)) {
 				foreach ($dom->nodes as $n) {
@@ -643,10 +987,14 @@ class LightImages {
 			libxml_clear_errors();
 
 			$nodes = $doc->getElementsByTagName('img');
-
+			$nodeList = array();
 			foreach ($nodes as $node) {
+				$nodeList[] = $node;
+			}
+			foreach ($nodeList as $node) {
 				$this->processImageNodes($node);
 			}
+			$this->maybeRewriteAllNativeSrcsets($nodeList);
 			
 			if($this->params->get('img_processing_entity_decode', 1)) {
 				if($this->params->get('img_processing_utf8_entity_decode', 0)) {

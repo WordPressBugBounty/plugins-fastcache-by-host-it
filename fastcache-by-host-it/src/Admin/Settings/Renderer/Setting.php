@@ -603,6 +603,10 @@ class Setting
 				'<span class="fas fa-exclamation-triangle" aria-hidden="true"></span> ' . __('WebP conversion not supported', 'fastcache') . '</span>';
 		}
 	}
+	public static function img_processing_webp_srcset()
+	{
+		echo Html::_('radio', 'img_processing_webp_srcset', '1');
+	}
 	public static function convert_all_images_to_avif()
 	{
 		echo Html::_('radio', 'convert_all_images_to_avif', '0');

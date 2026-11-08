@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.11
+Stable Tag: 1.7.12
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.12
+Nuovo: con la conversione WebP o AVIF attiva, FastCache applica lo stesso formato anche agli URL già presenti nello srcset (e data-srcset) di WordPress/WooCommerce, mantenendo i descrittori di larghezza e l’attributo sizes. I file originali in Media Library non vengono modificati. Opzione “Apply WebP/AVIF to existing srcset” attiva di default (disattivabile per troubleshooting). La modalità “Create srcset”, se abilitata, continua a sostituire lo srcset nativo con varianti percentuali generate da FastCache.
+
 1.7.11
 Corretto il rallentamento del salvataggio con object cache attiva: a ogni pubblicazione o aggiornamento di un articolo veniva svuotata l'intera object cache, con il backend File System cancellando tutti i file durante la richiesta di salvataggio (su un test con 20.000 file il salvataggio passava da circa 2 a circa 18 secondi). Ora lo svuotamento totale resta solo sul pulsante manuale e sulla cancellazione completa della cache; l'invalidazione delle singole voci è quella già gestita da WordPress e da FastCache. Chi ha bisogno del vecchio comportamento può usare il filtro `fastcache_flush_object_cache_on_purge`.
 

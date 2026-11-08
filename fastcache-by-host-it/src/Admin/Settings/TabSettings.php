@@ -419,6 +419,10 @@ class TabSettings
 					__('Convert all images to WebP', 'fastcache'),
 					__('If enabled, all optimized images will be converted to the next generation WebP format. NOTICE: for this function to work the server PHP must include the GD library with the WebP support enabled and the \'imagewebp\' function must be available, if this is missing on your server you can contact the hosting provider.', 'fastcache')
 				],
+				'img_processing_webp_srcset' => [
+					__('Apply WebP/AVIF to existing srcset', 'fastcache'),
+					__('When WebP or AVIF conversion is enabled, FastCache also rewrites URLs inside the existing WordPress/WooCommerce HTML5 srcset (and data-srcset), converting each size file to the next-gen format while keeping the original width descriptors and the sizes attribute. Original media files are not modified. Disable only for troubleshooting. This does not apply when "Create srcset" is enabled, because that mode replaces the native srcset.', 'fastcache')
+				],
 				'convert_all_images_to_avif' => [
 					__('Convert all images to AVIF', 'fastcache'),
 					__('If enabled, all optimized images will be converted to the next generation AVIF format. NOTICE: for this function to work the server PHP must include the GD library with the AVIF support enabled and the \'imageavif\' function must be available, if this is missing on your server you can contact the hosting provider. Commonly this feature is supported by PHP 8.1 and later.', 'fastcache')
@@ -506,7 +510,7 @@ class TabSettings
 			'addImageSrcsetSection' => [
 				'img_processing_srcset' => [
 					__('Create srcset', 'fastcache'),
-					__('If enabled, an additional HTML5 \'srcset\' attribute will be added for each image that need to be optimized and Fastcache will automatically create up to 4 differently-sized images as variations to the base image. The browser will pick up the most correct image based on the device screen size and resolution. IMPORTANT: if you activate this feature, images may be enlarged to full width because the srcset doesn\'t render images based on its own width but based on the total width of the container element; as a result you may need to rework your CSS and apply a \'max-width\' to the various images displayed via a srcset.', 'fastcache')
+					__('If enabled, FastCache replaces the native WordPress srcset with up to 4 percentage-based variants generated from the base image. Prefer leaving this off when you want to keep WooCommerce/WordPress responsive sizes and only convert them to WebP/AVIF (see "Apply WebP/AVIF to existing srcset"). IMPORTANT: with this feature images may be enlarged to full width because the native sizes attribute is removed; you may need a CSS max-width on those images.', 'fastcache')
 				],
 				'img_processing_srcset_starting_quality' => [
 					__('Initial quality value', 'fastcache'),

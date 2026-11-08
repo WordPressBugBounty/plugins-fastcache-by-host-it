@@ -310,7 +310,7 @@ HTML;
 	}
 	public static function addImageSrcsetSection() {
 		$title = __ ( 'Srcset management', 'fastcache' );
-		$description = __ ( 'This settings make it possible to automatically generate a srcset starting from the original image. When this feature is enabled, it will replace the native Wordpress \'srcset\'.', 'fastcache' );
+		$description = __ ( 'Optional mode that generates a FastCache srcset and replaces the native WordPress one. For WebP/AVIF on the existing WordPress/WooCommerce srcset, keep this section disabled and use Convert to WebP/AVIF (Apply WebP/AVIF to existing srcset is on by default).', 'fastcache' );
 		
 		echo TabContent::addSection ( $title, $description );
 	}
