@@ -340,6 +340,17 @@ class ObjectCache
         return in_array((string) $group, $this->globalGroups, true);
     }
 
+    /**
+     * Transients live ONLY in the object cache when an external drop-in is active
+     * (WordPress does not write them to the options table any more). They carry cron locks
+     * (doing_cron), admin notices, update checks and background-process state, so they must be
+     * shared across requests even when the current request is excluded (admin, AJAX, cron, logged in).
+     */
+    private function isTransientGroup($group)
+    {
+		return $group === 'transient' || $group === 'site-transient';
+    }
+
     private function isNonPersistentGroup($group)
     {
         $group = (string) $group;
@@ -390,11 +401,17 @@ class ObjectCache
             return is_object($this->memoryCache[$group][$key]) ? clone $this->memoryCache[$group][$key] : $this->memoryCache[$group][$key];
         }
 
-        // No adapter (excluded request) or excluded group → don't read from persistent backend
-        if ($this->adapter === null || $this->shouldSkipPersistence($group)) {
-            $found = false;
-            $this->log('MISS_EXCLUDED', $key, $group);
-            return false;
+        // Transients must always reach the backend, even on excluded requests (see isTransientGroup()).
+        if ($this->isTransientGroup($group)) {
+        	if (!$this->ensureAdapter()) {
+        		$found = false;
+        		return false;
+        	}
+        } elseif ($this->adapter === null || $this->shouldSkipPersistence($group)) {
+        	// No adapter (excluded request) or excluded group → don't read from persistent backend
+        	$found = false;
+        	$this->log('MISS_EXCLUDED', $key, $group);
+        	return false;
         }
 
         $cache_key = $this->buildKey($key, $group);
@@ -439,10 +456,15 @@ class ObjectCache
         $this->memoryCache[$group][$key] = $data;
         $this->log('SET_MEMORY', $key, $group);
 
-        // No adapter (excluded request) or excluded group → don't write to persistent backend
-        if ($this->adapter === null || $this->shouldSkipPersistence($group)) {
-            $this->log('SET_EXCLUDED', $key, $group);
-            return true;
+        // Transients must always reach the backend, even on excluded requests (see isTransientGroup()).
+        if ($this->isTransientGroup($group)) {
+        	if (!$this->ensureAdapter()) {
+        		return false;
+        	}
+        } elseif ($this->adapter === null || $this->shouldSkipPersistence($group)) {
+        	// No adapter (excluded request) or excluded group → don't write to persistent backend
+        	$this->log('SET_EXCLUDED', $key, $group);
+        	return true;
         }
 
         if ($expire === 0) {
@@ -474,9 +496,9 @@ class ObjectCache
             unset($this->memoryCache[$group][$key]);
         }
 
-        // Skip persistent delete for non-persistent GROUPS only
-        if ($this->isNonPersistentGroup($group)) {
-            return true;
+        // Skip persistent delete for non-persistent GROUPS only (transients are always persistent)
+        if (!$this->isTransientGroup($group) && $this->isNonPersistentGroup($group)) {
+        	return true;
         }
 
         // CRITICAL: delete() must ALWAYS propagate to the persistent backend,
