@@ -460,7 +460,7 @@ class LightImages {
 			}
 		} else {
 			// Get the current srcset populated till this recursion
-			$srcSetAttribute = $node->getAttribute("srcset");
+			$srcSetAttribute = $this->getSrcSetString($node);
 			
 			list($image, $image_file_size) = $this->fetchImageData($full_path_filename);
 			if ($image === false) {
@@ -511,7 +511,7 @@ class LightImages {
 				$this->processImageNodes ( $node, true, $i, $srcSetImgQuality, $srcSetImgResizeFactor, $src );
 			}
 			// Trim the created srcset attribute
-			$srcSetAttribute = $node->getAttribute("srcset");
+			$srcSetAttribute = $this->getSrcSetString($node);
 			$newSrcSetAttribute = trim($srcSetAttribute, ',');
 			$node->setAttribute("srcset", $newSrcSetAttribute);
 			if($node->hasAttribute('data-srcset') || $node->hasAttribute('data-fastcache-lazyload')) {
@@ -870,6 +870,17 @@ class LightImages {
 		return $cache_path_http . '/' . $filename;
 	}
 	
+	/**
+	 * Returns the current srcset of a node as a string, never as a boolean.
+	 * With SimpleHtmlDom (use_simplehtmldom), removeAttribute() leaves the attribute key set to null and
+	 * getAttribute() then returns true: concatenating it gave "1" in front of the first srcset URL
+	 * (e.g. "1/wp-content/cache/fastcache/images/..._4x.avif", a 404).
+	 */
+	private function getSrcSetString($node) {
+		$srcSetAttribute = $node->getAttribute("srcset");
+		return is_string($srcSetAttribute) ? $srcSetAttribute : '';
+	}
+
 	private function fetchImageData($file) {
 		if(!file_exists($file)) {
 			return array(false, 0);

@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.13
+Stable Tag: 1.7.14
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,9 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.14
+Corretto Bug#34731: con l'opzione "Responsive images (srcset)" attiva e il parser SimpleHtmlDom, il primo URL del srcset generato iniziava con "1/" (es. "1/wp-content/cache/fastcache/images/..._4x.avif"), restituendo un 404 e impedendo il caricamento dell'immagine a risoluzione maggiore.
+
 1.7.13
 Corretto il comportamento dell'object cache nelle richieste escluse (cron, admin, AJAX, utenti loggati): i transient di WordPress, che con un object cache esterno esistono solo nella cache, ora vengono condivisi tra le richieste. In precedenza il lock del cron (`doing_cron`) andava perso e wp-cron.php eseguiva un solo evento per chiamata (eventi in ritardo e post non pubblicati), e le notifiche in wp-admin basate su transient non comparivano.
 
