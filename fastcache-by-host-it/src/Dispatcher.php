@@ -278,7 +278,8 @@ abstract class Dispatcher {
 		}
 
 		$upgrades = [ 
-				'1.5.5' => 'fastcache_upgrade_to_155'
+				'1.5.5' => 'fastcache_upgrade_to_155',
+				'1.7.15' => 'fastcache_upgrade_to_1715'
 		];
 
 		foreach ( $upgrades as $version => $method ) {
@@ -345,6 +346,20 @@ abstract class Dispatcher {
 	}
 	public static function fastcache_upgrade_to_155() {
 		Tasks::cleanHtaccess ();
+	}
+
+	/**
+	 * Pages stored by older releases may contain text whose HTML entities were decoded by the image
+	 * optimizer: drop the page cache so every page is rebuilt by the current code. This runs on
+	 * plugins_loaded, i.e. on the first request that reaches PHP after the update (front-end, cron or
+	 * admin), without waiting for somebody to open wp-admin.
+	 */
+	public static function fastcache_upgrade_to_1715() {
+		try {
+			Cache::deletePageCacheDir ();
+		} catch ( \Throwable $e ) {
+			// Never break the request because of the purge: stale files still expire through the hourly prune.
+		}
 	}
 	public static function loadPluginTextDomain() {
 		load_plugin_textdomain ( 'fastcache', false, basename ( dirname ( FASTCACHE_FILE_PATH ) ) . '/languages' );

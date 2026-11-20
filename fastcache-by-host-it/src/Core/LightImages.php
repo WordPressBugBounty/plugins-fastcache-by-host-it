@@ -881,6 +881,42 @@ class LightImages {
 		return is_string($srcSetAttribute) ? $srcSetAttribute : '';
 	}
 
+	/**
+	 * Turns HTML entities back into UTF-8 characters, but only when the result is non-ASCII
+	 * (&egrave; -> è, &euro; -> €, &#26085; -> 日). Entities for ASCII characters are left untouched.
+	 *
+	 * The optimizer re-serialises the whole page, including text that WordPress, themes and plugins
+	 * already escaped (search terms, comments, post content, attribute values, inline JSON). Decoding
+	 * &lt; &gt; &quot; &#39; &amp; (or their numeric forms) there would turn that inert text back into
+	 * live markup, so the allow-list is on the decoded result: every HTML-significant character is ASCII.
+	 *
+	 * @param   string  $html  Serialised HTML or a text node
+	 *
+	 * @return string
+	 */
+	public static function decodeNonAsciiEntities($html) {
+		$html = (string) $html;
+		if (strpos($html, '&') === false) {
+			return $html;
+		}
+
+		$decoded = preg_replace_callback(
+			'/&(?:#[0-9]{1,7}|#[xX][0-9A-Fa-f]{1,6}|[A-Za-z][A-Za-z0-9]{1,31});/',
+			static function ($match) {
+				$char = html_entity_decode($match[0], ENT_QUOTES, 'UTF-8');
+				// Unknown entity, or the result contains an ASCII byte: keep the entity as it is.
+				if ($char === $match[0] || preg_match('/[\x00-\x7F]/', $char)) {
+					return $match[0];
+				}
+				return $char;
+			},
+			$html
+		);
+
+		// preg error (e.g. backtrack limit): fail closed, entities stay encoded.
+		return $decoded === null ? $html : $decoded;
+	}
+
 	private function fetchImageData($file) {
 		if(!file_exists($file)) {
 			return array(false, 0);
@@ -947,7 +983,7 @@ class LightImages {
 						
 						$txt = $n->_[FASTCACHE_HDOM_INFO_TEXT] ?? '';
 						if ($txt !== '') {
-							$txt = html_entity_decode($txt, ENT_QUOTES, 'UTF-8');
+							$txt = self::decodeNonAsciiEntities($txt);
 							
 							$n->_[FASTCACHE_HDOM_INFO_TEXT] = $txt;
 						}
@@ -1009,9 +1045,10 @@ class LightImages {
 			
 			if($this->params->get('img_processing_entity_decode', 1)) {
 				if($this->params->get('img_processing_utf8_entity_decode', 0)) {
-					return mb_decode_numericentity($doc->saveHTML(), [0x0, 0x2FFFF, 0, 0xFFFF], 'UTF-8');
+					// Only code points >= 0x80: numeric references to ASCII (&#60; &#62; &#34; ...) must stay encoded.
+					return mb_decode_numericentity($doc->saveHTML(), [0x80, 0x10FFFF, 0, 0x1FFFFF], 'UTF-8');
 				} else {
-					return html_entity_decode($doc->saveHTML(), ENT_QUOTES, 'UTF-8');
+					return self::decodeNonAsciiEntities($doc->saveHTML());
 				}
 			} else {
 				return $doc->saveHTML();

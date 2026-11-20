@@ -4,7 +4,7 @@ Tags: cache, speed, seo, cdn, varnish
 Requires at least: 6.0.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable Tag: 1.7.14
+Stable Tag: 1.7.15
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -151,6 +151,10 @@ R: È fortemente consigliato rimuovere altri plugin di caching.
 15. Menu
 
 == Changelog ==
+1.7.15
+Sicurezza: con l'ottimizzazione delle immagini attiva, il testo che WordPress, il tema o altri plugin stampano già codificato (termine di ricerca, commenti, contenuto degli articoli, valori degli attributi, dati negli script inline) poteva tornare a essere markup HTML attivo nella pagina servita e nella copia in page cache (Cross-Site Scripting). Le opzioni "Decode HTML entities", "Decode UTF-8 HTML entities" e "Decode text entities" ora convertono solo i caratteri non ASCII (lettere accentate, simboli, emoji): le entità dei caratteri significativi per l'HTML restano codificate. Nessuna impostazione da modificare.
+Dopo l'aggiornamento la page cache viene svuotata automaticamente alla prima richiesta e rigenerata con il nuovo codice. Aggiornamento consigliato a tutti i siti.
+
 1.7.14
 Corretto Bug#34731: con l'opzione "Responsive images (srcset)" attiva e il parser SimpleHtmlDom, il primo URL del srcset generato iniziava con "1/" (es. "1/wp-content/cache/fastcache/images/..._4x.avif"), restituendo un 404 e impedendo il caricamento dell'immagine a risoluzione maggiore.
 
